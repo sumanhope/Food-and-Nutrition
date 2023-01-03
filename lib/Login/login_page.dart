@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:foodandnutrition/Signup/signup_screen.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 //import 'package:lottie/lottie.dart';
 
@@ -12,38 +13,53 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final usernameController = TextEditingController();
+  String password = '';
   bool isPasswordVisible = false;
 
-  Widget buildEmail() {
-    return const TextField(
+  @override
+  void initState() {
+    super.initState();
+    usernameController.addListener(() => setState(() {}));
+  }
+
+  Widget buildUser() {
+    return TextField(
+      controller: usernameController,
       decoration: InputDecoration(
         filled: true,
-        fillColor: Color.fromARGB(117, 100, 255, 219),
-        enabledBorder: OutlineInputBorder(
+        fillColor: const Color.fromARGB(117, 100, 255, 219),
+        enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide:
               BorderSide(color: Color.fromRGBO(77, 182, 172, 1), width: 3),
         ),
         labelText: 'Username',
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: Colors.teal,
           fontSize: 15,
           fontWeight: FontWeight.bold,
           fontFamily: 'Poppins',
         ),
 
-        prefixIcon: Icon(
+        prefixIcon: const Icon(
           Icons.person,
           color: Colors.teal,
           size: 30,
         ),
+        suffixIcon: usernameController.text.isEmpty
+            ? Container(width: 0)
+            : IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: () => usernameController.clear(),
+              ),
         //prefixIconColor: Colors.teal,
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.teal, width: 3),
         ),
       ),
-      style: TextStyle(
+      style: const TextStyle(
         color: Colors.black,
         fontSize: 15,
         fontFamily: 'Poppins',
@@ -54,11 +70,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget buildPassword() {
-    return const TextField(
+    return TextField(
+      onChanged: (value) => setState(() => password = value),
       decoration: InputDecoration(
         filled: true,
-        fillColor: Color.fromARGB(117, 100, 255, 219),
-        enabledBorder: OutlineInputBorder(
+        fillColor: const Color.fromARGB(117, 100, 255, 219),
+        enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(8),
           ),
@@ -66,30 +83,39 @@ class _LoginScreenState extends State<LoginScreen> {
               BorderSide(color: Color.fromRGBO(77, 182, 172, 1), width: 3),
         ),
         labelText: 'Password',
-        labelStyle: TextStyle(
+        labelStyle: const TextStyle(
           color: Colors.teal,
           fontSize: 15,
           fontWeight: FontWeight.bold,
           fontFamily: 'Poppins',
         ),
-        prefixIcon: Icon(
+        prefixIcon: const Icon(
           Icons.key,
           color: Colors.teal,
           size: 30,
         ),
-        suffixIcon: Icon(
-          Icons.visibility_off,
+        // suffixIcon: Icon(
+        //   Icons.visibility_off,
+        //   color: Colors.teal,
+        //   size: 30,
+        // ),
+        suffixIcon: IconButton(
+          icon: isPasswordVisible
+              ? const Icon(Icons.visibility_off)
+              : const Icon(Icons.visibility),
+          onPressed: () =>
+              setState(() => isPasswordVisible = !isPasswordVisible),
           color: Colors.teal,
-          size: 30,
         ),
-        focusedBorder: OutlineInputBorder(
+        focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(
             Radius.circular(8),
           ),
           borderSide: BorderSide(color: Colors.teal, width: 3),
         ),
       ),
-      style: TextStyle(
+      obscureText: isPasswordVisible,
+      style: const TextStyle(
         color: Colors.black,
         fontSize: 15,
         fontFamily: 'Poppins',
@@ -146,7 +172,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   child: Column(
                     children: [
                       Container(
-                        child: buildEmail(),
+                        child: buildUser(),
                       ),
                       const SizedBox(
                         height: 30,
@@ -154,8 +180,91 @@ class _LoginScreenState extends State<LoginScreen> {
                       Container(
                         child: buildPassword(),
                       ),
+                      // const SizedBox(
+                      //   height: 5,
+                      // ),
+                      Container(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          child: const Text(
+                            'Forgot Password?',
+                            style: TextStyle(
+                              color: Colors.teal,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                          onPressed: () {},
+                        ),
+                      ),
                       const SizedBox(
-                        height: 15,
+                        height: 10,
+                      ),
+                      SizedBox(
+                        width: 250,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // Navigator.of(context).push(
+                            //   MaterialPageRoute(
+                            //     builder: (BuildContext context) {
+                            //       return const LoginScreen();
+                            //     },
+                            //   ),
+                            // );
+                            /*debugPrint('Username: ${usernameController.text}');
+                            debugPrint('Password: $password');*/
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 0, 150, 135),
+                            padding: const EdgeInsets.all(15),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            side: const BorderSide(
+                              width: 3,
+                              color: Color.fromARGB(88, 0, 0, 0),
+                            ),
+                          ),
+                          //Icon(Icons.chevron_right_rounded),
+                          child: const Text(
+                            "LOGIN",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 150,
+                      ),
+                      Container(
+                        alignment: Alignment.bottomCenter,
+                        child: TextButton(
+                          child: const Text(
+                            'Don\'t have a account?, Click Here',
+                            style: TextStyle(
+                              color: Colors.teal,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return const Signup();
+                                },
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
