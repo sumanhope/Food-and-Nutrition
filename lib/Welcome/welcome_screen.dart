@@ -10,7 +10,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green,
+      backgroundColor: Colors.green[400],
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -33,7 +33,7 @@ class WelcomeScreen extends StatelessWidget {
                 );
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
+                backgroundColor: const Color.fromARGB(142, 0, 150, 135),
                 padding: const EdgeInsets.all(15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
@@ -57,7 +57,7 @@ class WelcomeScreen extends StatelessWidget {
           SizedBox(
             width: 250,
             height: 50,
-            child: ElevatedButton(
+            child: OutlinedButton(
               onPressed: () {
                 Navigator.of(context).push(
                   MaterialPageRoute(
@@ -67,12 +67,13 @@ class WelcomeScreen extends StatelessWidget {
                   ),
                 );
               },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.teal,
+              style: OutlinedButton.styleFrom(
+                backgroundColor: const Color.fromARGB(101, 0, 150, 135),
                 padding: const EdgeInsets.all(15),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8),
                 ),
+                side: const BorderSide(width: 3, color: Colors.teal),
               ),
               child: const Text(
                 "SIGNUP",
