@@ -1,7 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/Login/login_page.dart';
-import 'package:foodandnutrition/Signup/signup_screen.dart';
+import 'package:foodandnutrition/Signup/signup_page.dart';
 import 'package:lottie/lottie.dart';
 
 class WelcomeScreen extends StatelessWidget {
