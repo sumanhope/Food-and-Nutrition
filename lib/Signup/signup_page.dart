@@ -10,6 +10,14 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   int currentStep = 0;
+  final fullname = TextEditingController();
+  final username = TextEditingController();
+  final email = TextEditingController();
+  final password = TextEditingController();
+  final confirmpassword = TextEditingController();
+  final dob = TextEditingController();
+  final height = TextEditingController();
+  final weight = TextEditingController();
 
   @override
   Widget build(BuildContext context) => KeyboardDismisser(
@@ -73,7 +81,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           content: Column(
             children: [
               TextFormField(
-                decoration: const InputDecoration(labelText: 'Age'),
+                decoration: const InputDecoration(labelText: 'Date of Birth'),
               ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'Height'),
