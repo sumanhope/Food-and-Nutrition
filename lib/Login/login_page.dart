@@ -269,7 +269,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               Navigator.of(context).push(
                                 MaterialPageRoute(
                                   builder: (BuildContext context) {
-                                    return const Signup();
+                                    return const SignUpScreen();
                                   },
                                 ),
                               );
