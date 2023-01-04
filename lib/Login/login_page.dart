@@ -241,9 +241,43 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       const SizedBox(
-                        height: 150,
+                        height: 20,
                       ),
-                      Container(
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          const Text(
+                            'Don\'t have a account?',
+                            style: TextStyle(
+                              color: Colors.teal,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                          TextButton(
+                            child: const Text(
+                              'Click Here',
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return const Signup();
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      /*Container(
                         alignment: Alignment.bottomCenter,
                         child: TextButton(
                           child: const Text(
@@ -265,7 +299,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             );
                           },
                         ),
-                      ),
+                      ),*/
                     ],
                   ),
                 ),
