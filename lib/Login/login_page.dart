@@ -277,55 +277,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ],
                       ),
-                      /*Container(
-                        alignment: Alignment.bottomCenter,
-                        child: TextButton(
-                          child: const Text(
-                            'Don\'t have a account?, Click Here',
-                            style: TextStyle(
-                              color: Colors.teal,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                          onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (BuildContext context) {
-                                  return const Signup();
-                                },
-                              ),
-                            );
-                          },
-                        ),
-                      ),*/
                     ],
                   ),
                 ),
-
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(
-                //       vertical: 10, horizontal: 25.0),
-                //   child: Container(
-                //     padding: const EdgeInsets.all(8),
-                //     decoration: BoxDecoration(
-                //       color: Colors.teal[300],
-                //       borderRadius: BorderRadius.circular(8),
-                //     ),
-                //     child: const Center(
-                //       child: Text(
-                //         'Log in',
-                //         style: TextStyle(
-                //           color: Colors.teal,
-                //           fontSize: 30,
-                //           fontWeight: FontWeight.bold,
-                //           fontFamily: 'Poppins',
-                //         ),
-                //       ),
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),
