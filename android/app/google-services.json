@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "472325019996",
+    "project_id": "finalyearprojectlol",
+    "storage_bucket": "finalyearprojectlol.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:472325019996:android:714c2a7c21f045f2a64999",
+        "android_client_info": {
+          "package_name": "com.example.foodandnutrition"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "472325019996-2g2kgm7unur03smfqpn0kfgevib6ekq0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCbPW7YdxJ4tiafh0RKxk0xlaBniqHIFpw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "472325019996-2g2kgm7unur03smfqpn0kfgevib6ekq0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

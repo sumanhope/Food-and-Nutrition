@@ -1,6 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
@@ -288,11 +287,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
             "Confirm",
             style: steptextstyle,
           ),
-          content: Container(
-            child: Text(
-              'Full name : ${fullname.text}\nUsername : ${username.text}\nEmail : ${email.text}\nPassword : ${password.text}\nConfirmPassword : ${confirmpassword.text}\nDate of Birth : ${dob.text}\nHeight : ${height.text}\nweight : ${weight.text}\nUnit : ${unit.text}',
-              style: steptextstyle,
-            ),
+          content: Text(
+            'Full name : ${fullname.text}\nUsername : ${username.text}\nEmail : ${email.text}\nPassword : ${password.text}\nConfirmPassword : ${confirmpassword.text}\nDate of Birth : ${dob.text}\nHeight : ${height.text}\nweight : ${weight.text}\nUnit : ${unit.text}',
+            style: steptextstyle,
           ),
         ),
       ];
