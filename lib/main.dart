@@ -11,10 +11,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Food and Nutrition',
       debugShowCheckedModeBanner: false,
-      home: WelcomeScreen(),
+      theme: ThemeData(
+        primarySwatch: Colors.teal,
+      ),
+      home: const WelcomeScreen(),
     );
   }
 }

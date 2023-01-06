@@ -1,5 +1,7 @@
+import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -33,6 +35,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
     fontWeight: FontWeight.bold,
     fontFamily: 'Poppins',
   );
+  var unfocuseborder = const OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+    borderSide: BorderSide(color: Color.fromRGBO(77, 182, 172, 1), width: 3),
+  );
+  var focuseborder = const OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+    borderSide: BorderSide(color: Colors.teal, width: 3),
+  );
+
   box() {
     return const SizedBox(
       height: 20,
@@ -46,62 +57,86 @@ class _SignUpScreenState extends State<SignUpScreen> {
           GestureType.onPanUpdateDownDirection,
         ],
         child: Scaffold(
-          appBar: AppBar(
-            title: const Text("Sign Up"),
-            centerTitle: true,
-          ),
-          body: Theme(
-            data: Theme.of(context).copyWith(
-                colorScheme: const ColorScheme.light(primary: Colors.teal)),
-            child: Stepper(
-              type: StepperType.horizontal,
-              steps: getSteps(),
-              currentStep: currentStep,
-              onStepContinue: () {
-                final isLastStep = currentStep == getSteps().length - 1;
-                if (isLastStep) {
-                  debugPrint('Completed');
-                  //send data to server from here
-                } else {
-                  setState(() => currentStep += 1);
-                }
-              },
-              onStepTapped: (step) => setState(() => currentStep = step),
-              onStepCancel: currentStep == 0
-                  ? null
-                  : () => setState(() => currentStep -= 1),
-              controlsBuilder: (context, details) {
-                return Container(
-                  margin: const EdgeInsets.only(top: 50),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: details.onStepContinue,
-                          child: Text(
-                            'Next',
-                            style: textstyle,
-                          ),
-                        ),
+          body: Column(
+            children: [
+              Stack(
+                children: [
+                  Opacity(
+                    opacity: 0.5,
+                    child: ClipPath(
+                      clipper: OvalBottomBorderClipper(),
+                      child: Container(
+                        color: Colors.teal,
+                        height: 110,
                       ),
-                      const SizedBox(
-                        width: 12,
-                      ),
-                      if (currentStep != 0)
-                        Expanded(
-                          child: ElevatedButton(
-                            onPressed: details.onStepCancel,
-                            child: Text(
-                              'Back',
-                              style: textstyle,
+                    ),
+                  ),
+                  ClipPath(
+                    clipper: OvalBottomBorderClipper(),
+                    child: Container(
+                      color: Colors.teal,
+                      height: 100,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              colorizeAnimation(),
+              Expanded(
+                child: Stepper(
+                  type: StepperType.horizontal,
+                  physics: const ScrollPhysics(),
+                  steps: getSteps(),
+                  currentStep: currentStep,
+                  onStepContinue: () {
+                    final isLastStep = currentStep == getSteps().length - 1;
+                    if (isLastStep) {
+                      debugPrint('Completed');
+                      //send data to server from here
+                    } else {
+                      setState(() => currentStep += 1);
+                    }
+                  },
+                  onStepTapped: (step) => setState(() => currentStep = step),
+                  onStepCancel: currentStep == 0
+                      ? null
+                      : () => setState(() => currentStep -= 1),
+                  controlsBuilder: (context, details) {
+                    return Container(
+                      margin: const EdgeInsets.only(top: 50),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: details.onStepContinue,
+                              child: Text(
+                                'Next',
+                                style: textstyle,
+                              ),
                             ),
                           ),
-                        ),
-                    ],
-                  ),
-                );
-              },
-            ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          if (currentStep != 0)
+                            Expanded(
+                              child: ElevatedButton(
+                                onPressed: details.onStepCancel,
+                                child: Text(
+                                  'Back',
+                                  style: textstyle,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
           ),
         ),
       );
@@ -121,9 +156,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: TextFormField(
                   controller: fullname,
                   style: steptextstyle,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
+                    enabledBorder: unfocuseborder,
+                    focusedBorder: focuseborder,
                     labelText: 'Full name',
-                    border: OutlineInputBorder(),
                   ),
                 ),
               ),
@@ -133,9 +169,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: TextFormField(
                   controller: username,
                   style: steptextstyle,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Username',
-                    border: OutlineInputBorder(),
+                    enabledBorder: unfocuseborder,
+                    focusedBorder: focuseborder,
                   ),
                 ),
               ),
@@ -145,10 +182,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: TextFormField(
                   controller: email,
                   style: steptextstyle,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Email',
-                    border: OutlineInputBorder(),
+                    enabledBorder: unfocuseborder,
+                    focusedBorder: focuseborder,
                   ),
+                  keyboardType: TextInputType.emailAddress,
                 ),
               ),
               box(),
@@ -157,9 +196,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: TextFormField(
                   controller: password,
                   style: steptextstyle,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Password',
-                    border: OutlineInputBorder(),
+                    enabledBorder: unfocuseborder,
+                    focusedBorder: focuseborder,
                   ),
                 ),
               ),
@@ -169,9 +209,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: TextFormField(
                   controller: confirmpassword,
                   style: steptextstyle,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Confirm Password',
-                    border: OutlineInputBorder(),
+                    enabledBorder: unfocuseborder,
+                    focusedBorder: focuseborder,
                   ),
                 ),
               ),
@@ -192,9 +233,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: TextFormField(
                   controller: dob,
                   style: steptextstyle,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Date of Birth',
-                    border: OutlineInputBorder(),
+                    enabledBorder: unfocuseborder,
+                    focusedBorder: focuseborder,
                   ),
                 ),
               ),
@@ -204,9 +246,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: TextFormField(
                   controller: height,
                   style: steptextstyle,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Height',
-                    border: OutlineInputBorder(),
+                    enabledBorder: unfocuseborder,
+                    focusedBorder: focuseborder,
                   ),
                 ),
               ),
@@ -216,9 +259,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: TextFormField(
                   controller: weight,
                   style: steptextstyle,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Weight',
-                    border: OutlineInputBorder(),
+                    enabledBorder: unfocuseborder,
+                    focusedBorder: focuseborder,
                   ),
                 ),
               ),
@@ -228,9 +272,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 child: TextFormField(
                   controller: unit,
                   style: steptextstyle,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     labelText: 'Measurement Unit',
-                    border: OutlineInputBorder(),
+                    enabledBorder: unfocuseborder,
+                    focusedBorder: focuseborder,
                   ),
                 ),
               ),
@@ -251,4 +296,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         ),
       ];
+}
+
+Widget colorizeAnimation() {
+  const colorizeColors = [
+    Colors.teal,
+    Color.fromRGBO(142, 249, 243, 0.533),
+    Color.fromRGBO(219, 84, 97, 0.867),
+    Color.fromRGBO(89, 60, 143, 0.333),
+    Color.fromRGBO(23, 23, 56, 0.067),
+  ];
+
+  const colorizeTextStyle = TextStyle(
+    color: Colors.teal,
+    fontSize: 30,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Poppins',
+  );
+
+  return Center(
+    child: AnimatedTextKit(
+      animatedTexts: [
+        ColorizeAnimatedText(
+          'Thank You',
+          textStyle: colorizeTextStyle,
+          colors: colorizeColors,
+          textAlign: TextAlign.center,
+          speed: const Duration(milliseconds: 250),
+        ),
+        ColorizeAnimatedText(
+          'For Joining',
+          textStyle: colorizeTextStyle,
+          colors: colorizeColors,
+          textAlign: TextAlign.center,
+          speed: const Duration(milliseconds: 250),
+        ),
+        ColorizeAnimatedText(
+          'Register Below',
+          textStyle: colorizeTextStyle,
+          colors: colorizeColors,
+          textAlign: TextAlign.center,
+          speed: const Duration(milliseconds: 250),
+        ),
+        ColorizeAnimatedText(
+          'With Your Details',
+          textStyle: colorizeTextStyle,
+          colors: colorizeColors,
+          textAlign: TextAlign.center,
+          speed: const Duration(milliseconds: 250),
+        ),
+      ],
+      repeatForever: true,
+    ),
+  );
 }
