@@ -10,12 +10,12 @@ class EmailVerifyScreen extends StatefulWidget {
 }
 
 class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
-  final ottpController = TextEditingController();
+  final otpController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
-    ottpController.addListener(() => setState(() {}));
+    otpController.addListener(() => setState(() {}));
   }
 
   var box = const SizedBox(
@@ -23,7 +23,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
   );
   Widget buildOTP() {
     return TextField(
-      controller: ottpController,
+      controller: otpController,
       decoration: InputDecoration(
         filled: true,
         fillColor: const Color.fromARGB(117, 100, 255, 219),
@@ -45,11 +45,11 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
           color: Colors.teal,
           size: 30,
         ),
-        suffixIcon: ottpController.text.isEmpty
+        suffixIcon: otpController.text.isEmpty
             ? Container(width: 0)
             : IconButton(
                 icon: const Icon(Icons.close),
-                onPressed: () => ottpController.clear(),
+                onPressed: () => otpController.clear(),
               ),
         //prefixIconColor: Colors.teal,
         focusedBorder: const OutlineInputBorder(
@@ -153,7 +153,9 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
                   width: 250,
                   height: 50,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        debugPrint("OTP: ${otpController.text}");
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 0, 150, 135),
                         shape: RoundedRectangleBorder(

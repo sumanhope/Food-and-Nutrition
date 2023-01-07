@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:foodandnutrition/ForgotPassword/forgotpass_page.dart';
 import 'package:foodandnutrition/Signup/signup_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 //import 'package:lottie/lottie.dart';
@@ -195,7 +196,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontFamily: 'Poppins',
                             ),
                           ),
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return const ResetPasswordScreen();
+                                },
+                              ),
+                            );
+                          },
                         ),
                       ),
                       const SizedBox(
