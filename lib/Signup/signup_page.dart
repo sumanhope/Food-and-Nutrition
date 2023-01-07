@@ -1,6 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:foodandnutrition/Verification/emailverification_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -94,6 +95,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     if (isLastStep) {
                       debugPrint('Completed');
                       //send data to server from here
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return const EmailVerifyScreen();
+                          },
+                        ),
+                      );
                     } else {
                       setState(() => currentStep += 1);
                     }
