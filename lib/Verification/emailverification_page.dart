@@ -75,6 +75,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
         ],
         child: Scaffold(
           body: SingleChildScrollView(
+            reverse: true,
             child: Column(
               children: [
                 Stack(

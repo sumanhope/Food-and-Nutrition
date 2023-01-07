@@ -213,7 +213,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                           ),
                         ),
                         onPressed: () {
-                          Navigator.of(context).push(
+                          Navigator.of(context).pop(
                             MaterialPageRoute(
                               builder: (BuildContext context) {
                                 return const LoginScreen();
