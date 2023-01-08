@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "472325019996",
-    "project_id": "finalyearprojectlol",
-    "storage_bucket": "finalyearprojectlol.appspot.com"
+    "project_number": "335848182463",
+    "project_id": "finalyearprojecthehe",
+    "storage_bucket": "finalyearprojecthehe.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:472325019996:android:714c2a7c21f045f2a64999",
+        "mobilesdk_app_id": "1:335848182463:android:e3a37ea5dc57e543056c0a",
         "android_client_info": {
           "package_name": "com.example.foodandnutrition"
         }
       },
       "oauth_client": [
         {
-          "client_id": "472325019996-2g2kgm7unur03smfqpn0kfgevib6ekq0.apps.googleusercontent.com",
+          "client_id": "335848182463-5undrq9gapls6d6cipsvl7scom1tu5ng.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCbPW7YdxJ4tiafh0RKxk0xlaBniqHIFpw"
+          "current_key": "AIzaSyCE0bnygxVIZBQNcON6kgPx4bWWYtjvAlg"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "472325019996-2g2kgm7unur03smfqpn0kfgevib6ekq0.apps.googleusercontent.com",
+              "client_id": "335848182463-5undrq9gapls6d6cipsvl7scom1tu5ng.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

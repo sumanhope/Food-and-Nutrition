@@ -1,7 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:foodandnutrition/ForgotPassword/forgotpass_page.dart';
+import 'package:foodandnutrition/Homepage/home_page.dart';
 import 'package:foodandnutrition/Signup/signup_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 //import 'package:lottie/lottie.dart';
@@ -215,13 +217,20 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {
-                            // Navigator.of(context).push(
-                            //   MaterialPageRoute(
-                            //     builder: (BuildContext context) {
-                            //       return const LoginScreen();
-                            //     },
-                            //   ),
-                            // );
+                            FirebaseAuth.instance
+                                .signInWithEmailAndPassword(
+                                    email: usernameController.text,
+                                    password: password)
+                                .then((value) {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return const HomePage();
+                                  },
+                                ),
+                              );
+                            });
+
                             /*debugPrint('Username: ${usernameController.text}');
                             debugPrint('Password: $password');*/
                           },

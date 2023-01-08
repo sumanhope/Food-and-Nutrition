@@ -44,6 +44,8 @@ dependencies:
   keyboard_dismisser: ^3.0.0
   cloud_firestore: ^4.3.1
   pinput: ^2.2.21
+  firebase_auth: ^4.2.5
+  firebase_core: ^2.4.1
 
 dev_dependencies:
   flutter_test:

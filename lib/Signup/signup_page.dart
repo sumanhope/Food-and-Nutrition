@@ -1,6 +1,9 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:foodandnutrition/Homepage/home_page.dart';
 import 'package:foodandnutrition/Verification/emailverification_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
@@ -94,14 +97,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     final isLastStep = currentStep == getSteps().length - 1;
                     if (isLastStep) {
                       debugPrint('Completed');
-                      //send data to server from here
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return const EmailVerifyScreen();
-                          },
-                        ),
+                      FirebaseAuth.instance
+                          .createUserWithEmailAndPassword(
+                              email: email.text, password: password.text)
+                          .then(
+                        (value) {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (BuildContext context) {
+                                return const HomePage();
+                              },
+                            ),
+                          );
+                        },
+                      ).onError(
+                        (error, stackTrace) {
+                          debugPrint("Error: ${error.toString()}");
+                        },
                       );
+                      //send data to server from here
+
                     } else {
                       setState(() => currentStep += 1);
                     }
