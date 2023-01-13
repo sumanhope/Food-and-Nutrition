@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:foodandnutrition/ForgotPassword/changepass_page.dart';
 import 'package:foodandnutrition/Login/login_page.dart';
+import 'package:foodandnutrition/Verification/resetverification.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class ResetPasswordScreen extends StatefulWidget {
@@ -175,10 +175,10 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           debugPrint("OTP: ${emailController.text}");
-                          Navigator.of(context).push(
+                          Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return const ChangePassScreen();
+                                return const ResetVerifyScreen();
                               },
                             ),
                           );

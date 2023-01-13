@@ -46,6 +46,7 @@ dependencies:
   pinput: ^2.2.21
   firebase_auth: ^4.2.5
   firebase_core: ^2.4.1
+  flash: ^2.0.5
 
 dev_dependencies:
   flutter_test:

@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:foodandnutrition/ForgotPassword/forgotpass_page.dart';
@@ -216,20 +217,51 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 250,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () {
-                            FirebaseAuth.instance
-                                .signInWithEmailAndPassword(
-                                    email: usernameController.text,
-                                    password: password)
-                                .then((value) {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                    return const HomePage();
-                                  },
-                                ),
-                              );
-                            });
+                          onPressed: () async {
+                            String text = usernameController.text;
+                            if (text == '' || password == '') {
+                              debugPrint("Please fill both details");
+                              await showFlash(
+                                  context: context,
+                                  duration: const Duration(seconds: 4),
+                                  builder: (context, controller) {
+                                    return Flash.bar(
+                                      controller: controller,
+                                      backgroundColor: Colors.white,
+                                      position: FlashPosition.top,
+                                      horizontalDismissDirection:
+                                          HorizontalDismissDirection.horizontal,
+                                      margin: const EdgeInsets.all(8),
+                                      borderRadius: const BorderRadius.all(
+                                          Radius.circular(8)),
+                                      forwardAnimationCurve: Curves.easeOutBack,
+                                      reverseAnimationCurve: Curves.slowMiddle,
+                                      child: FlashBar(
+                                        content: const Text(
+                                            "Fill both username and password"),
+                                        primaryAction: IconButton(
+                                            onPressed: () {},
+                                            icon: const Icon(
+                                                Icons.error_outline)),
+                                        showProgressIndicator: true,
+                                      ),
+                                    );
+                                  });
+                            } else {
+                              FirebaseAuth.instance
+                                  .signInWithEmailAndPassword(
+                                      email: usernameController.text,
+                                      password: password)
+                                  .then((value) {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                      return const HomePage();
+                                    },
+                                  ),
+                                );
+                              });
+                            }
 
                             /*debugPrint('Username: ${usernameController.text}');
                             debugPrint('Password: $password');*/
