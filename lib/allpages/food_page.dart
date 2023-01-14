@@ -1,22 +1,22 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 
-class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+class FoodPage extends StatefulWidget {
+  const FoodPage({super.key});
 
   @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
+  State<FoodPage> createState() => _FoodPageState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class _FoodPageState extends State<FoodPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Center(
         child: Text(
-          "Profile page",
+          "Food page",
           style: TextStyle(
-            color: Colors.teal,
             fontSize: 15,
+            color: Colors.teal,
             fontWeight: FontWeight.bold,
             fontFamily: 'Poppins',
           ),

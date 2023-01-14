@@ -73,7 +73,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: emailController.text.trim());
     } on FirebaseAuthException catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 

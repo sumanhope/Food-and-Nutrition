@@ -3,7 +3,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:foodandnutrition/Homepage/home_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class SignUpScreen extends StatefulWidget {

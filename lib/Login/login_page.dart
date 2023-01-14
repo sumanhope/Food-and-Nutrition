@@ -4,6 +4,7 @@ import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:foodandnutrition/ForgotPassword/forgotpass_page.dart';
+import 'package:foodandnutrition/Homepage/home_page.dart';
 import 'package:foodandnutrition/Signup/signup_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
@@ -71,9 +72,18 @@ class _LoginScreenState extends State<LoginScreen> {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: usernameController.text, password: password);
     } on FirebaseAuthException catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
     navigatorKey.currentState!.popUntil((route) => route.isFirst);
+
+    // ignore: use_build_context_synchronously
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return const HomePage();
+        },
+      ),
+    );
   }
 
   Widget buildUser() {
