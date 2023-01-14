@@ -4,9 +4,10 @@ import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:foodandnutrition/ForgotPassword/forgotpass_page.dart';
-import 'package:foodandnutrition/Homepage/home_page.dart';
 import 'package:foodandnutrition/Signup/signup_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+
+import '../main.dart';
 //import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -25,6 +26,54 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     usernameController.addListener(() => setState(() {}));
+  }
+
+  checkaccount() async {
+    String text = usernameController.text;
+    if (text == '' || password == '') {
+      debugPrint("Please fill both details");
+      await showFlash(
+          context: context,
+          duration: const Duration(seconds: 4),
+          builder: (context, controller) {
+            return Flash.bar(
+              controller: controller,
+              backgroundColor: Colors.white,
+              position: FlashPosition.bottom,
+              horizontalDismissDirection: HorizontalDismissDirection.horizontal,
+              margin: const EdgeInsets.all(8),
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              forwardAnimationCurve: Curves.easeOutBack,
+              reverseAnimationCurve: Curves.slowMiddle,
+              child: FlashBar(
+                content: const Text("Fill both username and password"),
+                primaryAction: IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.error_outline)),
+                showProgressIndicator: true,
+              ),
+            );
+          });
+    } else {
+      signIn();
+    }
+  }
+
+  Future signIn() async {
+    showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        });
+    try {
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: usernameController.text, password: password);
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
+    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 
   Widget buildUser() {
@@ -217,52 +266,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 250,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () async {
-                            String text = usernameController.text;
-                            if (text == '' || password == '') {
-                              debugPrint("Please fill both details");
-                              await showFlash(
-                                  context: context,
-                                  duration: const Duration(seconds: 4),
-                                  builder: (context, controller) {
-                                    return Flash.bar(
-                                      controller: controller,
-                                      backgroundColor: Colors.white,
-                                      position: FlashPosition.top,
-                                      horizontalDismissDirection:
-                                          HorizontalDismissDirection.horizontal,
-                                      margin: const EdgeInsets.all(8),
-                                      borderRadius: const BorderRadius.all(
-                                          Radius.circular(8)),
-                                      forwardAnimationCurve: Curves.easeOutBack,
-                                      reverseAnimationCurve: Curves.slowMiddle,
-                                      child: FlashBar(
-                                        content: const Text(
-                                            "Fill both username and password"),
-                                        primaryAction: IconButton(
-                                            onPressed: () {},
-                                            icon: const Icon(
-                                                Icons.error_outline)),
-                                        showProgressIndicator: true,
-                                      ),
-                                    );
-                                  });
-                            } else {
-                              FirebaseAuth.instance
-                                  .signInWithEmailAndPassword(
-                                      email: usernameController.text,
-                                      password: password)
-                                  .then((value) {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (BuildContext context) {
-                                      return const HomePage();
-                                    },
-                                  ),
-                                );
-                              });
-                            }
-
+                          onPressed: () {
+                            checkaccount();
                             /*debugPrint('Username: ${usernameController.text}');
                             debugPrint('Password: $password');*/
                           },

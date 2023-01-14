@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -14,15 +15,65 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   int currentStep = 0;
-  final fullname = TextEditingController();
-  final username = TextEditingController();
-  final email = TextEditingController();
-  final password = TextEditingController();
-  final confirmpassword = TextEditingController();
-  final dob = TextEditingController();
-  final height = TextEditingController();
-  final weight = TextEditingController();
-  final unit = TextEditingController();
+  final fullnamecontroller = TextEditingController();
+  final usernamecontroller = TextEditingController();
+  final emailcontroller = TextEditingController();
+  final passwordcontroller = TextEditingController();
+  final confirmpasswordcontroller = TextEditingController();
+  final agecontroller = TextEditingController();
+  final heightcontroller = TextEditingController();
+  final weightcontroller = TextEditingController();
+
+  @override
+  void dispose() {
+    fullnamecontroller.dispose();
+    usernamecontroller.dispose();
+    emailcontroller.dispose();
+    passwordcontroller.dispose();
+    confirmpasswordcontroller.dispose();
+    agecontroller.dispose();
+    heightcontroller.dispose();
+    weightcontroller.dispose();
+    super.dispose();
+  }
+
+  Future signIn() async {
+    if (passwordConfirmed()) {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailcontroller.text.trim(),
+        password: passwordcontroller.text.trim(),
+      );
+      addUser(
+        fullnamecontroller.text.trim(),
+        usernamecontroller.text.trim(),
+        emailcontroller.text.trim(),
+        int.parse(agecontroller.text.trim()),
+        int.parse(heightcontroller.text.trim()),
+        int.parse(weightcontroller.text.trim()),
+      );
+    }
+  }
+
+  Future addUser(String fullname, String username, String email, int age,
+      int height, int weight) async {
+    await FirebaseFirestore.instance.collection('users').add({
+      'full name': fullname,
+      'username': username,
+      'email': email,
+      'age': age,
+      'height': height,
+      'weight': weight,
+    });
+  }
+
+  bool passwordConfirmed() {
+    if (passwordcontroller.text.trim() ==
+        confirmpasswordcontroller.text.trim()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 
   var textstyle = const TextStyle(
     color: Colors.white,
@@ -95,24 +146,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     final isLastStep = currentStep == getSteps().length - 1;
                     if (isLastStep) {
                       debugPrint('Completed');
-                      FirebaseAuth.instance
-                          .createUserWithEmailAndPassword(
-                              email: email.text, password: password.text)
-                          .then(
-                        (value) {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return const HomePage();
-                              },
-                            ),
-                          );
-                        },
-                      ).onError(
-                        (error, stackTrace) {
-                          debugPrint("Error: ${error.toString()}");
-                        },
-                      );
+                      signIn();
+
                       //send data to server from here
 
                     } else {
@@ -174,7 +209,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: 50,
                 child: TextFormField(
-                  controller: fullname,
+                  controller: fullnamecontroller,
                   style: steptextstyle,
                   decoration: InputDecoration(
                     enabledBorder: unfocuseborder,
@@ -187,7 +222,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: 50,
                 child: TextFormField(
-                  controller: username,
+                  controller: usernamecontroller,
                   style: steptextstyle,
                   decoration: InputDecoration(
                     labelText: 'Username',
@@ -200,7 +235,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: 50,
                 child: TextFormField(
-                  controller: email,
+                  controller: emailcontroller,
                   style: steptextstyle,
                   decoration: InputDecoration(
                     labelText: 'Email',
@@ -214,7 +249,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: 50,
                 child: TextFormField(
-                  controller: password,
+                  controller: passwordcontroller,
                   style: steptextstyle,
                   decoration: InputDecoration(
                     labelText: 'Password',
@@ -227,7 +262,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: 50,
                 child: TextFormField(
-                  controller: confirmpassword,
+                  controller: confirmpasswordcontroller,
                   style: steptextstyle,
                   decoration: InputDecoration(
                     labelText: 'Confirm Password',
@@ -251,52 +286,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: 50,
                 child: TextFormField(
-                  controller: dob,
+                  controller: agecontroller,
                   style: steptextstyle,
                   decoration: InputDecoration(
-                    labelText: 'Date of Birth',
+                    labelText: 'Age',
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
                   ),
+                  keyboardType: TextInputType.number,
                 ),
               ),
               box(),
               SizedBox(
                 height: 50,
                 child: TextFormField(
-                  controller: height,
+                  controller: heightcontroller,
                   style: steptextstyle,
                   decoration: InputDecoration(
                     labelText: 'Height',
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
                   ),
+                  keyboardType: TextInputType.number,
                 ),
               ),
               box(),
               SizedBox(
                 height: 50,
                 child: TextFormField(
-                  controller: weight,
+                  controller: weightcontroller,
                   style: steptextstyle,
                   decoration: InputDecoration(
                     labelText: 'Weight',
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
                   ),
-                ),
-              ),
-              box(),
-              SizedBox(
-                height: 50,
-                child: TextFormField(
-                  controller: unit,
-                  style: steptextstyle,
-                  decoration: InputDecoration(
-                    labelText: 'Measurement Unit',
-                    enabledBorder: unfocuseborder,
-                    focusedBorder: focuseborder,
-                  ),
+                  keyboardType: TextInputType.number,
                 ),
               ),
             ],
@@ -309,7 +334,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             style: steptextstyle,
           ),
           content: Text(
-            'Full name : ${fullname.text}\nUsername : ${username.text}\nEmail : ${email.text}\nPassword : ${password.text}\nConfirmPassword : ${confirmpassword.text}\nDate of Birth : ${dob.text}\nHeight : ${height.text}\nweight : ${weight.text}\nUnit : ${unit.text}',
+            'Full name : ${fullnamecontroller.text}\nUsername : ${usernamecontroller.text}\nEmail : ${emailcontroller.text}\nPassword : ${passwordcontroller.text}\nConfirmPassword : ${confirmpasswordcontroller.text}\nDate of Birth : ${agecontroller.text}\nHeight : ${heightcontroller.text}\nweight : ${weightcontroller.text}',
             style: steptextstyle,
           ),
         ),

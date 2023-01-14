@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flash/flash.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:foodandnutrition/Login/login_page.dart';
@@ -21,6 +23,58 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   void initState() {
     super.initState();
     emailController.addListener(() => setState(() {}));
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    super.dispose();
+  }
+
+  checkaccount() async {
+    String text = emailController.text;
+    if (text == '') {
+      debugPrint("Please fill the email address.");
+      await showFlash(
+          context: context,
+          duration: const Duration(seconds: 4),
+          builder: (context, controller) {
+            return Flash.bar(
+              controller: controller,
+              backgroundColor: Colors.white,
+              position: FlashPosition.bottom,
+              horizontalDismissDirection: HorizontalDismissDirection.horizontal,
+              margin: const EdgeInsets.all(8),
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+              forwardAnimationCurve: Curves.easeOutBack,
+              reverseAnimationCurve: Curves.slowMiddle,
+              child: FlashBar(
+                content: const Text("Fill the email address."),
+                primaryAction: IconButton(
+                    onPressed: () {}, icon: const Icon(Icons.error_outline)),
+                showProgressIndicator: true,
+              ),
+            );
+          });
+    } else {
+      debugPrint("Email: ${emailController.text}");
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return const ResetVerifyScreen();
+          },
+        ),
+      );
+    }
+  }
+
+  Future passwordReset() async {
+    try {
+      await FirebaseAuth.instance
+          .sendPasswordResetEmail(email: emailController.text.trim());
+    } on FirebaseAuthException catch (e) {
+      print(e);
+    }
   }
 
   Widget buildUser() {
@@ -174,14 +228,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       height: 50,
                       child: ElevatedButton(
                         onPressed: () {
-                          debugPrint("OTP: ${emailController.text}");
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return const ResetVerifyScreen();
-                              },
-                            ),
-                          );
+                          checkaccount();
                         },
                         style: ElevatedButton.styleFrom(
                           backgroundColor:
