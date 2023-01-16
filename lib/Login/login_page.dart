@@ -4,7 +4,8 @@ import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:foodandnutrition/ForgotPassword/forgotpass_page.dart';
-import 'package:foodandnutrition/Homepage/home_page.dart';
+import 'package:foodandnutrition/allpages/home_page.dart';
+import 'package:foodandnutrition/Homepage/landing.dart';
 import 'package:foodandnutrition/Signup/signup_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
@@ -70,19 +71,47 @@ class _LoginScreenState extends State<LoginScreen> {
         });
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: usernameController.text, password: password);
+          email: usernameController.text.trim(), password: password);
+      Navigator.pop(context);
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) {
+            return const LandingPage();
+          },
+        ),
+      );
     } on FirebaseAuthException catch (e) {
-      debugPrint(e.toString());
+      Navigator.pop(context);
+      if (e.code == 'user-not-found') {
+        wrongEmailMessage();
+      } else if (e.code == 'wrong-password') {
+        wrongPasswordMessage();
+      } else {}
     }
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
+    //navigatorKey.currentState!.popUntil((route) => route.isFirst);
 
     // ignore: use_build_context_synchronously
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) {
-          return const HomePage();
-        },
-      ),
+  }
+
+  void wrongEmailMessage() {
+    showDialog(
+      context: context,
+      builder: ((context) {
+        return const AlertDialog(
+          title: Text("Incorrect Email"),
+        );
+      }),
+    );
+  }
+
+  void wrongPasswordMessage() {
+    showDialog(
+      context: context,
+      builder: ((context) {
+        return const AlertDialog(
+          title: Text("Incorrect Password"),
+        );
+      }),
     );
   }
 

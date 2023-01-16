@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:foodandnutrition/Homepage/landing.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -38,10 +39,31 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future signIn() async {
     if (passwordConfirmed()) {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailcontroller.text.trim(),
-        password: passwordcontroller.text.trim(),
-      );
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          });
+
+      try {
+        await FirebaseAuth.instance.createUserWithEmailAndPassword(
+          email: emailcontroller.text.trim(),
+          password: passwordcontroller.text.trim(),
+        );
+      } on FirebaseAuthException catch (e) {
+        showDialog(
+            context: context,
+            barrierDismissible: false,
+            builder: (context) {
+              return AlertDialog(
+                content: Text(e.message.toString()),
+              );
+            });
+      }
+
       addUser(
         fullnamecontroller.text.trim(),
         usernamecontroller.text.trim(),
@@ -49,6 +71,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
         int.parse(agecontroller.text.trim()),
         int.parse(heightcontroller.text.trim()),
         int.parse(weightcontroller.text.trim()),
+      );
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (BuildContext context) {
+            return const LandingPage();
+          },
+        ),
       );
     }
   }

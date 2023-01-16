@@ -13,6 +13,7 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final user = FirebaseAuth.instance.currentUser!;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Stack(
                   children: [
                     Text(
-                      "Name",
+                      user.email.toString(),
                       style: TextStyle(
                         fontSize: 15,
                         color: Colors.teal,

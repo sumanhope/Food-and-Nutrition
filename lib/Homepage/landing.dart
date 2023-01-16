@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:foodandnutrition/Homepage/home_page.dart';
+import 'package:foodandnutrition/allpages/home_page.dart';
 import 'package:foodandnutrition/allpages/profile_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 

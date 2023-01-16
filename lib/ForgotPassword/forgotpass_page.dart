@@ -58,13 +58,14 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           });
     } else {
       debugPrint("Email: ${emailController.text}");
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (BuildContext context) {
-            return const ResetVerifyScreen();
-          },
-        ),
-      );
+      // Navigator.of(context).pushReplacement(
+      //   MaterialPageRoute(
+      //     builder: (BuildContext context) {
+      //       return const ResetVerifyScreen();
+      //     },
+      //   ),
+      // );
+      passwordReset();
     }
   }
 
@@ -72,8 +73,22 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     try {
       await FirebaseAuth.instance
           .sendPasswordResetEmail(email: emailController.text.trim());
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text("Password reset link send! \nCheck your mail"),
+            );
+          });
     } on FirebaseAuthException catch (e) {
       debugPrint(e.toString());
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              content: Text(e.message.toString()),
+            );
+          });
     }
   }
 
@@ -130,158 +145,160 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           GestureType.onPanUpdateDownDirection,
         ],
         child: Scaffold(
-          body: Column(
-            children: [
-              Stack(
-                children: [
-                  Opacity(
-                    opacity: 0.5,
-                    child: ClipPath(
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                Stack(
+                  children: [
+                    Opacity(
+                      opacity: 0.5,
+                      child: ClipPath(
+                        clipper: MovieTicketClipper(),
+                        child: Container(
+                          color: Colors.teal,
+                          height: 150,
+                        ),
+                      ),
+                    ),
+                    ClipPath(
                       clipper: MovieTicketClipper(),
                       child: Container(
                         color: Colors.teal,
-                        height: 150,
-                      ),
-                    ),
-                  ),
-                  ClipPath(
-                    clipper: MovieTicketClipper(),
-                    child: Container(
-                      color: Colors.teal,
-                      height: 130,
-                    ),
-                  ),
-                ],
-              ),
-              box,
-              Container(
-                alignment: const Alignment(-0.8, 0.5),
-                child: const Text(
-                  "Reset Password",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    color: Colors.teal,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-              ),
-              box,
-              Container(
-                alignment: const Alignment(0, 0.5),
-                child: const Text(
-                  "Enter the email assoociated with your account",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    color: Color.fromARGB(197, 2, 68, 62),
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-              ),
-              Container(
-                alignment: const Alignment(-0.4, 0.5),
-                child: const Text(
-                  "and we'll send an email with instructions to",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    color: Color.fromARGB(197, 2, 68, 62),
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-              ),
-              Container(
-                alignment: const Alignment(-0.8, 0.5),
-                child: const Text(
-                  "reset your password",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                    color: Color.fromARGB(197, 2, 68, 62),
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-              ),
-              box,
-              Container(
-                alignment: const Alignment(60, 1),
-                child: const Text(
-                  "Email address                                                           ",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.teal,
-                    fontFamily: 'Poppins',
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20.0),
-                child: Column(
-                  children: [
-                    buildUser(),
-                    box,
-                    SizedBox(
-                      width: 300,
-                      height: 50,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          checkaccount();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:
-                              const Color.fromARGB(255, 0, 150, 135),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          side: const BorderSide(
-                            width: 3,
-                            color: Color.fromARGB(88, 0, 0, 0),
-                          ),
-                        ),
-                        child: const Text(
-                          "Confirm",
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins',
-                            fontSize: 15,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      alignment: Alignment.center,
-                      child: TextButton(
-                        child: const Text(
-                          'Back',
-                          style: TextStyle(
-                            color: Colors.teal,
-                            fontSize: 17,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                        onPressed: () {
-                          Navigator.of(context).pop(
-                            MaterialPageRoute(
-                              builder: (BuildContext context) {
-                                return const LoginScreen();
-                              },
-                            ),
-                          );
-                        },
+                        height: 130,
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
+                box,
+                Container(
+                  alignment: const Alignment(-0.8, 0.5),
+                  child: const Text(
+                    "Reset Password",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 25,
+                      color: Colors.teal,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ),
+                box,
+                Container(
+                  alignment: const Alignment(0, 0.5),
+                  child: const Text(
+                    "Enter the email assoociated with your account",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Color.fromARGB(197, 2, 68, 62),
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ),
+                Container(
+                  alignment: const Alignment(-0.4, 0.5),
+                  child: const Text(
+                    "and we'll send an email with instructions to",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Color.fromARGB(197, 2, 68, 62),
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ),
+                Container(
+                  alignment: const Alignment(-0.8, 0.5),
+                  child: const Text(
+                    "reset your password",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 15,
+                      color: Color.fromARGB(197, 2, 68, 62),
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ),
+                box,
+                Container(
+                  alignment: const Alignment(60, 1),
+                  child: const Text(
+                    "Email address                                                           ",
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                      color: Colors.teal,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10, horizontal: 20.0),
+                  child: Column(
+                    children: [
+                      buildUser(),
+                      box,
+                      SizedBox(
+                        width: 300,
+                        height: 50,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            checkaccount();
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor:
+                                const Color.fromARGB(255, 0, 150, 135),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            side: const BorderSide(
+                              width: 3,
+                              color: Color.fromARGB(88, 0, 0, 0),
+                            ),
+                          ),
+                          child: const Text(
+                            "Confirm",
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Poppins',
+                              fontSize: 15,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        alignment: Alignment.center,
+                        child: TextButton(
+                          child: const Text(
+                            'Back',
+                            style: TextStyle(
+                              color: Colors.teal,
+                              fontSize: 17,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.of(context).pop(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return const LoginScreen();
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       );

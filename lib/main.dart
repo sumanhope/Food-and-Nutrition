@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 //import 'package:foodandnutrition/Homepage/home_page.dart';
 import 'package:foodandnutrition/Homepage/landing.dart';
+import 'package:foodandnutrition/Verification/auth_page.dart';
+import 'package:foodandnutrition/Welcome/welcome_page.dart';
 //import 'package:foodandnutrition/Welcome/welcome_page.dart';
 //import 'package:dcdg/dcdg.dart';
 
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: const LandingPage(),
+      home: const WelcomeScreen(),
     );
   }
 }
