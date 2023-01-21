@@ -57,14 +57,6 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
             );
           });
     } else {
-      debugPrint("Email: ${emailController.text}");
-      // Navigator.of(context).pushReplacement(
-      //   MaterialPageRoute(
-      //     builder: (BuildContext context) {
-      //       return const ResetVerifyScreen();
-      //     },
-      //   ),
-      // );
       passwordReset();
     }
   }
@@ -72,14 +64,20 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   Future passwordReset() async {
     try {
       await FirebaseAuth.instance
-          .sendPasswordResetEmail(email: emailController.text.trim());
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: Text("Password reset link send! \nCheck your mail"),
-            );
-          });
+          .sendPasswordResetEmail(email: emailController.text.trim())
+          .then(
+        (value) {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return ResetVerifyScreen(
+                  useremail: emailController.text.trim(),
+                );
+              },
+            ),
+          );
+        },
+      );
     } on FirebaseAuthException catch (e) {
       debugPrint(e.toString());
       showDialog(

@@ -1,8 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:foodandnutrition/Welcome/welcome_page.dart';
 import 'package:foodandnutrition/utils/foodcard.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -72,21 +68,21 @@ class _HomePageState extends State<HomePage> {
           GestureType.onPanUpdateDownDirection,
         ],
         child: Scaffold(
-          appBar: AppBar(title: Text("Home")),
+          appBar: AppBar(title: const Text("Home")),
           body: SingleChildScrollView(
             child: SafeArea(
               child: Center(
                 child: Column(
                   children: [
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
-                    Container(
+                    SizedBox(
                       height: 200,
                       child: PageView(
                         scrollDirection: Axis.horizontal,
                         controller: _controller,
-                        children: [
+                        children: const [
                           FoodCard(
                             patients: "For Diabetes",
                             fooddetails: "Low Carb",
@@ -105,20 +101,20 @@ class _HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 20,
                     ),
                     SmoothPageIndicator(
                       controller: _controller,
                       count: 3,
-                      effect: ExpandingDotsEffect(
+                      effect: const ExpandingDotsEffect(
                         activeDotColor: Colors.teal,
                         dotHeight: 10,
                         dotWidth: 10,
                         strokeWidth: 2,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 25,
                     ),
                     Padding(
@@ -126,7 +122,7 @@ class _HomePageState extends State<HomePage> {
                           vertical: 10, horizontal: 25.0),
                       child: buildSearch(),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 5,
                     ),
                     Padding(
@@ -137,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                         width: 500,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: Color.fromARGB(255, 4, 194, 175),
+                          color: const Color.fromARGB(255, 4, 194, 175),
                         ),
                       ),
                     ),
@@ -149,7 +145,7 @@ class _HomePageState extends State<HomePage> {
                         width: 500,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
-                          color: Color.fromARGB(255, 4, 194, 175),
+                          color: const Color.fromARGB(255, 4, 194, 175),
                         ),
                       ),
                     ),

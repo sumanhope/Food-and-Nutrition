@@ -1,15 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:foodandnutrition/ForgotPassword/forgotpass_page.dart';
-import 'package:foodandnutrition/allpages/home_page.dart';
 import 'package:foodandnutrition/Homepage/landing.dart';
 import 'package:foodandnutrition/Signup/signup_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-
-import '../main.dart';
 //import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -72,6 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: usernameController.text.trim(), password: password);
+
       Navigator.pop(context);
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -89,8 +89,6 @@ class _LoginScreenState extends State<LoginScreen> {
       } else {}
     }
     //navigatorKey.currentState!.popUntil((route) => route.isFirst);
-
-    // ignore: use_build_context_synchronously
   }
 
   void wrongEmailMessage() {

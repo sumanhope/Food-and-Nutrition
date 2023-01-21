@@ -1,7 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:foodandnutrition/Homepage/landing.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
@@ -23,6 +26,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final agecontroller = TextEditingController();
   final heightcontroller = TextEditingController();
   final weightcontroller = TextEditingController();
+
+  var _text, texttwo;
 
   @override
   void dispose() {
@@ -130,6 +135,38 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
+  String? get _errorText {
+    // at any time, we can get the text from _controller.value.text
+    final text = passwordcontroller.value.text;
+
+    // Note: you can do your own custom validation here
+    // Move this logic this outside the widget for more testable code
+    if (text.isEmpty) {
+      return 'Required';
+    }
+    if (text.length < 6) {
+      return 'Too short';
+    }
+    // return null if the text is valid
+    return null;
+  }
+
+  String? get errorText {
+    // at any time, we can get the text from _controller.value.text
+    final text = confirmpasswordcontroller.value.text;
+
+    // Note: you can do your own custom validation here
+    // Move this logic this outside the widget for more testable code
+    if (text.isEmpty) {
+      return 'Required';
+    }
+    if (text.length < 6) {
+      return 'Too short';
+    }
+    // return null if the text is valid
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) => KeyboardDismisser(
         gestures: const [
@@ -179,7 +216,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       //send data to server from here
 
                     } else {
-                      setState(() => currentStep += 1);
+                      if (passwordConfirmed() &&
+                          (passwordcontroller.text != '' &&
+                              confirmpasswordcontroller.text != '')) {
+                        setState(() => currentStep += 1);
+                      } else {
+                        debugPrint("Password didnot match");
+                      }
                     }
                   },
                   onStepTapped: (step) => setState(() => currentStep = step),
@@ -191,18 +234,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       margin: const EdgeInsets.only(top: 50),
                       child: Row(
                         children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: details.onStepContinue,
-                              child: Text(
-                                'Next',
-                                style: textstyle,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 12,
-                          ),
                           if (currentStep != 0)
                             Expanded(
                               child: ElevatedButton(
@@ -213,6 +244,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 ),
                               ),
                             ),
+                          const SizedBox(
+                            width: 12,
+                          ),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: details.onStepContinue,
+                              child: Text(
+                                'Next',
+                                style: textstyle,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
                     );
@@ -275,28 +318,46 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
               box(),
               SizedBox(
-                height: 50,
+                height: 75,
                 child: TextFormField(
                   controller: passwordcontroller,
                   style: steptextstyle,
                   decoration: InputDecoration(
+                    errorStyle: const TextStyle(
+                        color: Colors.teal,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold),
                     labelText: 'Password',
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
+                    errorBorder: unfocuseborder,
+                    focusedErrorBorder: focuseborder,
+                    errorText: _errorText,
                   ),
+                  onChanged: (text) => setState(() => _text),
                 ),
               ),
-              box(),
+              const SizedBox(
+                height: 10,
+              ),
               SizedBox(
-                height: 50,
+                height: 75,
                 child: TextFormField(
                   controller: confirmpasswordcontroller,
                   style: steptextstyle,
                   decoration: InputDecoration(
+                    errorStyle: const TextStyle(
+                        color: Colors.teal,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.bold),
                     labelText: 'Confirm Password',
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
+                    errorBorder: unfocuseborder,
+                    focusedErrorBorder: focuseborder,
+                    errorText: errorText,
                   ),
+                  onChanged: (text) => setState(() => texttwo),
                 ),
               ),
             ],

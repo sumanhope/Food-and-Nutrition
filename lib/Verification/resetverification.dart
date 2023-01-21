@@ -1,16 +1,17 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:foodandnutrition/Login/login_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
-class ResetVerifyScreen extends StatefulWidget {
-  const ResetVerifyScreen({super.key});
+class ResetVerifyScreen extends StatelessWidget {
+  ResetVerifyScreen({
+    super.key,
+    required this.useremail,
+  });
+  final String useremail;
 
-  @override
-  State<ResetVerifyScreen> createState() => _ResetVerifyScreenState();
-}
-
-class _ResetVerifyScreenState extends State<ResetVerifyScreen> {
   var box = const SizedBox(
     height: 20,
   );
@@ -90,7 +91,7 @@ class _ResetVerifyScreenState extends State<ResetVerifyScreen> {
                   height: 50,
                   child: ElevatedButton(
                       onPressed: () {
-                        debugPrint("Clicked Resend");
+                        debugPrint("Clicked Resend\n Email:$useremail");
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 0, 150, 135),
