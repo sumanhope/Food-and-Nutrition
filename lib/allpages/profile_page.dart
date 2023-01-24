@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import "package:flutter/material.dart";
 
 import '../Welcome/welcome_page.dart';
@@ -67,14 +68,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       margin: EdgeInsets.only(bottom: 60.0, right: 12.0),
                       child: ElevatedButton(
                         onPressed: () {
-                          FirebaseAuth.instance.signOut().then((value) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: ((context) => const WelcomeScreen()),
-                              ),
-                            );
-                          });
+                          // FirebaseAuth.instance.signOut().then((value) {
+                          //   Navigator.push(
+                          //     context,
+                          //     MaterialPageRoute(
+                          //       builder: ((context) => const WelcomeScreen()),
+                          //     ),
+                          //   );
+                          // });
+                          FirebaseAuth.instance.signOut();
                         },
                         child: Text(
                           "Logout",

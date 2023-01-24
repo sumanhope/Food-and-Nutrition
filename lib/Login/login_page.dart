@@ -60,33 +60,37 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future signIn() async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        });
+    // showDialog(
+    //     context: context,
+    //     barrierDismissible: false,
+    //     builder: (context) {
+    //       return const Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     });
     try {
       await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: usernameController.text.trim(), password: password);
 
       Navigator.pop(context);
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) {
-            return const LandingPage();
-          },
-        ),
-      );
+      // Navigator.of(context).push(
+      //   MaterialPageRoute(
+      //     builder: (context) {
+      //       return const LandingPage();
+      //     },
+      //   ),
+      // );
     } on FirebaseAuthException catch (e) {
-      Navigator.pop(context);
+      // Navigator.pop(context);
       if (e.code == 'user-not-found') {
         wrongEmailMessage();
       } else if (e.code == 'wrong-password') {
         wrongPasswordMessage();
-      } else {}
+      } else if (e.code == 'invalid-email') {
+        invalidemailMessage();
+      } else {
+        debugPrint(e.toString());
+      }
     }
     //navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
@@ -110,6 +114,17 @@ class _LoginScreenState extends State<LoginScreen> {
           title: Text("Incorrect Password"),
         );
       }),
+    );
+  }
+
+  void invalidemailMessage() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return const AlertDialog(
+          title: Text("The email address is badly formatted"),
+        );
+      },
     );
   }
 
