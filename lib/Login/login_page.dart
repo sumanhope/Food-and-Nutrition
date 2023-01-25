@@ -1,15 +1,11 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flash/flash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:foodandnutrition/ForgotPassword/forgotpass_page.dart';
-import 'package:foodandnutrition/Homepage/landing.dart';
 import 'package:foodandnutrition/Signup/signup_page.dart';
+import 'package:foodandnutrition/Verification/emailverification_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-//import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -29,103 +25,63 @@ class _LoginScreenState extends State<LoginScreen> {
     usernameController.addListener(() => setState(() {}));
   }
 
-  checkaccount() async {
-    String text = usernameController.text;
-    if (text == '' || password == '') {
-      debugPrint("Please fill both details");
-      await showFlash(
-          context: context,
-          duration: const Duration(seconds: 4),
-          builder: (context, controller) {
-            return Flash.bar(
-              controller: controller,
-              backgroundColor: Colors.white,
-              position: FlashPosition.bottom,
-              horizontalDismissDirection: HorizontalDismissDirection.horizontal,
-              margin: const EdgeInsets.all(8),
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              forwardAnimationCurve: Curves.easeOutBack,
-              reverseAnimationCurve: Curves.slowMiddle,
-              child: FlashBar(
-                content: const Text("Fill both username and password"),
-                primaryAction: IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.error_outline)),
-                showProgressIndicator: true,
-              ),
-            );
-          });
-    } else {
-      signIn();
-    }
-  }
-
-  Future signIn() async {
-    // showDialog(
-    //     context: context,
-    //     barrierDismissible: false,
-    //     builder: (context) {
-    //       return const Center(
-    //         child: CircularProgressIndicator(),
-    //       );
-    //     });
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: usernameController.text.trim(), password: password);
-
-      Navigator.pop(context);
-      // Navigator.of(context).push(
-      //   MaterialPageRoute(
-      //     builder: (context) {
-      //       return const LandingPage();
-      //     },
-      //   ),
-      // );
-    } on FirebaseAuthException catch (e) {
-      // Navigator.pop(context);
-      if (e.code == 'user-not-found') {
-        wrongEmailMessage();
-      } else if (e.code == 'wrong-password') {
-        wrongPasswordMessage();
-      } else if (e.code == 'invalid-email') {
-        invalidemailMessage();
-      } else {
-        debugPrint(e.toString());
-      }
-    }
-    //navigatorKey.currentState!.popUntil((route) => route.isFirst);
-  }
-
-  void wrongEmailMessage() {
-    showDialog(
-      context: context,
-      builder: ((context) {
-        return const AlertDialog(
-          title: Text("Incorrect Email"),
-        );
-      }),
-    );
-  }
-
-  void wrongPasswordMessage() {
-    showDialog(
-      context: context,
-      builder: ((context) {
-        return const AlertDialog(
-          title: Text("Incorrect Password"),
-        );
-      }),
-    );
-  }
-
-  void invalidemailMessage() {
-    showDialog(
+  Future errorDialog(String error) {
+    return showDialog(
       context: context,
       builder: (context) {
-        return const AlertDialog(
-          title: Text("The email address is badly formatted"),
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          backgroundColor: const Color.fromARGB(121, 53, 233, 215),
+          elevation: 5,
+          title: Text(
+            error,
+            style: const TextStyle(
+              letterSpacing: 2.5,
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
+            ),
+          ),
         );
       },
     );
+  }
+
+  Future signIn() async {
+    try {
+      showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (context) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          });
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+              email: usernameController.text.trim(), password: password)
+          .then((value) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const EmailVerifyScreen(),
+          ),
+        );
+      });
+    } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
+      if (e.code == 'user-not-found') {
+        errorDialog("Account doesn't exist");
+      } else if (e.code == 'wrong-password') {
+        errorDialog("Incorrect Passoword");
+      } else if (e.code == 'invalid-email') {
+        errorDialog("The email address is badly formatted");
+      } else {
+        errorDialog(e.toString());
+      }
+    }
   }
 
   Widget buildUser() {
@@ -146,7 +102,6 @@ class _LoginScreenState extends State<LoginScreen> {
           fontWeight: FontWeight.bold,
           fontFamily: 'Poppins',
         ),
-
         prefixIcon: const Icon(
           Icons.person,
           color: Colors.teal,
@@ -158,7 +113,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 icon: const Icon(Icons.close),
                 onPressed: () => usernameController.clear(),
               ),
-        //prefixIconColor: Colors.teal,
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.teal, width: 3),
@@ -319,9 +273,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 50,
                         child: ElevatedButton(
                           onPressed: () {
-                            checkaccount();
-                            /*debugPrint('Username: ${usernameController.text}');
-                            debugPrint('Password: $password');*/
+                            if (usernameController.text.isNotEmpty &&
+                                password != '') {
+                              signIn();
+                            } else {
+                              errorDialog("Fill both fields");
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
@@ -403,7 +360,7 @@ Widget colorizeAnimation() {
   ];
 
   const colorizeTextStyle = TextStyle(
-    color: Colors.teal,
+    color: Color.fromRGBO(23, 23, 56, 0.067),
     fontSize: 30,
     fontWeight: FontWeight.bold,
     fontFamily: 'Poppins',

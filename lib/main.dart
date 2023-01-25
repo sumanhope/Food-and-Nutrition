@@ -26,33 +26,25 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.teal,
       ),
-      home: const MainPage(),
+      home: const WelcomeScreen(),
     );
   }
 }
 
-class MainPage extends StatelessWidget {
-  const MainPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: StreamBuilder<User?>(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return const Center(
-              child: Text("Something went wrong"),
-            );
-          } else if (snapshot.hasData) {
-            return const EmailVerifyScreen();
-          } else {
-            return const WelcomeScreen();
-          }
-        },
-      ),
-    );
-  }
-}
+// class MainPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       body: StreamBuilder<User?>(
+//         stream: FirebaseAuth.instance.authStateChanges(),
+//         builder: (context, snapshot) {
+//           if (snapshot.hasData) {
+//             return const EmailVerifyScreen();
+//           } else {
+//             return const WelcomeScreen();
+//           }
+//         },
+//       ),
+//     );
+//   }
+// }

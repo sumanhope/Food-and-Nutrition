@@ -41,7 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Text(
                       user.email.toString(),
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 10,
                         color: Colors.teal,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
@@ -76,7 +76,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           //     ),
                           //   );
                           // });
-                          FirebaseAuth.instance.signOut();
+                          FirebaseAuth.instance.signOut().then((value) {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const WelcomeScreen(),
+                              ),
+                            );
+                          });
+                          ;
                         },
                         child: Text(
                           "Logout",
