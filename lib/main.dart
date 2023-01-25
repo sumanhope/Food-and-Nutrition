@@ -1,8 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:foodandnutrition/Homepage/landing.dart';
-import 'package:foodandnutrition/Verification/emailverification_page.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
 
 Future main() async {

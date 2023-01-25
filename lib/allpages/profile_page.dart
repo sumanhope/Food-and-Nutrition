@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import "package:flutter/material.dart";
@@ -14,11 +15,35 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  final user = FirebaseAuth.instance.currentUser!;
+  final User user = FirebaseAuth.instance.currentUser!;
+  String _uid = " ";
+  String name = "Loading";
+  int age = 0;
+  String username = "Loading";
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  void getData() async {
+    _uid = user.uid;
+
+    final DocumentSnapshot userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(_uid).get();
+    setState(() {
+      name = userDoc.get('fullname');
+      age = userDoc.get('age');
+      username = userDoc.get('username');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         title: const Text("Profile"),
       ),
       body: SingleChildScrollView(
@@ -39,9 +64,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 Stack(
                   children: [
                     Text(
-                      user.email.toString(),
+                      // user.email.toString(),
+                      username,
                       style: TextStyle(
-                        fontSize: 10,
+                        fontSize: 18,
                         color: Colors.teal,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
@@ -50,7 +76,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Container(
                       margin: EdgeInsets.only(top: 30.0, right: 10.0),
                       child: Text(
-                        "Age",
+                        "$age",
                         style: TextStyle(
                           fontSize: 15,
                           color: Colors.teal,
@@ -84,7 +110,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               ),
                             );
                           });
-                          ;
                         },
                         child: Text(
                           "Logout",
@@ -119,7 +144,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
             ProfileMenu(
               firsticon: Icons.person,
-              text: "Username",
+              text: name,
               secondicon: Icons.chevron_right_sharp,
               press: () {},
             ),

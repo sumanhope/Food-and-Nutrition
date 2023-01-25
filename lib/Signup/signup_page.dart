@@ -1,12 +1,10 @@
-// ignore_for_file: use_build_context_synchronously, prefer_typing_uninitialized_variables
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:foodandnutrition/Homepage/landing.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import '../Verification/emailverification_page.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -25,7 +23,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final agecontroller = TextEditingController();
   final heightcontroller = TextEditingController();
   final weightcontroller = TextEditingController();
-
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  late String _uid = '';
   var _text, texttwo;
 
   @override
@@ -42,54 +41,62 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future signIn() async {
-    if (passwordConfirmed()) {
-      showDialog(
-          context: context,
-          barrierDismissible: false,
-          builder: (context) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          });
-
-      try {
-        await FirebaseAuth.instance.createUserWithEmailAndPassword(
-          email: emailcontroller.text.trim(),
-          password: passwordcontroller.text.trim(),
+    // showDialog(
+    //     context: context,
+    //     barrierDismissible: false,
+    //     builder: (context) {
+    //       return const Center(
+    //         child: CircularProgressIndicator(),
+    //       );
+    //     });
+    // addUser(
+    //   fullnamecontroller.text.trim(),
+    //   usernamecontroller.text.trim(),
+    //   emailcontroller.text.trim(),
+    //   int.parse(agecontroller.text.trim()),
+    //   int.parse(heightcontroller.text.trim()),
+    //   int.parse(weightcontroller.text.trim()),
+    // );
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailcontroller.text.trim(),
+        password: passwordcontroller.text.trim(),
+      );
+      final User user = auth.currentUser!;
+      final uid = user.uid;
+      FirebaseFirestore.instance.collection('users').doc(uid).set({
+        'UserId': uid,
+        'fullname': fullnamecontroller.text.trim(),
+        'username': usernamecontroller.text.trim(),
+        'email': emailcontroller.text.trim(),
+        'age': int.parse(agecontroller.text.trim()),
+        'height': int.parse(heightcontroller.text.trim()),
+        'weight': int.parse(weightcontroller.text.trim()),
+      }).then((value) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const EmailVerifyScreen(),
+          ),
         );
-      } on FirebaseAuthException catch (e) {
-        errorDialog(e.toString());
-      }
-
-      addUser(
-        fullnamecontroller.text.trim(),
-        usernamecontroller.text.trim(),
-        emailcontroller.text.trim(),
-        int.parse(agecontroller.text.trim()),
-        int.parse(heightcontroller.text.trim()),
-        int.parse(weightcontroller.text.trim()),
-      );
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (BuildContext context) {
-            return const LandingPage();
-          },
-        ),
-      );
+      });
+    } on FirebaseAuthException catch (e) {
+      errorDialog(e.toString());
     }
   }
 
-  Future addUser(String fullname, String username, String email, int age,
-      int height, int weight) async {
-    await FirebaseFirestore.instance.collection('users').add({
-      'full name': fullname,
-      'username': username,
-      'email': email,
-      'age': age,
-      'height': height,
-      'weight': weight,
-    });
-  }
+  // Future addUser(String fullname, String username, String email, int age,
+  //     int height, int weight) async {
+  //   await FirebaseFirestore.instance.collection('users').doc(_uid).set({
+  //     'UserId': _uid,
+  //     'fullname': fullname,
+  //     'username': username,
+  //     'email': email,
+  //     'age': age,
+  //     'height': height,
+  //     'weight': weight,
+  //   });
+  // }
 
   bool passwordConfirmed() {
     if (passwordcontroller.text.trim() ==

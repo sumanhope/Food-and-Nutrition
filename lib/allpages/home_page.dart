@@ -67,89 +67,92 @@ class _HomePageState extends State<HomePage> {
           GestureType.onTap,
           GestureType.onPanUpdateDownDirection,
         ],
-        child: Scaffold(
-          appBar: AppBar(title: const Text("Home")),
-          body: SingleChildScrollView(
-            child: SafeArea(
-              child: Center(
-                child: Column(
-                  children: [
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    SizedBox(
-                      height: 200,
-                      child: PageView(
-                        scrollDirection: Axis.horizontal,
+        child: SafeArea(
+          child: Scaffold(
+            appBar: AppBar(
+                automaticallyImplyLeading: false, title: const Text("Home")),
+            body: SingleChildScrollView(
+              child: SafeArea(
+                child: Center(
+                  child: Column(
+                    children: [
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SizedBox(
+                        height: 200,
+                        child: PageView(
+                          scrollDirection: Axis.horizontal,
+                          controller: _controller,
+                          children: const [
+                            FoodCard(
+                              patients: "For Diabetes",
+                              fooddetails: "Low Carb",
+                              fooddesc: "Test",
+                            ),
+                            FoodCard(
+                              patients: "For Piles",
+                              fooddetails: "High Fiber",
+                              fooddesc: "Test",
+                            ),
+                            FoodCard(
+                              patients: "For Fever",
+                              fooddetails: "Nutrient-rich Foods",
+                              fooddesc: "Test",
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SmoothPageIndicator(
                         controller: _controller,
-                        children: const [
-                          FoodCard(
-                            patients: "For Diabetes",
-                            fooddetails: "Low Carb",
-                            fooddesc: "Test",
-                          ),
-                          FoodCard(
-                            patients: "For Piles",
-                            fooddetails: "High Fiber",
-                            fooddesc: "Test",
-                          ),
-                          FoodCard(
-                            patients: "For Fever",
-                            fooddetails: "Nutrient-rich Foods",
-                            fooddesc: "Test",
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    SmoothPageIndicator(
-                      controller: _controller,
-                      count: 3,
-                      effect: const ExpandingDotsEffect(
-                        activeDotColor: Colors.teal,
-                        dotHeight: 10,
-                        dotWidth: 10,
-                        strokeWidth: 2,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 25,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 10, horizontal: 25.0),
-                      child: buildSearch(),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 15),
-                      child: Container(
-                        height: 70,
-                        width: 500,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: const Color.fromARGB(255, 4, 194, 175),
+                        count: 3,
+                        effect: const ExpandingDotsEffect(
+                          activeDotColor: Colors.teal,
+                          dotHeight: 10,
+                          dotWidth: 10,
+                          strokeWidth: 2,
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 15),
-                      child: Container(
-                        height: 70,
-                        width: 500,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          color: const Color.fromARGB(255, 4, 194, 175),
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 10, horizontal: 25.0),
+                        child: buildSearch(),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 15),
+                        child: Container(
+                          height: 70,
+                          width: 500,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: const Color.fromARGB(255, 4, 194, 175),
+                          ),
                         ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 15),
+                        child: Container(
+                          height: 70,
+                          width: 500,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            color: const Color.fromARGB(255, 4, 194, 175),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
