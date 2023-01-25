@@ -58,14 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           password: passwordcontroller.text.trim(),
         );
       } on FirebaseAuthException catch (e) {
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (context) {
-              return AlertDialog(
-                content: Text(e.message.toString()),
-              );
-            });
+        errorDialog(e.toString());
       }
 
       addUser(
@@ -143,11 +136,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (text.isEmpty) {
       return 'Required';
     }
-    if (text.length < 6) {
-      return 'Too short';
+
+    if (text.length < 7) {
+      return 'Too short (need ${7 - text.length} more letters)';
     }
     // return null if the text is valid
-    return null;
+    return "Done";
   }
 
   String? get errorText {
@@ -159,11 +153,58 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (text.isEmpty) {
       return 'Required';
     }
-    if (text.length < 6) {
-      return 'Too short';
+
+    if (text.length < 7) {
+      return 'Too short (need ${7 - text.length} more letters)';
     }
     // return null if the text is valid
-    return null;
+    return "Done";
+  }
+
+  bool formone() {
+    if (fullnamecontroller.text.isNotEmpty &&
+        usernamecontroller.text.isNotEmpty &&
+        emailcontroller.text.isNotEmpty &&
+        passwordcontroller.text.isNotEmpty &&
+        confirmpasswordcontroller.text.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  bool formtwo() {
+    if (agecontroller.text.isNotEmpty &&
+        heightcontroller.text.isNotEmpty &&
+        weightcontroller.text.isNotEmpty) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future errorDialog(String error) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          backgroundColor: const Color.fromARGB(121, 53, 233, 215),
+          elevation: 5,
+          title: Text(
+            error,
+            style: const TextStyle(
+              letterSpacing: 1.5,
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -215,12 +256,27 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       //send data to server from here
 
                     } else {
-                      if (passwordConfirmed() &&
-                          (passwordcontroller.text != '' &&
-                              confirmpasswordcontroller.text != '')) {
-                        setState(() => currentStep += 1);
-                      } else {
-                        debugPrint("Password didnot match");
+                      if (currentStep == 0) {
+                        if (formone()) {
+                          if (passwordConfirmed()) {
+                            if (passwordcontroller.text.length > 6) {
+                              setState(() => currentStep += 1);
+                            } else {
+                              errorDialog(
+                                  "Password should be more than 6 characters");
+                            }
+                          } else {
+                            errorDialog("Password doesnot match");
+                          }
+                        } else {
+                          errorDialog("Please fill all the details");
+                        }
+                      } else if (currentStep == 1) {
+                        if (formtwo()) {
+                          setState(() => currentStep += 1);
+                        } else {
+                          errorDialog("Please fill all the details");
+                        }
                       }
                     }
                   },
@@ -230,7 +286,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       : () => setState(() => currentStep -= 1),
                   controlsBuilder: (context, details) {
                     return Container(
-                      margin: const EdgeInsets.only(top: 50),
+                      margin: const EdgeInsets.only(top: 20, right: 5),
+                      alignment: Alignment.center,
                       child: Row(
                         children: [
                           if (currentStep != 0)
@@ -244,7 +301,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                           const SizedBox(
-                            width: 12,
+                            width: 15,
                           ),
                           Expanded(
                             child: ElevatedButton(
@@ -276,6 +333,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
           content: Column(
             children: [
+              const SizedBox(
+                height: 10,
+              ),
               SizedBox(
                 height: 50,
                 child: TextFormField(
