@@ -50,7 +50,7 @@ dependencies:
   dcdg: ^4.1.0
   google_nav_bar: ^5.0.6
   smooth_page_indicator: ^1.0.0+2
-  flutter_launcher_icons: ^0.11.0
+  
   email_auth: ^1.0.0
 
 dev_dependencies:
@@ -66,11 +66,7 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
-flutter_icons:
-  android: true
-  image_path: "images/foreground.png"
-  adaptive_icon_background: "#ffffff"
-  adaptive_icon_foreground: "images/play_store_512.png"
+
 # The following section is specific to Flutter packages.
 flutter:
 

@@ -1,4 +1,5 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
@@ -49,7 +50,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future signIn() async {
+  Future signIn(String useremail) async {
     try {
       showDialog(
           context: context,
@@ -60,8 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
             );
           });
       await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-              email: usernameController.text.trim(), password: password)
+          .signInWithEmailAndPassword(email: useremail, password: password)
           .then((value) {
         Navigator.pushReplacement(
           context,
@@ -272,10 +272,24 @@ class _LoginScreenState extends State<LoginScreen> {
                         width: 250,
                         height: 50,
                         child: ElevatedButton(
-                          onPressed: () {
-                            if (usernameController.text.isNotEmpty &&
-                                password != '') {
-                              signIn();
+                          onPressed: () async {
+                            final String username =
+                                usernameController.text.trim();
+
+                            if (username.isNotEmpty && password != '') {
+                              String usermail = "";
+
+                              QuerySnapshot snap = await FirebaseFirestore
+                                  .instance
+                                  .collection('users')
+                                  .where("username", isEqualTo: username)
+                                  .get();
+                              try {
+                                usermail = snap.docs[0]['email'];
+                                signIn(usermail);
+                              } on RangeError catch (e) {
+                                errorDialog("Account doesnot exist");
+                              }
                             } else {
                               errorDialog("Fill both fields");
                             }
