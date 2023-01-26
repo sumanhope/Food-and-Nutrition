@@ -353,10 +353,11 @@ class _LoginScreenState extends State<LoginScreen> {
 Widget colorizeAnimation() {
   const colorizeColors = [
     Colors.teal,
+    Colors.yellow,
+    Colors.purple,
     Color.fromRGBO(142, 249, 243, 0.533),
-    Color.fromRGBO(219, 84, 97, 0.867),
-    Color.fromRGBO(89, 60, 143, 0.333),
     Color.fromRGBO(23, 23, 56, 0.067),
+    Colors.brown,
   ];
 
   const colorizeTextStyle = TextStyle(
@@ -374,7 +375,7 @@ Widget colorizeAnimation() {
           textStyle: colorizeTextStyle,
           colors: colorizeColors,
           textAlign: TextAlign.center,
-          speed: const Duration(milliseconds: 250),
+          speed: const Duration(milliseconds: 350),
         ),
         ColorizeAnimatedText(
           'Welcome Back',

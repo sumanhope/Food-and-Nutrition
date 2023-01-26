@@ -94,7 +94,7 @@ Widget colorizeAnimation() {
   const colorizeColors = [
     Colors.white,
     Color.fromRGBO(142, 249, 243, 0.533),
-    Color.fromRGBO(219, 84, 97, 0.867),
+    Colors.amber,
     Color.fromRGBO(89, 60, 143, 0.333),
     Color.fromRGBO(23, 23, 56, 0.067),
   ];

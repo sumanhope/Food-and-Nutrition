@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/allpages/home_page.dart';
 import 'package:foodandnutrition/allpages/profile_page.dart';
@@ -15,13 +13,15 @@ class LandingPage extends StatefulWidget {
 }
 
 class _LandingPageState extends State<LandingPage> {
-  int currentStep = 0;
   final List<Widget> pages = [
-    HomePage(),
-    TrackPage(),
-    FoodPage(),
-    ProfileScreen(),
+    const HomePage(),
+    const TrackPage(),
+    const FoodPage(),
+    const ProfileScreen(),
   ];
+
+  int currentStep = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,9 +36,9 @@ class _LandingPageState extends State<LandingPage> {
             activeColor: Colors.white,
             tabBackgroundColor: Colors.teal.shade800,
             gap: 8,
-            padding: EdgeInsets.all(16),
+            padding: const EdgeInsets.all(16),
             iconSize: 25,
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
               fontSize: 15,
               color: Colors.white,
               fontWeight: FontWeight.bold,

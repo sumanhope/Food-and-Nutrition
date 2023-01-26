@@ -1,14 +1,13 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import "package:flutter/material.dart";
 
 import '../Welcome/welcome_page.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({
+    super.key,
+  });
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -49,12 +48,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Row(
               children: [
-                SizedBox(
+                const SizedBox(
                   height: 115,
                   width: 150,
                   child: CircleAvatar(
@@ -66,7 +65,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Text(
                       // user.email.toString(),
                       username,
-                      style: TextStyle(
+                      style: const TextStyle(
                         fontSize: 18,
                         color: Colors.teal,
                         fontWeight: FontWeight.bold,
@@ -74,10 +73,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.only(top: 30.0, right: 10.0),
+                      margin: const EdgeInsets.only(top: 30.0, right: 10.0),
                       child: Text(
-                        "$age",
-                        style: TextStyle(
+                        '$age',
+                        style: const TextStyle(
                           fontSize: 15,
                           color: Colors.teal,
                           fontWeight: FontWeight.bold,
@@ -87,11 +86,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ],
                 ),
-                Spacer(),
+                const Spacer(),
                 Stack(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(bottom: 60.0, right: 12.0),
+                      margin: const EdgeInsets.only(bottom: 60.0, right: 12.0),
                       child: ElevatedButton(
                         onPressed: () {
                           // FirebaseAuth.instance.signOut().then((value) {
@@ -111,7 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             );
                           });
                         },
-                        child: Text(
+                        child: const Text(
                           "Logout",
                           style: TextStyle(
                             fontSize: 15,
@@ -123,9 +122,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                     ),
                     Container(
-                        margin: EdgeInsets.only(top: 60.0, left: 20.0),
+                        margin: const EdgeInsets.only(top: 60.0, left: 20.0),
                         child: TextButton(
-                          child: Icon(
+                          child: const Icon(
                             Icons.edit_note,
                             size: 40,
                             color: Colors.teal,
@@ -136,8 +135,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20),
-            Divider(
+            const SizedBox(height: 20),
+            const Divider(
               height: 5,
               thickness: 2,
               color: Colors.black,
@@ -209,11 +208,11 @@ class ProfileMenu extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: TextButton(
         style: TextButton.styleFrom(
-          padding: EdgeInsets.all(15),
+          padding: const EdgeInsets.all(15),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
-          backgroundColor: Color.fromARGB(255, 219, 223, 222),
+          backgroundColor: const Color.fromARGB(255, 219, 223, 222),
         ),
         onPressed: press,
         child: Row(
@@ -224,19 +223,19 @@ class ProfileMenu extends StatelessWidget {
               firsticon,
               size: 25,
             ),
-            SizedBox(
+            const SizedBox(
               width: 10,
             ),
             Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 18,
                 color: Colors.teal,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Poppins',
               ),
             ),
-            Spacer(),
+            const Spacer(),
             Icon(
               secondicon,
               size: 30,
