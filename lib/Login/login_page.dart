@@ -289,6 +289,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 signIn(usermail);
                               } on RangeError catch (e) {
                                 errorDialog("Account doesnot exist");
+                                debugPrint(e.toString());
                               }
                             } else {
                               errorDialog("Fill both fields");

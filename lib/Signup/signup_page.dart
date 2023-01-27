@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,7 +26,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final heightcontroller = TextEditingController();
   final weightcontroller = TextEditingController();
   final FirebaseAuth auth = FirebaseAuth.instance;
-  late String _uid = '';
   var _text, texttwo;
 
   @override

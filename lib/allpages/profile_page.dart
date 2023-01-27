@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
+import 'package:foodandnutrition/ProfileOptions/alldetails.dart';
 
 import '../Welcome/welcome_page.dart';
 
@@ -19,7 +20,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String name = "Loading";
   int age = 0;
   String username = "Loading";
-
+  int height = 0;
+  int weight = 0;
+  String email = "Loading";
+  String gender = "Loading";
   @override
   void initState() {
     super.initState();
@@ -35,6 +39,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
       name = userDoc.get('fullname');
       age = userDoc.get('age');
       username = userDoc.get('username');
+      height = userDoc.get('height');
+      weight = userDoc.get('weight');
+      email = userDoc.get('email');
+      gender = userDoc.get('gender');
     });
   }
 
@@ -87,52 +95,38 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
                 const Spacer(),
-                Stack(
-                  children: [
-                    Container(
-                      margin: const EdgeInsets.only(bottom: 60.0, right: 12.0),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          // FirebaseAuth.instance.signOut().then((value) {
-                          //   Navigator.push(
-                          //     context,
-                          //     MaterialPageRoute(
-                          //       builder: ((context) => const WelcomeScreen()),
-                          //     ),
-                          //   );
-                          // });
-                          FirebaseAuth.instance.signOut().then((value) {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const WelcomeScreen(),
-                              ),
-                            );
-                          });
-                        },
-                        child: const Text(
-                          "Logout",
-                          style: TextStyle(
-                            fontSize: 15,
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins',
+                Container(
+                  margin: const EdgeInsets.only(bottom: 20.0, right: 12.0),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      // FirebaseAuth.instance.signOut().then((value) {
+                      //   Navigator.push(
+                      //     context,
+                      //     MaterialPageRoute(
+                      //       builder: ((context) => const WelcomeScreen()),
+                      //     ),
+                      //   );
+                      // });
+                      FirebaseAuth.instance.signOut().then((value) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const WelcomeScreen(),
                           ),
-                        ),
+                        );
+                      });
+                    },
+                    child: const Text(
+                      "Logout",
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins',
                       ),
                     ),
-                    Container(
-                        margin: const EdgeInsets.only(top: 60.0, left: 20.0),
-                        child: TextButton(
-                          child: const Icon(
-                            Icons.edit_note,
-                            size: 40,
-                            color: Colors.teal,
-                          ),
-                          onPressed: () {},
-                        )),
-                  ],
-                ),
+                  ),
+                )
               ],
             ),
             const SizedBox(height: 20),
@@ -145,7 +139,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
               firsticon: Icons.person,
               text: name,
               secondicon: Icons.chevron_right_sharp,
-              press: () {},
+              press: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ViewDetails(
+                      username: username,
+                      fullname: name,
+                      age: age,
+                      height: height,
+                      weight: weight,
+                      email: email,
+                      gender: gender,
+                    ),
+                  ),
+                );
+              },
             ),
             ProfileMenu(
               firsticon: Icons.favorite,
@@ -212,7 +221,7 @@ class ProfileMenu extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
-          backgroundColor: const Color.fromARGB(255, 219, 223, 222),
+          backgroundColor: const Color.fromARGB(73, 0, 150, 135),
         ),
         onPressed: press,
         child: Row(

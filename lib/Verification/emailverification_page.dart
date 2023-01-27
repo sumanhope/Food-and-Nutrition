@@ -49,7 +49,7 @@ class _EmailVerifyScreenState extends State<EmailVerifyScreen> {
         canResendEmail = true;
       });
     } on FirebaseException catch (e) {
-      print(e.toString());
+      debugPrint(e.toString());
     }
   }
 
