@@ -56,7 +56,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
       child: Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: const Text("Profile"),
+          title: const Text(
+            "Profile",
+            style: TextStyle(
+              letterSpacing: 1.5,
+              fontSize: 18,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
+            ),
+          ),
+          centerTitle: true,
         ),
         body: SingleChildScrollView(
           child: Column(

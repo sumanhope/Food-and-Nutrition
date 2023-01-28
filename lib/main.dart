@@ -1,8 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
-import 'package:foodandnutrition/allpages/food_page.dart';
-import 'package:foodandnutrition/allpages/home_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +26,7 @@ class MyApp extends StatelessWidget {
             color: Color.fromRGBO(38, 166, 154, 1),
             elevation: 0,
           )),
-      home: const HomePage(),
+      home: const WelcomeScreen(),
     );
   }
 }

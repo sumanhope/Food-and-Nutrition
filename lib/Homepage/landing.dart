@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:foodandnutrition/allpages/favourite_page.dart';
 import 'package:foodandnutrition/allpages/home_page.dart';
 import 'package:foodandnutrition/allpages/profile_page.dart';
 import 'package:foodandnutrition/allpages/search_page.dart';
@@ -20,7 +19,6 @@ class _LandingPageState extends State<LandingPage> {
     const SearchPage(),
     const TrackPage(),
     const FoodPage(),
-    const FavouritePage(),
     const ProfileScreen(),
   ];
 
@@ -68,10 +66,6 @@ class _LandingPageState extends State<LandingPage> {
                 GButton(
                   icon: Icons.rice_bowl,
                   text: "Foods",
-                ),
-                GButton(
-                  icon: Icons.favorite,
-                  text: "Favorite",
                 ),
                 GButton(
                   icon: Icons.person,

@@ -12,7 +12,18 @@ class _FoodPageState extends State<FoodPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Foods"),
+          title: const Text(
+            "Foods",
+            style: TextStyle(
+              letterSpacing: 1.5,
+              fontSize: 18,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
+            ),
+          ),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
         ),
         body: SingleChildScrollView(
           child: Column(
