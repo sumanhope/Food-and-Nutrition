@@ -1,9 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-import 'package:foodandnutrition/ForgotPassword/forgotpass_page.dart';
-
-import '../Login/login_page.dart';
 
 class ChangePassScreen extends StatefulWidget {
   const ChangePassScreen({super.key});
