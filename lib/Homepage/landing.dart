@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/allpages/favourite_page.dart';
 import 'package:foodandnutrition/allpages/home_page.dart';
 import 'package:foodandnutrition/allpages/profile_page.dart';
+import 'package:foodandnutrition/allpages/search_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 import '../allpages/food_page.dart';
@@ -15,8 +17,10 @@ class LandingPage extends StatefulWidget {
 class _LandingPageState extends State<LandingPage> {
   final List<Widget> pages = [
     const HomePage(),
+    const SearchPage(),
     const TrackPage(),
     const FoodPage(),
+    const FavouritePage(),
     const ProfileScreen(),
   ];
 
@@ -33,14 +37,14 @@ class _LandingPageState extends State<LandingPage> {
         bottomNavigationBar: Container(
           color: Colors.teal,
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 11),
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
             child: GNav(
               backgroundColor: Colors.teal,
               color: Colors.black,
               activeColor: Colors.white,
               tabBackgroundColor: Colors.teal.shade800,
-              gap: 8,
-              padding: const EdgeInsets.all(16),
+              gap: 6,
+              padding: const EdgeInsets.all(10),
               iconSize: 25,
               textStyle: const TextStyle(
                 fontSize: 15,
@@ -54,12 +58,20 @@ class _LandingPageState extends State<LandingPage> {
                   text: "Home",
                 ),
                 GButton(
+                  icon: Icons.search,
+                  text: "Search",
+                ),
+                GButton(
                   icon: Icons.speed,
                   text: "Track",
                 ),
                 GButton(
                   icon: Icons.rice_bowl,
                   text: "Foods",
+                ),
+                GButton(
+                  icon: Icons.favorite,
+                  text: "Favorite",
                 ),
                 GButton(
                   icon: Icons.person,

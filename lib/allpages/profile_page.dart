@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
+import 'package:foodandnutrition/ForgotPassword/changepass_page.dart';
 import 'package:foodandnutrition/ProfileOptions/alldetails.dart';
 
 import '../Welcome/welcome_page.dart';
@@ -183,7 +184,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 firsticon: Icons.security,
                 text: "Password and Security",
                 secondicon: Icons.chevron_right_sharp,
-                press: () {},
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChangePassScreen()),
+                  );
+                },
               ),
               ProfileMenu(
                 firsticon: Icons.notifications,

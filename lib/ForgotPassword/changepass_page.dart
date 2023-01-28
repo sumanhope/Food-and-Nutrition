@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:foodandnutrition/ForgotPassword/forgotpass_page.dart';
@@ -15,10 +16,12 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
   var box = const SizedBox(
     height: 10,
   );
+  var user = FirebaseAuth.instance.currentUser!;
   final passwordController = TextEditingController();
   final changepassController = TextEditingController();
   bool isPasswordVisible = false;
   bool isChangePass = false;
+  var _text, texttwo;
 
   @override
   void initState() {
@@ -27,18 +30,119 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
     changepassController.addListener(() => setState(() {}));
   }
 
+  String? get _errorText {
+    // at any time, we can get the text from _controller.value.text
+    final text = passwordController.value.text;
+
+    // Note: you can do your own custom validation here
+    // Move this logic this outside the widget for more testable code
+    if (text.isEmpty) {
+      return 'Required';
+    }
+
+    if (text.length < 7) {
+      return 'Too short (need ${7 - text.length} more letters)';
+    }
+    // return null if the text is valid
+    return "Done";
+  }
+
+  String? get errorText {
+    // at any time, we can get the text from _controller.value.text
+    final text = changepassController.value.text;
+
+    // Note: you can do your own custom validation here
+    // Move this logic this outside the widget for more testable code
+    if (text.isEmpty) {
+      return 'Required';
+    }
+
+    if (text.length < 7) {
+      return 'Too short (need ${7 - text.length} more letters)';
+    }
+    // return null if the text is valid
+    return "Done";
+  }
+
+  var unfocuseborder = const OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+    borderSide: BorderSide(color: Color.fromRGBO(77, 182, 172, 1), width: 3),
+  );
+  var focuseborder = const OutlineInputBorder(
+    borderRadius: BorderRadius.all(Radius.circular(8)),
+    borderSide: BorderSide(color: Colors.teal, width: 3),
+  );
+
+  bool passwordConfirmed() {
+    if (passwordController.text.trim() == changepassController.text.trim()) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  Future errorDialog(String error) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          backgroundColor: const Color.fromARGB(121, 53, 233, 215),
+          elevation: 5,
+          title: Text(
+            error,
+            style: const TextStyle(
+              letterSpacing: 1.5,
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<bool> _changePassword(
+      String currentPassword, String newPassword) async {
+    bool success = false;
+
+    //Create an instance of the current user.
+
+    //Must re-authenticate user before updating the password. Otherwise it may fail or user get signed out.
+
+    final cred = EmailAuthProvider.credential(
+        email: user.email!, password: currentPassword);
+    await user.reauthenticateWithCredential(cred).then((value) async {
+      await user.updatePassword(newPassword).then((_) {
+        success = true;
+      }).catchError((error) {
+        print(error);
+      });
+    }).catchError((err) {
+      print(err);
+    });
+
+    return success;
+  }
+
   Widget buildPass() {
     return TextField(
       controller: passwordController,
       decoration: InputDecoration(
+        errorStyle: const TextStyle(
+            color: Colors.teal,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.bold),
         filled: true,
         fillColor: const Color.fromARGB(117, 100, 255, 219),
-        enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          borderSide:
-              BorderSide(color: Color.fromRGBO(77, 182, 172, 1), width: 3),
-        ),
-
+        enabledBorder: unfocuseborder,
+        focusedBorder: focuseborder,
+        errorBorder: unfocuseborder,
+        focusedErrorBorder: focuseborder,
+        errorText: _errorText,
         prefixIcon: const Icon(
           Icons.key,
           color: Colors.teal,
@@ -53,10 +157,6 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
           color: Colors.teal,
         ),
         //prefixIconColor: Colors.teal,
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(Radius.circular(8)),
-          borderSide: BorderSide(color: Colors.teal, width: 3),
-        ),
       ),
       obscureText: isPasswordVisible,
       style: const TextStyle(
@@ -71,16 +171,19 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
 
   Widget buildChangePass() {
     return TextField(
+      controller: changepassController,
       decoration: InputDecoration(
+        errorStyle: const TextStyle(
+            color: Colors.teal,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.bold),
+        errorText: errorText,
         filled: true,
         fillColor: const Color.fromARGB(117, 100, 255, 219),
-        enabledBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(8),
-          ),
-          borderSide:
-              BorderSide(color: Color.fromRGBO(77, 182, 172, 1), width: 3),
-        ),
+        enabledBorder: unfocuseborder,
+        focusedBorder: focuseborder,
+        errorBorder: unfocuseborder,
+        focusedErrorBorder: focuseborder,
         prefixIcon: const Icon(
           Icons.key,
           color: Colors.teal,
@@ -92,12 +195,6 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
               : const Icon(Icons.visibility),
           onPressed: () => setState(() => isChangePass = !isChangePass),
           color: Colors.teal,
-        ),
-        focusedBorder: const OutlineInputBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(8),
-          ),
-          borderSide: BorderSide(color: Colors.teal, width: 3),
         ),
       ),
       obscureText: isChangePass,
@@ -220,14 +317,22 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        //debugPrint("OTP: ${emailController.text}");
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return const LoginScreen();
-                            },
-                          ),
-                        );
+                        //debugPrint("OTP: ${emailController.text}")
+                        if (passwordController.text.isNotEmpty &&
+                            changepassController.text.isNotEmpty) {
+                          if (passwordConfirmed()) {
+                            if (passwordController.text.length > 6) {
+                            } else {
+                              errorDialog(
+                                "Password should be more than 6 characters",
+                              );
+                            }
+                          } else {
+                            errorDialog("Password doesnot match");
+                          }
+                        } else {
+                          errorDialog("Please fill both field");
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color.fromARGB(255, 0, 150, 135),
@@ -266,13 +371,7 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
                         ),
                       ),
                       onPressed: () {
-                        Navigator.of(context).pop(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return const ResetPasswordScreen();
-                            },
-                          ),
-                        );
+                        Navigator.of(context).pop(context);
                       },
                     ),
                   ),
