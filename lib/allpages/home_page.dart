@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/allpages/food_page.dart';
 import 'package:foodandnutrition/utils/foodcard.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -86,20 +87,23 @@ class _HomePageState extends State<HomePage> {
                           controller: _controller,
                           children: const [
                             FoodCard(
-                              patients: "For Diabetes",
-                              fooddetails: "Low Carb",
-                              fooddesc: "Test",
+                              imagelink: "images/high-fiber.jpg",
+                              about: 'contains list of high-fiber foods',
+                              type: 'High-Fiber',
+                              whichpatients: 'For Piles',
                             ),
                             FoodCard(
-                              patients: "For Piles",
-                              fooddetails: "High Fiber",
-                              fooddesc: "Test",
+                              imagelink: "images/High-Protein.jpg",
+                              about: 'contains list of high-protein foods',
+                              type: 'High-Protein',
+                              whichpatients: 'For test',
                             ),
                             FoodCard(
-                              patients: "For Fever",
-                              fooddetails: "Nutrient-rich Foods",
-                              fooddesc: "Test",
-                            ),
+                              imagelink: "images/vegetarian.jpg",
+                              about: 'contains list of vegetarian foods',
+                              type: 'Vegetarian',
+                              whichpatients: 'For Vegans',
+                            )
                           ],
                         ),
                       ),
@@ -118,38 +122,6 @@ class _HomePageState extends State<HomePage> {
                       ),
                       const SizedBox(
                         height: 25,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 25.0),
-                        child: buildSearch(),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 15),
-                        child: Container(
-                          height: 70,
-                          width: 500,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: const Color.fromARGB(255, 4, 194, 175),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 5, vertical: 15),
-                        child: Container(
-                          height: 70,
-                          width: 500,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: const Color.fromARGB(255, 4, 194, 175),
-                          ),
-                        ),
                       ),
                     ],
                   ),
