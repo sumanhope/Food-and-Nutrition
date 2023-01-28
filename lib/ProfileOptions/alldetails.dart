@@ -6,6 +6,7 @@ import 'package:foodandnutrition/ProfileOptions/editdetails.dart';
 class ViewDetails extends StatefulWidget {
   const ViewDetails({
     super.key,
+    required this.userid,
     required this.username,
     required this.fullname,
     required this.age,
@@ -14,6 +15,7 @@ class ViewDetails extends StatefulWidget {
     required this.email,
     required this.gender,
   });
+  final String userid;
   final String username;
   final String fullname;
   final int age;
@@ -57,18 +59,21 @@ class _ViewDetailsState extends State<ViewDetails> {
           actions: [
             InkWell(
               onTap: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => EditDetails(
-                            fullname: widget.fullname,
-                            username: widget.username,
-                            dob: '2002',
-                            age: widget.age,
-                            gender: widget.gender,
-                            height: widget.height,
-                            weight: widget.weight,
-                          )),
+                    builder: (context) => EditDetails(
+                      userid: widget.userid,
+                      fullname: widget.fullname,
+                      username: widget.username,
+                      email: widget.email,
+                      dob: '2002',
+                      age: widget.age,
+                      gender: widget.gender,
+                      height: widget.height,
+                      weight: widget.weight,
+                    ),
+                  ),
                 );
               },
               child: Container(

@@ -24,50 +24,55 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: pages[currentStep],
-      bottomNavigationBar: Container(
-        color: Colors.teal,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 11),
-          child: GNav(
-            backgroundColor: Colors.teal,
-            color: Colors.black,
-            activeColor: Colors.white,
-            tabBackgroundColor: Colors.teal.shade800,
-            gap: 8,
-            padding: const EdgeInsets.all(16),
-            iconSize: 25,
-            textStyle: const TextStyle(
-              fontSize: 15,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
+    return WillPopScope(
+      onWillPop: () async {
+        return false;
+      },
+      child: Scaffold(
+        body: pages[currentStep],
+        bottomNavigationBar: Container(
+          color: Colors.teal,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 11),
+            child: GNav(
+              backgroundColor: Colors.teal,
+              color: Colors.black,
+              activeColor: Colors.white,
+              tabBackgroundColor: Colors.teal.shade800,
+              gap: 8,
+              padding: const EdgeInsets.all(16),
+              iconSize: 25,
+              textStyle: const TextStyle(
+                fontSize: 15,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Poppins',
+              ),
+              tabs: const [
+                GButton(
+                  icon: Icons.home,
+                  text: "Home",
+                ),
+                GButton(
+                  icon: Icons.speed,
+                  text: "Track",
+                ),
+                GButton(
+                  icon: Icons.rice_bowl,
+                  text: "Foods",
+                ),
+                GButton(
+                  icon: Icons.person,
+                  text: "Me",
+                ),
+              ],
+              selectedIndex: currentStep,
+              onTabChange: (index) {
+                setState(() {
+                  currentStep = index;
+                });
+              },
             ),
-            tabs: const [
-              GButton(
-                icon: Icons.home,
-                text: "Home",
-              ),
-              GButton(
-                icon: Icons.speed,
-                text: "Track",
-              ),
-              GButton(
-                icon: Icons.rice_bowl,
-                text: "Foods",
-              ),
-              GButton(
-                icon: Icons.person,
-                text: "Me",
-              ),
-            ],
-            selectedIndex: currentStep,
-            onTabChange: (index) {
-              setState(() {
-                currentStep = index;
-              });
-            },
           ),
         ),
       ),

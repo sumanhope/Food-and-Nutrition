@@ -1,20 +1,25 @@
-import 'dart:ffi';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/allpages/profile_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class EditDetails extends StatefulWidget {
-  const EditDetails(
-      {super.key,
-      required this.username,
-      required this.fullname,
-      required this.age,
-      required this.height,
-      required this.weight,
-      required this.gender,
-      required this.dob});
+  const EditDetails({
+    super.key,
+    required this.userid,
+    required this.username,
+    required this.fullname,
+    required this.email,
+    required this.age,
+    required this.height,
+    required this.weight,
+    required this.gender,
+    required this.dob,
+  });
+  final String userid;
   final String username;
   final String fullname;
+  final String email;
   final int age;
   final int height;
   final int weight;
@@ -39,14 +44,15 @@ class _EditDetailsState extends State<EditDetails> {
   }
 
   void checkfield() {
-    String name, username, dob, age, gender, height, weight;
-
+    String uid, name, username, email, dob, age, gender, height, weight;
+    uid = widget.userid;
     name = fullnamecontroller.text.isEmpty
         ? widget.fullname
         : fullnamecontroller.text;
     username = usernamecontroller.text.isEmpty
         ? widget.username
         : usernamecontroller.text;
+    email = widget.email;
     dob = dobcontroller.text.isEmpty ? widget.dob : dobcontroller.text;
     age = agecontroller.text.isEmpty ? "${widget.age}" : agecontroller.text;
     gender =
@@ -57,7 +63,41 @@ class _EditDetailsState extends State<EditDetails> {
     weight = weightcontroller.text.isEmpty
         ? "${widget.weight}"
         : weightcontroller.text;
-    debugPrint("$name,$username,$dob,$age,$gender,$height,$weight");
+    debugPrint("$uid,$name,$username,$email,$dob,$age,$gender,$height,$weight");
+    updateuser(uid, name, username, dob, int.parse(age), gender,
+        int.parse(height), int.parse(weight));
+  }
+
+  Future updateuser(
+    String uid,
+    String fullname,
+    String username,
+    String dob,
+    int age,
+    String gender,
+    int height,
+    int weight,
+  ) async {
+    final usercollection = FirebaseFirestore.instance.collection('users');
+    final docRef = usercollection.doc(uid);
+
+    try {
+      await docRef.update({
+        "username": username,
+        "fullname": fullname,
+        "age": age,
+        "gender": gender,
+        "height": height,
+        "weight": weight
+      }).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const ProfileScreen()),
+        );
+      });
+    } catch (e) {
+      debugPrint("some error occured $e");
+    }
   }
 
   @override
