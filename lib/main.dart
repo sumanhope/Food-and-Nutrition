@@ -23,7 +23,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.teal,
           appBarTheme: const AppBarTheme(
-            color: Color.fromRGBO(38, 166, 154, 1),
             elevation: 0,
           )),
       home: const WelcomeScreen(),

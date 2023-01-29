@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/allpages/food_page.dart';
 import 'package:foodandnutrition/allpages/home_page.dart';
 import 'package:foodandnutrition/allpages/profile_page.dart';
 import 'package:foodandnutrition/allpages/search_page.dart';
+import 'package:foodandnutrition/allpages/track_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-
-import '../allpages/food_page.dart';
-import '../allpages/track_page.dart';
 
 class LandingPage extends StatefulWidget {
   const LandingPage({super.key});
@@ -37,6 +36,7 @@ class _LandingPageState extends State<LandingPage> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
             child: GNav(
+              hoverColor: Colors.teal.shade800,
               backgroundColor: Colors.teal,
               color: Colors.black,
               activeColor: Colors.white,

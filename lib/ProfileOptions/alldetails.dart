@@ -114,7 +114,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                   width: double.infinity,
                   height: 150,
                   decoration: const BoxDecoration(
-                    color: Color.fromRGBO(38, 166, 154, 1),
+                    color: Colors.teal,
                     borderRadius: BorderRadius.only(
                       bottomRight: Radius.circular(40),
                       bottomLeft: Radius.circular(40),

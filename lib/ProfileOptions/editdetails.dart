@@ -138,7 +138,7 @@ class _EditDetailsState extends State<EditDetails> {
                     width: double.infinity,
                     height: 100,
                     decoration: const BoxDecoration(
-                      color: Color.fromRGBO(38, 166, 154, 1),
+                      color: Colors.teal,
                       borderRadius: BorderRadius.only(
                         bottomRight: Radius.circular(40),
                         bottomLeft: Radius.circular(40),
