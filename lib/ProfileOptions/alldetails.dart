@@ -14,6 +14,8 @@ class ViewDetails extends StatefulWidget {
     required this.weight,
     required this.email,
     required this.gender,
+    required this.dob,
+    required this.register,
   });
   final String userid;
   final String username;
@@ -23,6 +25,8 @@ class ViewDetails extends StatefulWidget {
   final int weight;
   final String email;
   final String gender;
+  final String dob;
+  final String register;
 
   @override
   State<ViewDetails> createState() => _ViewDetailsState();
@@ -33,7 +37,7 @@ class _ViewDetailsState extends State<ViewDetails> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
@@ -67,7 +71,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                       fullname: widget.fullname,
                       username: widget.username,
                       email: widget.email,
-                      dob: '2002',
+                      dob: widget.dob,
                       age: widget.age,
                       gender: widget.gender,
                       height: widget.height,
@@ -166,23 +170,23 @@ class _ViewDetailsState extends State<ViewDetails> {
                 ),
                 ProfileDetailColumn(
                   title: "Email",
-                  value: "sumansthahope@gmail.com",
+                  value: widget.email,
                 ),
                 ProfileDetailColumn(
                   title: "Date of Birth",
-                  value: "10/02/2002",
+                  value: widget.dob,
                 ),
                 ProfileDetailColumn(
                   title: "Height",
-                  value: "${widget.height}",
+                  value: "${widget.height} cm",
                 ),
                 ProfileDetailColumn(
                   title: "Weight",
-                  value: "${widget.weight}",
+                  value: "${widget.weight} kg",
                 ),
                 ProfileDetailColumn(
                   title: "Register Date",
-                  value: "1/27/2023",
+                  value: widget.register,
                 ),
               ],
             ),

@@ -25,6 +25,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int weight = 0;
   String email = "Loading";
   String gender = "Loading";
+  String dob = "";
+  String register = "";
   @override
   void initState() {
     super.initState();
@@ -44,6 +46,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       weight = userDoc.get('weight');
       email = userDoc.get('email');
       gender = userDoc.get('gender');
+      dob = userDoc.get('DOB');
+      register = userDoc.get('register');
     });
   }
 
@@ -159,15 +163,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ViewDetails(
-                        userid: _uid,
-                        username: username,
-                        fullname: name,
-                        age: age,
-                        height: height,
-                        weight: weight,
-                        email: email,
-                        gender: gender,
-                      ),
+                          userid: _uid,
+                          username: username,
+                          fullname: name,
+                          age: age,
+                          height: height,
+                          weight: weight,
+                          email: email,
+                          gender: gender,
+                          register: register,
+                          dob: dob),
                     ),
                   );
                 },

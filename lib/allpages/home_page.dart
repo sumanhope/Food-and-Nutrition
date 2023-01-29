@@ -14,6 +14,14 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _controller = PageController();
   final searchcontroller = TextEditingController();
+  DateTime today = DateTime.now();
+  String dateStr = "";
+  @override
+  void initState() {
+    dateStr = "${today.day}-${today.month}-${today.year}";
+    print(dateStr);
+    super.initState();
+  }
 
   Widget buildSearch() {
     return TextField(
@@ -124,7 +132,7 @@ class _HomePageState extends State<HomePage> {
                     controller: _controller,
                     count: 3,
                     effect: const ExpandingDotsEffect(
-                      activeDotColor: Colors.blue,
+                      activeDotColor: Colors.teal,
                       dotHeight: 10,
                       dotWidth: 10,
                       strokeWidth: 2,
@@ -152,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                           height: 8,
                         ),
                         Text(
-                          "28 Jan 2023",
+                          dateStr,
                           style: TextStyle(
                             letterSpacing: 1.5,
                             fontSize: 15,

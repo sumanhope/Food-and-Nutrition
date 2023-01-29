@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/Homepage/landing.dart';
 import 'package:foodandnutrition/allpages/profile_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
@@ -86,13 +87,14 @@ class _EditDetailsState extends State<EditDetails> {
         "username": username,
         "fullname": fullname,
         "age": age,
+        "dob": dob,
         "gender": gender,
         "height": height,
         "weight": weight
       }).then((value) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const ProfileScreen()),
+          MaterialPageRoute(builder: (context) => const LandingPage()),
         );
       });
     } catch (e) {
@@ -200,12 +202,12 @@ class _EditDetailsState extends State<EditDetails> {
                     cont: gendercontroller,
                   ),
                   Editfield(
-                    labeltext: "Height",
+                    labeltext: "Height (cm)",
                     hinttext: "${widget.height}",
                     cont: heightcontroller,
                   ),
                   Editfield(
-                    labeltext: "Weight",
+                    labeltext: "Weight (kg)",
                     hinttext: "${widget.weight}",
                     cont: weightcontroller,
                   ),
@@ -217,7 +219,9 @@ class _EditDetailsState extends State<EditDetails> {
                     //crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       OutlinedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).pop(context);
+                        },
                         style: OutlinedButton.styleFrom(
                           backgroundColor:
                               const Color.fromARGB(101, 0, 150, 135),

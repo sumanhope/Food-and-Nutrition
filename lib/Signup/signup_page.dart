@@ -22,9 +22,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final emailcontroller = TextEditingController();
   final passwordcontroller = TextEditingController();
   final confirmpasswordcontroller = TextEditingController();
+  final gendercontroller = TextEditingController();
+  final dobcontroller = TextEditingController();
   final agecontroller = TextEditingController();
   final heightcontroller = TextEditingController();
   final weightcontroller = TextEditingController();
+  DateTime today = DateTime.now();
+
   final FirebaseAuth auth = FirebaseAuth.instance;
   var _text, texttwo;
 
@@ -35,9 +39,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     emailcontroller.dispose();
     passwordcontroller.dispose();
     confirmpasswordcontroller.dispose();
+    gendercontroller.dispose();
+    dobcontroller.dispose();
     agecontroller.dispose();
     heightcontroller.dispose();
     weightcontroller.dispose();
+
     super.dispose();
   }
 
@@ -59,20 +66,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
     //   int.parse(weightcontroller.text.trim()),
     // );
     try {
+      showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (context) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          });
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: emailcontroller.text.trim(),
         password: passwordcontroller.text.trim(),
       );
       final User user = auth.currentUser!;
       final uid = user.uid;
+      String dateStr = "${today.day}-${today.month}-${today.year}";
+
+      print(dateStr);
       FirebaseFirestore.instance.collection('users').doc(uid).set({
         'UserId': uid,
         'fullname': fullnamecontroller.text.trim(),
         'username': usernamecontroller.text.trim(),
         'email': emailcontroller.text.trim(),
+        'gender': gendercontroller.text.trim(),
+        'DOB': dobcontroller.text.trim(),
         'age': int.parse(agecontroller.text.trim()),
         'height': int.parse(heightcontroller.text.trim()),
         'weight': int.parse(weightcontroller.text.trim()),
+        'register': dateStr,
       }).then((value) {
         Navigator.pushReplacement(
           context,
@@ -82,6 +103,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         );
       });
     } on FirebaseAuthException catch (e) {
+      Navigator.pop(context);
       errorDialog(e.toString());
     }
   }
@@ -182,7 +204,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   bool formtwo() {
-    if (agecontroller.text.isNotEmpty &&
+    if (gendercontroller.text.isNotEmpty &&
+        agecontroller.text.isNotEmpty &&
+        dobcontroller.text.isNotEmpty &&
         heightcontroller.text.isNotEmpty &&
         weightcontroller.text.isNotEmpty) {
       return true;
@@ -442,6 +466,34 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: 50,
                 child: TextFormField(
+                  controller: gendercontroller,
+                  style: steptextstyle,
+                  decoration: InputDecoration(
+                    labelText: 'Gender',
+                    enabledBorder: unfocuseborder,
+                    focusedBorder: focuseborder,
+                  ),
+                  keyboardType: TextInputType.text,
+                ),
+              ),
+              box(),
+              SizedBox(
+                height: 50,
+                child: TextFormField(
+                  controller: dobcontroller,
+                  style: steptextstyle,
+                  decoration: InputDecoration(
+                    labelText: 'DOB',
+                    enabledBorder: unfocuseborder,
+                    focusedBorder: focuseborder,
+                  ),
+                  keyboardType: TextInputType.number,
+                ),
+              ),
+              box(),
+              SizedBox(
+                height: 50,
+                child: TextFormField(
                   controller: agecontroller,
                   style: steptextstyle,
                   decoration: InputDecoration(
@@ -459,7 +511,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: heightcontroller,
                   style: steptextstyle,
                   decoration: InputDecoration(
-                    labelText: 'Height',
+                    labelText: 'Height (cm)',
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
                   ),
@@ -473,7 +525,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   controller: weightcontroller,
                   style: steptextstyle,
                   decoration: InputDecoration(
-                    labelText: 'Weight',
+                    labelText: 'Weight (kg)',
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
                   ),
@@ -490,7 +542,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             style: steptextstyle,
           ),
           content: Text(
-            'Full name : ${fullnamecontroller.text}\nUsername : ${usernamecontroller.text}\nEmail : ${emailcontroller.text}\nPassword : ${passwordcontroller.text}\nConfirmPassword : ${confirmpasswordcontroller.text}\nDate of Birth : ${agecontroller.text}\nHeight : ${heightcontroller.text}\nweight : ${weightcontroller.text}',
+            'Full name : ${fullnamecontroller.text}\nUsername : ${usernamecontroller.text}\nEmail : ${emailcontroller.text}\nPassword : ${passwordcontroller.text}\nConfirmPassword : ${confirmpasswordcontroller.text}\nGender : ${gendercontroller.text}\nDate of Birth : ${dobcontroller.text}\nAge: ${agecontroller.text}\nHeight : ${heightcontroller.text}\nweight : ${weightcontroller.text}',
             style: steptextstyle,
           ),
         ),

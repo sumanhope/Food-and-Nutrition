@@ -1,5 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:foodandnutrition/Login/login_page.dart';
 import 'package:foodandnutrition/Signup/signup_page.dart';
 import 'package:lottie/lottie.dart';
@@ -9,82 +10,110 @@ class WelcomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.green[400],
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          colorizeAnimation(),
-          Container(
-            child: Lottie.asset('images/walk.json'),
-          ),
-          SizedBox(
-            width: 250,
-            height: 50,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return const LoginScreen();
-                    },
-                  ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(142, 0, 150, 135),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+    return WillPopScope(
+      onWillPop: () async {
+        final shouldPop = await showDialog<bool>(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: const Text('Do you want to exit the application?'),
+              actionsAlignment: MainAxisAlignment.spaceBetween,
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    SystemNavigator.pop();
+                  },
+                  child: const Text('Yes'),
                 ),
-              ),
-              //Icon(Icons.chevron_right_rounded),
-              child: const Text(
-                "LOGIN",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Poppins',
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context, false);
+                  },
+                  child: const Text('No'),
+                ),
+              ],
+            );
+          },
+        );
+        return shouldPop!;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.green[400],
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            colorizeAnimation(),
+            Container(
+              child: Lottie.asset('images/walk.json'),
+            ),
+            SizedBox(
+              width: 250,
+              height: 50,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const LoginScreen();
+                      },
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(142, 0, 150, 135),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                ),
+                //Icon(Icons.chevron_right_rounded),
+                child: const Text(
+                  "LOGIN",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          SizedBox(
-            width: 250,
-            height: 50,
-            child: OutlinedButton(
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return const SignUpScreen();
-                    },
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              width: 250,
+              height: 50,
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
+                        return const SignUpScreen();
+                      },
+                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  backgroundColor: const Color.fromARGB(101, 0, 150, 135),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                );
-              },
-              style: OutlinedButton.styleFrom(
-                backgroundColor: const Color.fromARGB(101, 0, 150, 135),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
+                  side: const BorderSide(width: 3, color: Colors.teal),
                 ),
-                side: const BorderSide(width: 3, color: Colors.teal),
-              ),
-              child: const Text(
-                "SIGNUP",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Poppins',
+                child: const Text(
+                  "SIGNUP",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
