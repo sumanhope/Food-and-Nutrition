@@ -82,7 +82,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
       final uid = user.uid;
       String dateStr = "${today.day}-${today.month}-${today.year}";
 
-      print(dateStr);
+      debugPrint(dateStr);
       FirebaseFirestore.instance.collection('users').doc(uid).set({
         'UserId': uid,
         'fullname': fullnamecontroller.text.trim(),

@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     dateStr = "${today.day}-${today.month}-${today.year}";
-    print(dateStr);
+    debugPrint(dateStr);
     super.initState();
   }
 

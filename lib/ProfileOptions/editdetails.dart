@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/Homepage/landing.dart';
-import 'package:foodandnutrition/allpages/profile_page.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class EditDetails extends StatefulWidget {

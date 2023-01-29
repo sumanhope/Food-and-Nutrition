@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import "package:flutter/material.dart";
 import 'package:foodandnutrition/ForgotPassword/changepass_page.dart';
-import 'package:foodandnutrition/ProfileOptions/BeforeandAfter.dart';
+import 'package:foodandnutrition/ProfileOptions/before_after.dart';
 import 'package:foodandnutrition/ProfileOptions/alldetails.dart';
 
 import '../Welcome/welcome_page.dart';
