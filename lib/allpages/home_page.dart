@@ -6,7 +6,6 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -18,7 +17,7 @@ class _HomePageState extends State<HomePage> {
   String dateStr = "";
   @override
   void initState() {
-    dateStr = "${today.day}-${today.month}-${today.year}";
+    dateStr = "${today.year}/${today.month}/${today.day}";
     debugPrint(dateStr);
     super.initState();
   }
