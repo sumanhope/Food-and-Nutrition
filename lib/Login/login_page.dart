@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -52,14 +54,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future signIn(String useremail) async {
     try {
-      showDialog(
-          context: context,
-          barrierDismissible: true,
-          builder: (context) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          });
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: useremail, password: password)
           .then((value) {
@@ -285,9 +279,18 @@ class _LoginScreenState extends State<LoginScreen> {
                                   .where("username", isEqualTo: username)
                                   .get();
                               try {
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: true,
+                                    builder: (context) {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    });
                                 usermail = snap.docs[0]['email'];
                                 signIn(usermail);
                               } on RangeError catch (e) {
+                                Navigator.of(context).pop();
                                 errorDialog("Account doesnot exist");
                                 debugPrint(e.toString());
                               }

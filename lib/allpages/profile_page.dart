@@ -4,8 +4,8 @@ import "package:flutter/material.dart";
 import 'package:foodandnutrition/ForgotPassword/changepass_page.dart';
 import 'package:foodandnutrition/ProfileOptions/before_after.dart';
 import 'package:foodandnutrition/ProfileOptions/alldetails.dart';
-
-import '../Welcome/welcome_page.dart';
+import 'package:foodandnutrition/Welcome/welcome_page.dart';
+import 'package:foodandnutrition/allpages/favourite_page.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({
@@ -182,7 +182,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 firsticon: Icons.favorite,
                 text: "Favorites",
                 secondicon: Icons.chevron_right_sharp,
-                press: () {},
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const FavouritePage(),
+                    ),
+                  );
+                },
               ),
               ProfileMenu(
                 firsticon: Icons.camera_alt,
