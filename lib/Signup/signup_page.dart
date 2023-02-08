@@ -94,6 +94,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'height': int.parse(heightcontroller.text.trim()),
         'weight': int.parse(weightcontroller.text.trim()),
         'register': dateStr,
+        'before': '',
+        'after': ''
       }).then((value) {
         Navigator.pushReplacement(
           context,
