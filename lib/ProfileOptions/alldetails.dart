@@ -1,7 +1,12 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/ProfileOptions/editdetails.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ViewDetails extends StatefulWidget {
   const ViewDetails({
@@ -33,6 +38,61 @@ class ViewDetails extends StatefulWidget {
 }
 
 class _ViewDetailsState extends State<ViewDetails> {
+  String profileurl = '';
+  String name = '';
+  String imageUrl = '';
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  void getData() async {
+    final DocumentSnapshot userDoc = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(widget.userid)
+        .get();
+    setState(() {
+      profileurl = userDoc.get('profile');
+      name = userDoc.get('username');
+    });
+  }
+
+  void chooseProfile() async {
+    // choosing image
+    ImagePicker imagepicker = ImagePicker();
+    XFile? file = await imagepicker.pickImage(source: ImageSource.gallery);
+    debugPrint(file?.path);
+    if (file == null) return;
+    String uniqueFilename = "${name}_Profile";
+    // uploading image to Storage
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirIamges = referenceRoot.child('Profiles');
+    Reference referenceImagetoUpload = referenceDirIamges.child(uniqueFilename);
+    try {
+      await referenceImagetoUpload.putFile(File(file.path));
+
+      imageUrl = await referenceImagetoUpload.getDownloadURL();
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+    }
+    addProfile(imageUrl);
+    setState(() {});
+  }
+
+  Future addProfile(String link) async {
+    final usercollection = FirebaseFirestore.instance.collection('users');
+    final docRef = usercollection.doc(widget.userid);
+
+    try {
+      docRef.update({"profile": link});
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+    }
+    getData();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -123,12 +183,32 @@ class _ViewDetailsState extends State<ViewDetails> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        maxRadius: 50,
-                        minRadius: 50,
-                        backgroundColor: Colors.grey,
-                        backgroundImage: AssetImage('images/kayo.jpg'),
+                      InkWell(
+                        onTap: chooseProfile,
+                        child: Container(
+                          width: 100,
+                          height: 100,
+                          decoration: BoxDecoration(
+                            image: profileurl != ""
+                                ? DecorationImage(
+                                    image: NetworkImage(profileurl),
+                                    fit: BoxFit.fill,
+                                    scale: 2,
+                                  )
+                                : const DecorationImage(
+                                    image: AssetImage("images/box.png"),
+                                    fit: BoxFit.cover,
+                                  ),
+                            shape: BoxShape.circle,
+                          ),
+                        ),
                       ),
+                      // CircleAvatar(
+                      //   maxRadius: 50,
+                      //   minRadius: 50,
+                      //   backgroundColor: Colors.grey,
+                      //   backgroundImage: AssetImage('images/kayo.jpg'),
+                      // ),
                       SizedBox(
                         width: 20,
                       ),

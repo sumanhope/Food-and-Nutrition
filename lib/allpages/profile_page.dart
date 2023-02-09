@@ -28,6 +28,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String gender = "Loading";
   String dob = "";
   String register = "";
+  String profileurl = '';
   @override
   void initState() {
     super.initState();
@@ -49,6 +50,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       gender = userDoc.get('gender');
       dob = userDoc.get('DOB');
       register = userDoc.get('register');
+      profileurl = userDoc.get('profile');
     });
   }
 
@@ -81,11 +83,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               Row(
                 children: [
-                  const SizedBox(
+                  SizedBox(
                     height: 115,
                     width: 150,
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage("images/kayo.jpg"),
+                    child: Container(
+                      width: 150,
+                      height: 100,
+                      decoration: BoxDecoration(
+                        image: profileurl != ""
+                            ? DecorationImage(
+                                image: NetworkImage(profileurl),
+                                fit: BoxFit.scaleDown,
+                                scale: 2.5,
+                              )
+                            : const DecorationImage(
+                                image: AssetImage("images/box.png"),
+                                fit: BoxFit.cover,
+                              ),
+                        shape: BoxShape.circle,
+                      ),
                     ),
                   ),
                   Stack(
@@ -153,7 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               const Divider(
                 height: 5,
                 thickness: 2,
-                color: Colors.black,
+                color: Colors.teal,
               ),
               ProfileMenu(
                 firsticon: Icons.person,

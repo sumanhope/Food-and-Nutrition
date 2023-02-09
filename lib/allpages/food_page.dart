@@ -11,7 +11,7 @@ class _FoodPageState extends State<FoodPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.teal,
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text(
             "Foods",

@@ -74,124 +74,122 @@ class _HomePageState extends State<HomePage> {
           GestureType.onTap,
           GestureType.onPanUpdateDownDirection,
         ],
-        child: SafeArea(
-          child: Scaffold(
-            appBar: AppBar(
-              title: const Text(
-                "Home",
-                style: TextStyle(
-                  letterSpacing: 1.5,
-                  fontSize: 18,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Poppins',
-                ),
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              "Home",
+              style: TextStyle(
+                letterSpacing: 1.5,
+                fontSize: 18,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Poppins',
               ),
-              automaticallyImplyLeading: false,
-              centerTitle: true,
             ),
-            backgroundColor: Colors.white,
-            body: SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: 200,
-                    child: PageView(
-                      scrollDirection: Axis.horizontal,
-                      controller: _controller,
-                      children: const [
-                        FoodCard(
-                          imagelink: "images/high-fiber.jpg",
-                          about: 'contains list of high-fiber foods',
-                          type: 'High-Fiber',
-                          whichpatients: 'For Piles',
-                        ),
-                        FoodCard(
-                          imagelink: "images/High-Protein.jpg",
-                          about: 'contains list of high-protein foods',
-                          type: 'High-Protein',
-                          whichpatients: 'For test',
-                        ),
-                        FoodCard(
-                          imagelink: "images/vegetarian.jpg",
-                          about: 'contains list of vegetarian foods',
-                          type: 'Vegetarian',
-                          whichpatients: 'For Vegans',
-                        )
-                      ],
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SmoothPageIndicator(
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+          ),
+          backgroundColor: Colors.white,
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 200,
+                  child: PageView(
+                    scrollDirection: Axis.horizontal,
                     controller: _controller,
-                    count: 3,
-                    effect: const ExpandingDotsEffect(
-                      activeDotColor: Colors.teal,
-                      dotHeight: 10,
-                      dotWidth: 10,
-                      strokeWidth: 2,
-                    ),
+                    children: const [
+                      FoodCard(
+                        imagelink: "images/high-fiber.jpg",
+                        about: 'contains list of high-fiber foods',
+                        type: 'High-Fiber',
+                        whichpatients: 'For Piles',
+                      ),
+                      FoodCard(
+                        imagelink: "images/High-Protein.jpg",
+                        about: 'contains list of high-protein foods',
+                        type: 'High-Protein',
+                        whichpatients: 'For test',
+                      ),
+                      FoodCard(
+                        imagelink: "images/vegetarian.jpg",
+                        about: 'contains list of vegetarian foods',
+                        type: 'Vegetarian',
+                        whichpatients: 'For Vegans',
+                      )
+                    ],
                   ),
-                  const SizedBox(
-                    height: 2,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                SmoothPageIndicator(
+                  controller: _controller,
+                  count: 3,
+                  effect: const ExpandingDotsEffect(
+                    activeDotColor: Colors.teal,
+                    dotHeight: 10,
+                    dotWidth: 10,
+                    strokeWidth: 2,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Hi, Suman!",
-                          style: TextStyle(
-                            letterSpacing: 1.5,
-                            fontSize: 25,
-                            color: Colors.teal,
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins',
-                          ),
+                ),
+                const SizedBox(
+                  height: 2,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "Hi, Suman!",
+                        style: TextStyle(
+                          letterSpacing: 1.5,
+                          fontSize: 25,
+                          color: Colors.teal,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins',
                         ),
-                        const SizedBox(
-                          height: 8,
+                      ),
+                      const SizedBox(
+                        height: 8,
+                      ),
+                      Text(
+                        dateStr,
+                        style: TextStyle(
+                          letterSpacing: 1.5,
+                          fontSize: 15,
+                          color: Colors.teal[500],
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'Poppins',
                         ),
-                        Text(
-                          dateStr,
-                          style: TextStyle(
-                            letterSpacing: 1.5,
-                            fontSize: 15,
-                            color: Colors.teal[500],
-                            fontWeight: FontWeight.bold,
-                            fontFamily: 'Poppins',
-                          ),
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  const Smallcards(
-                    foodname: 'Rice, white (1cup)',
-                    totalcalories: '223 cal',
-                  ),
-                  const Smallcards(
-                    foodname: 'Noodles, (1cup)',
-                    totalcalories: '159 cal',
-                  ),
-                  const Smallcards(
-                    foodname: 'Potato, (1 baked)',
-                    totalcalories: '220 cal',
-                  ),
-                  const Smallcards(
-                    foodname: 'Banana, (1)',
-                    totalcalories: '105 cal',
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                ],
-              ),
+                ),
+                const Smallcards(
+                  foodname: 'Rice, white (1cup)',
+                  totalcalories: '223 cal',
+                ),
+                const Smallcards(
+                  foodname: 'Noodles, (1cup)',
+                  totalcalories: '159 cal',
+                ),
+                const Smallcards(
+                  foodname: 'Potato, (1 baked)',
+                  totalcalories: '220 cal',
+                ),
+                const Smallcards(
+                  foodname: 'Banana, (1)',
+                  totalcalories: '105 cal',
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+              ],
             ),
           ),
         ),
