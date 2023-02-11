@@ -1,12 +1,5 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
-
-import 'dart:io';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/ProfileOptions/editdetails.dart';
-import 'package:image_picker/image_picker.dart';
 
 class ViewDetails extends StatefulWidget {
   const ViewDetails({
@@ -21,6 +14,7 @@ class ViewDetails extends StatefulWidget {
     required this.gender,
     required this.dob,
     required this.register,
+    required this.profileurl,
   });
   final String userid;
   final String username;
@@ -32,67 +26,13 @@ class ViewDetails extends StatefulWidget {
   final String gender;
   final String dob;
   final String register;
+  final String profileurl;
 
   @override
   State<ViewDetails> createState() => _ViewDetailsState();
 }
 
 class _ViewDetailsState extends State<ViewDetails> {
-  String profileurl = '';
-  String name = '';
-  String imageUrl = '';
-
-  @override
-  void initState() {
-    super.initState();
-    getData();
-  }
-
-  void getData() async {
-    final DocumentSnapshot userDoc = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(widget.userid)
-        .get();
-    setState(() {
-      profileurl = userDoc.get('profile');
-      name = userDoc.get('username');
-    });
-  }
-
-  void chooseProfile() async {
-    // choosing image
-    ImagePicker imagepicker = ImagePicker();
-    XFile? file = await imagepicker.pickImage(source: ImageSource.gallery);
-    debugPrint(file?.path);
-    if (file == null) return;
-    String uniqueFilename = "${name}_Profile";
-    // uploading image to Storage
-    Reference referenceRoot = FirebaseStorage.instance.ref();
-    Reference referenceDirIamges = referenceRoot.child('Profiles');
-    Reference referenceImagetoUpload = referenceDirIamges.child(uniqueFilename);
-    try {
-      await referenceImagetoUpload.putFile(File(file.path));
-
-      imageUrl = await referenceImagetoUpload.getDownloadURL();
-    } on Exception catch (e) {
-      debugPrint(e.toString());
-    }
-    addProfile(imageUrl);
-    setState(() {});
-  }
-
-  Future addProfile(String link) async {
-    final usercollection = FirebaseFirestore.instance.collection('users');
-    final docRef = usercollection.doc(widget.userid);
-
-    try {
-      docRef.update({"profile": link});
-    } on Exception catch (e) {
-      debugPrint(e.toString());
-    }
-    getData();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -184,22 +124,26 @@ class _ViewDetailsState extends State<ViewDetails> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       InkWell(
-                        onTap: chooseProfile,
-                        child: Container(
-                          width: 100,
+                        child: SizedBox(
                           height: 100,
-                          decoration: BoxDecoration(
-                            image: profileurl != ""
-                                ? DecorationImage(
-                                    image: NetworkImage(profileurl),
-                                    fit: BoxFit.fill,
-                                    scale: 2,
-                                  )
-                                : const DecorationImage(
-                                    image: AssetImage("images/box.png"),
-                                    fit: BoxFit.cover,
-                                  ),
-                            shape: BoxShape.circle,
+                          width: 100,
+                          child: Container(
+                            width: 100,
+                            height: 100,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              image: widget.profileurl != ""
+                                  ? DecorationImage(
+                                      image: NetworkImage(widget.profileurl),
+                                      fit: BoxFit.scaleDown,
+                                      scale: 2.5,
+                                    )
+                                  : const DecorationImage(
+                                      image: AssetImage("images/box.png"),
+                                      fit: BoxFit.cover,
+                                    ),
+                              shape: BoxShape.circle,
+                            ),
                           ),
                         ),
                       ),
@@ -209,7 +153,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                       //   backgroundColor: Colors.grey,
                       //   backgroundImage: AssetImage('images/kayo.jpg'),
                       // ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Column(
@@ -218,7 +162,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                         children: [
                           Text(
                             widget.fullname,
-                            style: TextStyle(
+                            style: const TextStyle(
                               letterSpacing: 1.5,
                               fontSize: 16,
                               color: Colors.white,
@@ -228,7 +172,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                           ),
                           Text(
                             "${widget.gender}, ${widget.age}",
-                            style: TextStyle(
+                            style: const TextStyle(
                               letterSpacing: 1.5,
                               fontSize: 16,
                               color: Colors.white,
@@ -241,7 +185,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 ProfileDetailColumn(
@@ -286,7 +230,7 @@ class ProfileDetailColumn extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
+      padding: const EdgeInsets.all(10),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -296,7 +240,7 @@ class ProfileDetailColumn extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   letterSpacing: 1.5,
                   fontSize: 16,
                   color: Colors.teal,
@@ -304,7 +248,7 @@ class ProfileDetailColumn extends StatelessWidget {
                   fontFamily: 'Poppins',
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 2,
               ),
               Text(

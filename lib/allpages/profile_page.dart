@@ -1,11 +1,15 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import "package:flutter/material.dart";
 import 'package:foodandnutrition/ForgotPassword/changepass_page.dart';
 import 'package:foodandnutrition/ProfileOptions/before_after.dart';
 import 'package:foodandnutrition/ProfileOptions/alldetails.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
 import 'package:foodandnutrition/allpages/favourite_page.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({
@@ -29,6 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String dob = "";
   String register = "";
   String profileurl = '';
+  String imageUrl = '';
   @override
   void initState() {
     super.initState();
@@ -52,6 +57,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
       register = userDoc.get('register');
       profileurl = userDoc.get('profile');
     });
+  }
+
+  void chooseProfile() async {
+    // choosing image
+    ImagePicker imagepicker = ImagePicker();
+    XFile? file = await imagepicker.pickImage(source: ImageSource.gallery);
+    debugPrint(file?.path);
+    if (file == null) return;
+    String uniqueFilename = "${name}_Profile";
+    // uploading image to Storage
+    Reference referenceRoot = FirebaseStorage.instance.ref();
+    Reference referenceDirIamges = referenceRoot.child('Profiles');
+    Reference referenceImagetoUpload = referenceDirIamges.child(uniqueFilename);
+    try {
+      await referenceImagetoUpload.putFile(File(file.path));
+
+      imageUrl = await referenceImagetoUpload.getDownloadURL();
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+    }
+    addProfile(imageUrl);
+    setState(() {});
+  }
+
+  Future addProfile(String link) async {
+    final usercollection = FirebaseFirestore.instance.collection('users');
+    final docRef = usercollection.doc(_uid);
+
+    try {
+      docRef.update({"profile": link});
+    } on Exception catch (e) {
+      debugPrint(e.toString());
+    }
+    getData();
   }
 
   @override
@@ -83,24 +122,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               Row(
                 children: [
-                  SizedBox(
-                    height: 115,
-                    width: 150,
-                    child: Container(
+                  InkWell(
+                    onTap: chooseProfile,
+                    child: SizedBox(
+                      height: 115,
                       width: 150,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        image: profileurl != ""
-                            ? DecorationImage(
-                                image: NetworkImage(profileurl),
-                                fit: BoxFit.scaleDown,
-                                scale: 2.5,
-                              )
-                            : const DecorationImage(
-                                image: AssetImage("images/box.png"),
-                                fit: BoxFit.cover,
-                              ),
-                        shape: BoxShape.circle,
+                      child: Container(
+                        width: 150,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          image: profileurl != ""
+                              ? DecorationImage(
+                                  image: NetworkImage(profileurl),
+                                  fit: BoxFit.scaleDown,
+                                  scale: 2.5,
+                                )
+                              : const DecorationImage(
+                                  image: AssetImage("images/box.png"),
+                                  fit: BoxFit.cover,
+                                ),
+                          shape: BoxShape.circle,
+                        ),
                       ),
                     ),
                   ),
@@ -180,16 +222,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     context,
                     MaterialPageRoute(
                       builder: (context) => ViewDetails(
-                          userid: _uid,
-                          username: username,
-                          fullname: name,
-                          age: age,
-                          height: height,
-                          weight: weight,
-                          email: email,
-                          gender: gender,
-                          register: register,
-                          dob: dob),
+                        userid: _uid,
+                        username: username,
+                        fullname: name,
+                        age: age,
+                        height: height,
+                        weight: weight,
+                        email: email,
+                        gender: gender,
+                        register: register,
+                        dob: dob,
+                        profileurl: profileurl,
+                      ),
                     ),
                   );
                 },
