@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class BeforeandAfterScreen extends StatefulWidget {
@@ -17,6 +18,8 @@ class _BeforeandAfterScreenState extends State<BeforeandAfterScreen> {
   String beforeurl = '';
   String afterurl = '';
   String username = '';
+  File? beforeimage;
+  File? afterimage;
   @override
   void initState() {
     super.initState();
@@ -38,17 +41,21 @@ class _BeforeandAfterScreenState extends State<BeforeandAfterScreen> {
 
   void chooseBefore() async {
     // choosing image
-    ImagePicker imagepicker = ImagePicker();
-    XFile? file = await imagepicker.pickImage(source: ImageSource.gallery);
-    debugPrint(file?.path);
-    if (file == null) return;
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    debugPrint(image?.path);
+    if (image == null) return;
+    File? img = File(image.path);
+    img = await cropimage(img);
+    setState(() {
+      beforeimage = img;
+    });
     String uniqueFilename = "${username}_Before";
     // uploading image to Storage
     Reference referenceRoot = FirebaseStorage.instance.ref();
     Reference referenceDirIamges = referenceRoot.child('Before');
     Reference referenceImagetoUpload = referenceDirIamges.child(uniqueFilename);
     try {
-      await referenceImagetoUpload.putFile(File(file.path));
+      await referenceImagetoUpload.putFile(beforeimage!);
 
       imageUrl = await referenceImagetoUpload.getDownloadURL();
     } on Exception catch (e) {
@@ -72,17 +79,21 @@ class _BeforeandAfterScreenState extends State<BeforeandAfterScreen> {
 
   void chooseAfter() async {
     // choosing image
-    ImagePicker imagepicker = ImagePicker();
-    XFile? file = await imagepicker.pickImage(source: ImageSource.gallery);
-    debugPrint(file?.path);
-    if (file == null) return;
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    debugPrint(image?.path);
+    if (image == null) return;
+    File? img = File(image.path);
+    img = await cropimage(img);
+    setState(() {
+      afterimage = img;
+    });
     String uniqueFilename = "${username}_After";
     // uploading image to Storage
     Reference referenceRoot = FirebaseStorage.instance.ref();
     Reference referenceDirIamges = referenceRoot.child('After');
     Reference referenceImagetoUpload = referenceDirIamges.child(uniqueFilename);
     try {
-      await referenceImagetoUpload.putFile(File(file.path));
+      await referenceImagetoUpload.putFile(afterimage!);
 
       imageUrl = await referenceImagetoUpload.getDownloadURL();
     } on Exception catch (e) {
@@ -90,6 +101,13 @@ class _BeforeandAfterScreenState extends State<BeforeandAfterScreen> {
     }
     addAfter(imageUrl);
     setState(() {});
+  }
+
+  Future<File?> cropimage(File imagefile) async {
+    CroppedFile? croppedImage =
+        await ImageCropper().cropImage(sourcePath: imagefile.path);
+    if (croppedImage == null) return null;
+    return File(croppedImage.path);
   }
 
   Future addAfter(String link) async {
