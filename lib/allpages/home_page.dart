@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/allpages/foodlist.dart';
 import 'package:foodandnutrition/allpages/nutritional.dart';
 import 'package:foodandnutrition/utils/foodcard.dart';
 import 'package:intl/intl.dart';
@@ -73,24 +74,51 @@ class _HomePageState extends State<HomePage> {
                   child: PageView(
                     scrollDirection: Axis.horizontal,
                     controller: _controller,
-                    children: const [
+                    children: [
                       FoodCard(
                         imagelink: "images/high-fiber.jpg",
                         about: 'contains list of high-fiber foods',
                         type: 'High-Fiber',
                         whichpatients: 'For Piles',
+                        press: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const FoodListScreen(title: "High-Fiber"),
+                            ),
+                          );
+                        },
                       ),
                       FoodCard(
                         imagelink: "images/High-Protein.jpg",
                         about: 'contains list of high-protein foods',
                         type: 'High-Protein',
                         whichpatients: 'For test',
+                        press: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const FoodListScreen(title: "High Protein"),
+                            ),
+                          );
+                        },
                       ),
                       FoodCard(
                         imagelink: "images/vegetarian.jpg",
                         about: 'contains list of vegetarian foods',
                         type: 'Vegetarian',
                         whichpatients: 'For Vegans',
+                        press: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  const FoodListScreen(title: "Vegetarian"),
+                            ),
+                          );
+                        },
                       )
                     ],
                   ),

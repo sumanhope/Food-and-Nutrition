@@ -147,12 +147,6 @@ class _ViewDetailsState extends State<ViewDetails> {
                           ),
                         ),
                       ),
-                      // CircleAvatar(
-                      //   maxRadius: 50,
-                      //   minRadius: 50,
-                      //   backgroundColor: Colors.grey,
-                      //   backgroundImage: AssetImage('images/kayo.jpg'),
-                      // ),
                       const SizedBox(
                         width: 20,
                       ),

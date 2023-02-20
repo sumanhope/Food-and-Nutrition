@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/allpages/nutritional.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class SearchPage extends StatefulWidget {
@@ -58,7 +59,7 @@ class _SearchPageState extends State<SearchPage> {
   final List<Map<String, dynamic>> _allUsers = [
     {"id": 1, "foodname": "Rice", "cal": 223},
     {"id": 2, "foodname": "Noodles", "cal": 159},
-    // {"id": 3, "foodname": "Potato", "cal": 220},
+    {"id": 3, "foodname": "Potato", "cal": 220},
     {"id": 4, "foodname": "Banana", "cal": 105},
     {"id": 5, "foodname": "Orange", "cal": 65},
     {"id": 6, "foodname": "Watermelon", "cal": 50},
@@ -145,6 +146,19 @@ class _SearchPageState extends State<SearchPage> {
                               subtitle: Text(
                                   '${_foundUsers[index]["cal"].toString()} cal',
                                   style: const TextStyle(color: Colors.white)),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ViewData(
+                                      foodId:
+                                          _foundUsers[index]["id"].toString(),
+                                      foodname: _foundUsers[index]['foodname']
+                                          .toString(),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
                         )

@@ -91,14 +91,19 @@ class _ViewDataState extends State<ViewData> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              const SizedBox(
+                height: 5,
+              ),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Container(
                     //alignment: Alignment.center,
-                    width: 390,
+                    width: 350,
                     height: 250,
                     decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(16),
                       image: imageurl != ""
                           ? DecorationImage(
                               image: NetworkImage(imageurl),

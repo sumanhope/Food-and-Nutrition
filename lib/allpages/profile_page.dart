@@ -9,6 +9,7 @@ import 'package:foodandnutrition/ProfileOptions/before_after.dart';
 import 'package:foodandnutrition/ProfileOptions/alldetails.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
 import 'package:foodandnutrition/allpages/favourite_page.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -34,6 +35,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String register = "";
   String profileurl = '';
   String imageUrl = '';
+  File? _image;
   @override
   void initState() {
     super.initState();
@@ -61,17 +63,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void chooseProfile() async {
     // choosing image
-    ImagePicker imagepicker = ImagePicker();
-    XFile? file = await imagepicker.pickImage(source: ImageSource.gallery);
-    debugPrint(file?.path);
-    if (file == null) return;
+
+    final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+    debugPrint(image?.path);
+    if (image == null) return;
+    File? img = File(image.path);
+    img = await cropimage(img);
+    setState(() {
+      _image = img;
+    });
     String uniqueFilename = "${name}_Profile";
     // uploading image to Storage
     Reference referenceRoot = FirebaseStorage.instance.ref();
     Reference referenceDirIamges = referenceRoot.child('Profiles');
     Reference referenceImagetoUpload = referenceDirIamges.child(uniqueFilename);
     try {
-      await referenceImagetoUpload.putFile(File(file.path));
+      await referenceImagetoUpload.putFile(_image!);
 
       imageUrl = await referenceImagetoUpload.getDownloadURL();
     } on Exception catch (e) {
@@ -79,6 +86,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
     }
     addProfile(imageUrl);
     setState(() {});
+  }
+
+  Future<File?> cropimage(File imagefile) async {
+    CroppedFile? croppedImage = await ImageCropper()
+        .cropImage(sourcePath: imagefile.path, cropStyle: CropStyle.circle);
+    if (croppedImage == null) return null;
+    return File(croppedImage.path);
   }
 
   Future addProfile(String link) async {

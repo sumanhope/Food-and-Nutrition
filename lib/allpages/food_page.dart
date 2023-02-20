@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/allpages/foodlist.dart';
 
 class FoodPage extends StatefulWidget {
   const FoodPage({super.key});
@@ -28,8 +29,8 @@ class _FoodPageState extends State<FoodPage> {
         ),
         body: SingleChildScrollView(
           child: Column(
-            children: const [
-              SizedBox(
+            children: [
+              const SizedBox(
                 height: 10,
               ),
               FoodDisplay(
@@ -37,24 +38,60 @@ class _FoodPageState extends State<FoodPage> {
                 about: 'contains list of low fat foods',
                 type: 'Low-Fat',
                 whichpatients: 'For Everyone',
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const FoodListScreen(title: "Low Fats"),
+                    ),
+                  );
+                },
               ),
               FoodDisplay(
                 imagelink: "images/high-fiber.jpg",
                 about: 'contains list of high-fiber foods',
                 type: 'High-Fiber',
                 whichpatients: 'For Piles',
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const FoodListScreen(title: "High-Fiber"),
+                    ),
+                  );
+                },
               ),
               FoodDisplay(
                 imagelink: "images/High-Protein.jpg",
                 about: 'contains list of high-protein foods',
                 type: 'High-Protein',
                 whichpatients: 'For test',
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const FoodListScreen(title: "High-Protein"),
+                    ),
+                  );
+                },
               ),
               FoodDisplay(
                 imagelink: "images/vegetarian.jpg",
                 about: 'contains list of vegetarian foods',
                 type: 'Vegetarian',
                 whichpatients: 'For Vegans',
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const FoodListScreen(title: "Vegetarian"),
+                    ),
+                  );
+                },
               )
             ],
           ),
@@ -69,11 +106,13 @@ class FoodDisplay extends StatelessWidget {
     required this.type,
     required this.about,
     required this.whichpatients,
+    required this.press,
   }) : super(key: key);
   final String imagelink;
   final String type;
   final String about;
   final String whichpatients;
+  final VoidCallback press;
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +129,7 @@ class FoodDisplay extends StatelessWidget {
               height: 240,
               fit: BoxFit.cover,
               child: InkWell(
-                onTap: () {},
+                onTap: press,
               ),
             ),
             Positioned(
