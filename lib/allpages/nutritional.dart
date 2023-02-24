@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class ViewData extends StatefulWidget {
@@ -39,8 +40,28 @@ class _ViewDataState extends State<ViewData> {
       foodDesc = foodDoc.get('foodDescription');
       servSize = foodDoc.get('servingSize');
       calories = foodDoc.get('calories');
-      isfav = foodDoc.get('favorite');
+      favornot();
     });
+  }
+
+  Future favornot() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    var currentUser = auth.currentUser;
+    var collectionref = FirebaseFirestore.instance.collection("users-fav");
+    var doc = await collectionref
+        .doc(currentUser!.email)
+        .collection("foods")
+        .doc(widget.foodname)
+        .get();
+    setState(() {
+      if (doc.exists) {
+        isfav = true;
+      } else {
+        isfav = false;
+      }
+    });
+
+    //print(isfav);
   }
 
   Future<void> favtoggle() async {
@@ -51,14 +72,48 @@ class _ViewDataState extends State<ViewData> {
         isfav = true;
       }
     });
-    final usercollection = FirebaseFirestore.instance.collection('food');
-    final docRef = usercollection.doc(widget.foodId);
 
-    try {
-      await docRef.update({"favorite": isfav});
-    } catch (e) {
-      debugPrint("some error occured $e");
+    if (isfav) {
+      addtoFav();
+    } else {
+      removefromFav();
     }
+    //print(isfav);
+  }
+
+  Future addtoFav() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    var currentUser = auth.currentUser;
+    CollectionReference collection =
+        FirebaseFirestore.instance.collection("users-fav");
+    return collection
+        .doc(currentUser!.email)
+        .collection("foods")
+        .doc(widget.foodname)
+        .set({
+      "foodID": widget.foodId,
+      "foodName": widget.foodname,
+      "calories": calories,
+    }).then(
+      (value) => debugPrint("Added to Favorites"),
+      onError: (e) => print("Error updating document $e"),
+    );
+  }
+
+  Future removefromFav() async {
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    var currentUser = auth.currentUser;
+    CollectionReference collection =
+        FirebaseFirestore.instance.collection("users-fav");
+    return collection
+        .doc(currentUser!.email)
+        .collection("foods")
+        .doc(widget.foodname)
+        .delete()
+        .then(
+          (value) => print("Removed from Fav"),
+          onError: (e) => print("Error updating document $e"),
+        );
   }
 
   @override
@@ -75,16 +130,6 @@ class _ViewDataState extends State<ViewData> {
           ),
         ),
         centerTitle: true,
-        leading: GestureDetector(
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-            size: 20,
-          ),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -98,7 +143,7 @@ class _ViewDataState extends State<ViewData> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Container(
-                    //alignment: Alignment.center,
+                    alignment: Alignment.center,
                     width: 350,
                     height: 250,
                     decoration: BoxDecoration(
