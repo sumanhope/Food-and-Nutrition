@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/Verification/emailverification_page.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
 
 Future main() async {
@@ -25,25 +27,26 @@ class MyApp extends StatelessWidget {
           appBarTheme: const AppBarTheme(
             elevation: 0,
           )),
-      home: const WelcomeScreen(),
+      home: const MainPage(),
     );
   }
 }
 
-// class MainPage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: StreamBuilder<User?>(
-//         stream: FirebaseAuth.instance.authStateChanges(),
-//         builder: (context, snapshot) {
-//           if (snapshot.hasData) {
-//             return const EmailVerifyScreen();
-//           } else {
-//             return const WelcomeScreen();
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }
+class MainPage extends StatelessWidget {
+  const MainPage({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.authStateChanges(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return const EmailVerifyScreen();
+          } else {
+            return const WelcomeScreen();
+          }
+        },
+      ),
+    );
+  }
+}
