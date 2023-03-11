@@ -15,20 +15,39 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
   );
   var user = FirebaseAuth.instance.currentUser!;
   final passwordController = TextEditingController();
+  final newpassController = TextEditingController();
   final changepassController = TextEditingController();
   bool isPasswordVisible = false;
+  bool isNewpass = false;
   bool isChangePass = false;
 
   @override
   void initState() {
     super.initState();
     passwordController.addListener(() => setState(() {}));
+    newpassController.addListener(() => setState(() {}));
     changepassController.addListener(() => setState(() {}));
   }
 
-  String? get _errorText {
+  String? get passerrorText {
     // at any time, we can get the text from _controller.value.text
     final text = passwordController.value.text;
+
+    // Note: you can do your own custom validation here
+    // Move this logic this outside the widget for more testable code
+    if (text.isEmpty) {
+      return 'Required';
+    }
+    if (text.length < 7) {
+      return 'Too short (need ${7 - text.length} more letters)';
+    }
+    // return null if the text is valid
+    return "Done";
+  }
+
+  String? get newpasserrorText {
+    // at any time, we can get the text from _controller.value.text
+    final text = newpassController.value.text;
 
     // Note: you can do your own custom validation here
     // Move this logic this outside the widget for more testable code
@@ -70,7 +89,7 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
   );
 
   bool passwordConfirmed() {
-    if (passwordController.text.trim() == changepassController.text.trim()) {
+    if (newpassController.text.trim() == changepassController.text.trim()) {
       return true;
     } else {
       return false;
@@ -101,28 +120,23 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
     );
   }
 
-  // Future<bool> _changePassword(
-  //     String currentPassword, String newPassword) async {
-  //   bool success = false;
+  Future _changePassword(String currentPassword, String newPassword) async {
+    //Create an instance of the current user.
 
-  //   //Create an instance of the current user.
+    //Must re-authenticate user before updating the password. Otherwise it may fail or user get signed out.
 
-  //   //Must re-authenticate user before updating the password. Otherwise it may fail or user get signed out.
-
-  //   final cred = EmailAuthProvider.credential(
-  //       email: user.email!, password: currentPassword);
-  //   await user.reauthenticateWithCredential(cred).then((value) async {
-  //     await user.updatePassword(newPassword).then((_) {
-  //       success = true;
-  //     }).catchError((error) {
-  //       print(error);
-  //     });
-  //   }).catchError((err) {
-  //     print(err);
-  //   });
-
-  //   return success;
-  // }
+    final cred = EmailAuthProvider.credential(
+        email: user.email!, password: currentPassword);
+    await user.reauthenticateWithCredential(cred).then((value) async {
+      await user.updatePassword(newPassword).then((_) {
+        print("Changed");
+      }).catchError((error) {
+        errorDialog(error.toString());
+      });
+    }).catchError((err) {
+      errorDialog(err.toString());
+    });
+  }
 
   Widget buildPass() {
     return TextField(
@@ -138,7 +152,7 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
         focusedBorder: focuseborder,
         errorBorder: unfocuseborder,
         focusedErrorBorder: focuseborder,
-        errorText: _errorText,
+        errorText: passerrorText,
         prefixIcon: const Icon(
           Icons.key,
           color: Colors.teal,
@@ -155,6 +169,46 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
         //prefixIconColor: Colors.teal,
       ),
       obscureText: isPasswordVisible,
+      style: const TextStyle(
+        color: Colors.black,
+        fontSize: 15,
+        fontFamily: 'Poppins',
+      ),
+      keyboardType: TextInputType.text,
+      textInputAction: TextInputAction.done,
+    );
+  }
+
+  Widget buildNewPass() {
+    return TextField(
+      controller: newpassController,
+      decoration: InputDecoration(
+        errorStyle: const TextStyle(
+            color: Colors.teal,
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.bold),
+        filled: true,
+        fillColor: const Color.fromARGB(117, 100, 255, 219),
+        enabledBorder: unfocuseborder,
+        focusedBorder: focuseborder,
+        errorBorder: unfocuseborder,
+        focusedErrorBorder: focuseborder,
+        errorText: newpasserrorText,
+        prefixIcon: const Icon(
+          Icons.key,
+          color: Colors.teal,
+          size: 30,
+        ),
+        suffixIcon: IconButton(
+          icon: isNewpass
+              ? const Icon(Icons.visibility_off)
+              : const Icon(Icons.visibility),
+          onPressed: () => setState(() => isNewpass = !isNewpass),
+          color: Colors.teal,
+        ),
+        //prefixIconColor: Colors.teal,
+      ),
+      obscureText: isNewpass,
       style: const TextStyle(
         color: Colors.black,
         fontSize: 15,
@@ -295,6 +349,22 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
                   Container(
                     alignment: const Alignment(-1, 0.5),
                     child: const Text(
+                      "New Password",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: Colors.teal,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                  ),
+                  buildNewPass(),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Container(
+                    alignment: const Alignment(-1, 0.5),
+                    child: const Text(
                       "Confirm Password",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
@@ -315,9 +385,18 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
                       onPressed: () {
                         //debugPrint("OTP: ${emailController.text}")
                         if (passwordController.text.isNotEmpty &&
+                            newpassController.text.isNotEmpty &&
                             changepassController.text.isNotEmpty) {
                           if (passwordConfirmed()) {
-                            if (passwordController.text.length > 6) {
+                            if (newpassController.text.length > 6) {
+                              if (passwordController.text !=
+                                  newpassController.text) {
+                                _changePassword(passwordController.text,
+                                    newpassController.text);
+                              } else {
+                                errorDialog(
+                                    "Your new password cannot be old password");
+                              }
                             } else {
                               errorDialog(
                                 "Password should be more than 6 characters",

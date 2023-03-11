@@ -8,6 +8,7 @@ import 'package:foodandnutrition/ForgotPassword/changepass_page.dart';
 import 'package:foodandnutrition/ProfileOptions/before_after.dart';
 import 'package:foodandnutrition/ProfileOptions/alldetails.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
+import 'package:foodandnutrition/allpages/accandpass.dart';
 import 'package:foodandnutrition/allpages/favourite_page.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -286,13 +287,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               ProfileMenu(
                 firsticon: Icons.security,
-                text: "Password and Security",
+                text: "Accounts and Password",
                 secondicon: Icons.chevron_right_sharp,
                 press: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const ChangePassScreen()),
+                        builder: (context) => const AccountandPassword()),
                   );
                 },
               ),
