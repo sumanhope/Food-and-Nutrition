@@ -86,7 +86,7 @@ class _EditDetailsState extends State<EditDetails> {
         "username": username,
         "fullname": fullname,
         "age": age,
-        "dob": dob,
+        "DOB": dob,
         "gender": gender,
         "height": height,
         "weight": weight
@@ -119,16 +119,6 @@ class _EditDetailsState extends State<EditDetails> {
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins',
                 ),
-              ),
-              leading: GestureDetector(
-                child: const Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.white,
-                  size: 20,
-                ),
-                onTap: () {
-                  Navigator.pop(context);
-                },
               ),
             ),
             body: SingleChildScrollView(

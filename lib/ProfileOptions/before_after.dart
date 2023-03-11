@@ -137,16 +137,6 @@ class _BeforeandAfterScreenState extends State<BeforeandAfterScreen> {
           ),
         ),
         centerTitle: true,
-        leading: GestureDetector(
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-            size: 20,
-          ),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
       ),
       body: Column(
         children: [

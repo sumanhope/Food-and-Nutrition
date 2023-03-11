@@ -50,16 +50,6 @@ class _ViewDetailsState extends State<ViewDetails> {
               fontFamily: 'Poppins',
             ),
           ),
-          leading: GestureDetector(
-            child: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.white,
-              size: 20,
-            ),
-            onTap: () {
-              Navigator.pop(context);
-            },
-          ),
           actions: [
             InkWell(
               onTap: () {
