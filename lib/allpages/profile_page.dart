@@ -9,6 +9,7 @@ import 'package:foodandnutrition/ProfileOptions/before_after.dart';
 import 'package:foodandnutrition/ProfileOptions/alldetails.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
 import 'package:foodandnutrition/allpages/accandpass.dart';
+import 'package:foodandnutrition/allpages/appsetting.dart';
 import 'package:foodandnutrition/allpages/favourite_page.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -168,7 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         username,
                         style: const TextStyle(
                           fontSize: 18,
-                          color: Colors.teal,
+                          //color: Colors.teal,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins',
                         ),
@@ -179,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           '$age',
                           style: const TextStyle(
                             fontSize: 15,
-                            color: Colors.teal,
+                            //color: Colors.teal,
                             fontWeight: FontWeight.bold,
                             fontFamily: 'Poppins',
                           ),
@@ -191,6 +192,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Container(
                     margin: const EdgeInsets.only(bottom: 20.0, right: 12.0),
                     child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                      ),
                       onPressed: () {
                         // FirebaseAuth.instance.signOut().then((value) {
                         //   Navigator.push(
@@ -283,7 +287,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 firsticon: Icons.settings,
                 text: "App settings",
                 secondicon: Icons.chevron_right_sharp,
-                press: () {},
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const Appsetting(),
+                    ),
+                  );
+                },
               ),
               ProfileMenu(
                 firsticon: Icons.security,
@@ -339,7 +350,8 @@ class ProfileMenu extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),
-          backgroundColor: const Color.fromARGB(73, 0, 150, 135),
+          backgroundColor: Theme.of(context).cardColor,
+          //backgroundColor: const Color.fromARGB(73, 0, 150, 135),
         ),
         onPressed: press,
         child: Row(
@@ -349,15 +361,16 @@ class ProfileMenu extends StatelessWidget {
             Icon(
               firsticon,
               size: 25,
+              color: Theme.of(context).indicatorColor,
             ),
             const SizedBox(
               width: 10,
             ),
             Text(
               text,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 18,
-                color: Colors.teal,
+                color: Theme.of(context).indicatorColor,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Poppins',
               ),
@@ -366,6 +379,7 @@ class ProfileMenu extends StatelessWidget {
             Icon(
               secondicon,
               size: 30,
+              color: Theme.of(context).indicatorColor,
             ),
           ],
         ),

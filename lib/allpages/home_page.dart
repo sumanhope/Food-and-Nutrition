@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
             automaticallyImplyLeading: false,
             centerTitle: true,
           ),
-          backgroundColor: Colors.white,
+          //backgroundColor: Colors.white,
           body: SingleChildScrollView(
             child: Column(
               children: [
@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                         style: const TextStyle(
                           letterSpacing: 1.5,
                           fontSize: 25,
-                          color: Colors.teal,
+                          //color: Colors.teal,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins',
                         ),
@@ -159,10 +159,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                       Text(
                         dateStr,
-                        style: TextStyle(
+                        style: const TextStyle(
                           letterSpacing: 1.5,
                           fontSize: 15,
-                          color: Colors.teal[500],
+                          //color: Colors.teal[500],
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins',
                         ),
@@ -250,7 +250,7 @@ class Smallcards extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 4),
       child: Card(
-        color: const Color.fromARGB(153, 0, 150, 135),
+        //color: const Color.fromARGB(153, 0, 150, 135),
         elevation: 9,
         shadowColor: Colors.teal[800],
         child: ListTile(

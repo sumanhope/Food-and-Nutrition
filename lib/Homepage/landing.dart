@@ -32,21 +32,21 @@ class _LandingPageState extends State<LandingPage> {
       child: Scaffold(
         body: pages[currentStep],
         bottomNavigationBar: Container(
-          color: Colors.teal,
+          color: Theme.of(context).primaryColor,
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
             child: GNav(
-              hoverColor: Colors.teal.shade800,
-              backgroundColor: Colors.teal,
-              color: Colors.black,
-              activeColor: Colors.white,
-              tabBackgroundColor: Colors.teal.shade800,
+              hoverColor: Theme.of(context).hoverColor,
+              backgroundColor: Theme.of(context).backgroundColor,
+              color: Theme.of(context).unselectedWidgetColor,
+              activeColor: Theme.of(context).focusColor,
+              tabBackgroundColor: Theme.of(context).toggleableActiveColor,
               gap: 6,
               padding: const EdgeInsets.all(10),
               iconSize: 25,
-              textStyle: const TextStyle(
+              textStyle: TextStyle(
                 fontSize: 15,
-                color: Colors.white,
+                color: Theme.of(context).focusColor,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Poppins',
               ),

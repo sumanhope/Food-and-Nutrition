@@ -16,7 +16,10 @@ class _SearchPageState extends State<SearchPage> {
       controller: searchcontroller,
       decoration: InputDecoration(
         filled: true,
-        fillColor: const Color.fromARGB(117, 100, 255, 219),
+        fillColor: Theme.of(context).cardColor,
+        //floatingLabelStyle: TextStyle(color: Colors.white),
+
+        //fillColor: const Color.fromARGB(117, 100, 255, 219),
         enabledBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide:
@@ -24,14 +27,14 @@ class _SearchPageState extends State<SearchPage> {
         ),
         labelText: 'Search',
         labelStyle: const TextStyle(
-          color: Colors.teal,
+          color: Colors.white,
           fontSize: 15,
           fontWeight: FontWeight.bold,
           fontFamily: 'Poppins',
         ),
         prefixIcon: const Icon(
           Icons.search,
-          color: Colors.teal,
+          color: Colors.white,
           size: 30,
         ),
         suffixIcon: searchcontroller.text.isEmpty
@@ -39,6 +42,7 @@ class _SearchPageState extends State<SearchPage> {
             : IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: () => searchcontroller.clear(),
+                color: Colors.white,
               ),
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -46,8 +50,8 @@ class _SearchPageState extends State<SearchPage> {
         ),
       ),
       onChanged: (value) => _runFilter(value),
-      style: const TextStyle(
-        color: Colors.black,
+      style: TextStyle(
+        color: Theme.of(context).unselectedWidgetColor,
         fontSize: 15,
         fontFamily: 'Poppins',
       ),
@@ -132,7 +136,7 @@ class _SearchPageState extends State<SearchPage> {
                           itemCount: _foundUsers.length,
                           itemBuilder: (context, index) => Card(
                             key: ValueKey(_foundUsers[index]["id"]),
-                            color: const Color.fromARGB(153, 0, 150, 135),
+                            //color: const Color.fromARGB(153, 0, 150, 135),
                             elevation: 9,
                             shadowColor: Colors.teal[800],
                             child: ListTile(

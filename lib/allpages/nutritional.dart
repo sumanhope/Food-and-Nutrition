@@ -171,7 +171,7 @@ class _ViewDataState extends State<ViewData> {
                       style: const TextStyle(
                         letterSpacing: 1.7,
                         fontSize: 20,
-                        color: Colors.teal,
+                        //color: Colors.teal,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                       ),
@@ -185,7 +185,7 @@ class _ViewDataState extends State<ViewData> {
                           ? const Icon(Icons.favorite)
                           : const Icon(Icons.favorite_border)),
                       iconSize: 30,
-                      color: Colors.teal,
+                      //color: Colors.teal,
                     ),
                   ),
                 ],
@@ -210,7 +210,6 @@ class _ViewDataState extends State<ViewData> {
                       style: const TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
-                        color: Colors.teal,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                       ),
@@ -221,7 +220,6 @@ class _ViewDataState extends State<ViewData> {
                       style: const TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
-                        color: Colors.teal,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                       ),
@@ -232,7 +230,6 @@ class _ViewDataState extends State<ViewData> {
                       style: const TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
-                        color: Colors.teal,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                       ),
@@ -243,7 +240,6 @@ class _ViewDataState extends State<ViewData> {
                       style: const TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
-                        color: Colors.teal,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                       ),
@@ -270,7 +266,6 @@ class _ViewDataState extends State<ViewData> {
                       style: TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 18,
-                        color: Colors.teal,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                       ),
@@ -281,7 +276,6 @@ class _ViewDataState extends State<ViewData> {
                       style: TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
-                        color: Colors.teal,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                       ),
@@ -292,7 +286,6 @@ class _ViewDataState extends State<ViewData> {
                       style: TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
-                        color: Colors.teal,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                       ),
@@ -303,7 +296,6 @@ class _ViewDataState extends State<ViewData> {
                       style: TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
-                        color: Colors.teal,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                       ),
@@ -314,7 +306,6 @@ class _ViewDataState extends State<ViewData> {
                       style: TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
-                        color: Colors.teal,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                       ),
@@ -325,7 +316,6 @@ class _ViewDataState extends State<ViewData> {
                       style: TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
-                        color: Colors.teal,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                       ),

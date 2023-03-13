@@ -3,6 +3,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/Verification/emailverification_page.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
+import 'package:foodandnutrition/allpages/appsetting.dart';
+import 'package:foodandnutrition/utils/themes.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,11 +24,7 @@ class MyApp extends StatelessWidget {
       navigatorKey: navigatorKey,
       title: 'Food and Nutrition',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          primarySwatch: Colors.teal,
-          appBarTheme: const AppBarTheme(
-            elevation: 0,
-          )),
+      theme: Styles.themeData(true, context),
       home: const MainPage(),
     );
   }

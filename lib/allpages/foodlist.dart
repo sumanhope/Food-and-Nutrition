@@ -39,16 +39,6 @@ class _FoodListScreenState extends State<FoodListScreen> {
           ),
         ),
         centerTitle: true,
-        leading: GestureDetector(
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.white,
-            size: 20,
-          ),
-          onTap: () {
-            Navigator.pop(context);
-          },
-        ),
       ),
       body: Column(
         children: [
@@ -58,7 +48,7 @@ class _FoodListScreenState extends State<FoodListScreen> {
                     itemCount: _foundUsers.length,
                     itemBuilder: (context, index) => Card(
                       key: ValueKey(_foundUsers[index]["id"]),
-                      color: const Color.fromARGB(153, 0, 150, 135),
+                      //color: const Color.fromARGB(153, 0, 150, 135),
                       elevation: 9,
                       shadowColor: Colors.teal[800],
                       child: ListTile(

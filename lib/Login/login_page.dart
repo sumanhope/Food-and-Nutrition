@@ -284,7 +284,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                     barrierDismissible: true,
                                     builder: (context) {
                                       return const Center(
-                                        child: CircularProgressIndicator(),
+                                        child: CircularProgressIndicator(
+                                          color: Colors.teal,
+                                        ),
                                       );
                                     });
                                 usermail = snap.docs[0]['email'];
