@@ -196,14 +196,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         backgroundColor: Colors.teal,
                       ),
                       onPressed: () {
-                        // FirebaseAuth.instance.signOut().then((value) {
-                        //   Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //       builder: ((context) => const WelcomeScreen()),
-                        //     ),
-                        //   );
-                        // });
                         FirebaseAuth.instance.signOut().then((value) {
                           Navigator.pushReplacement(
                             context,
@@ -351,12 +343,9 @@ class ProfileMenu extends StatelessWidget {
             borderRadius: BorderRadius.circular(8),
           ),
           backgroundColor: Theme.of(context).cardColor,
-          //backgroundColor: const Color.fromARGB(73, 0, 150, 135),
         ),
         onPressed: press,
         child: Row(
-          // crossAxisAlignment: CrossAxisAlignment.start,
-          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Icon(
               firsticon,

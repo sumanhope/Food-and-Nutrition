@@ -3,9 +3,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/allpages/foodlist.dart';
 import 'package:foodandnutrition/allpages/nutritional.dart';
+import 'package:foodandnutrition/provider/darkthemeprov.dart';
 import 'package:foodandnutrition/utils/foodcard.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
+import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 //import 'package:foodandnutrition/allpages/profile_page.dart';
 
@@ -18,17 +20,19 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _controller = PageController();
   final User user = FirebaseAuth.instance.currentUser!;
+
   String _uid = " ";
-  String username = "Loading";
+  String username = "";
   DateTime today = DateTime.now();
   String dateStr = "";
+  bool reload = true;
   @override
   void initState() {
     //dateStr = "${today.year}/${today.month}/${today.day}";
     dateStr = DateFormat('MMM d,yyyy').format(today);
     debugPrint(dateStr);
-    getData();
     super.initState();
+    getData();
   }
 
   void getData() async {
@@ -42,196 +46,198 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
-  Widget build(BuildContext context) => KeyboardDismisser(
-        gestures: const [
-          GestureType.onTap,
-          GestureType.onPanUpdateDownDirection,
-        ],
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text(
-              "Home",
-              style: TextStyle(
-                letterSpacing: 1.5,
-                fontSize: 18,
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontFamily: 'Poppins',
-              ),
+  Widget build(BuildContext context) {
+    return KeyboardDismisser(
+      gestures: const [
+        GestureType.onTap,
+        GestureType.onPanUpdateDownDirection,
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text(
+            "Home",
+            style: TextStyle(
+              letterSpacing: 1.5,
+              fontSize: 18,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
             ),
-            automaticallyImplyLeading: false,
-            centerTitle: true,
           ),
-          //backgroundColor: Colors.white,
-          body: SingleChildScrollView(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                SizedBox(
-                  height: 200,
-                  child: PageView(
-                    scrollDirection: Axis.horizontal,
-                    controller: _controller,
-                    children: [
-                      FoodCard(
-                        imagelink: "images/high-fiber.jpg",
-                        about: 'contains list of high-fiber foods',
-                        type: 'High-Fiber',
-                        whichpatients: 'For Piles',
-                        press: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const FoodListScreen(title: "High-Fiber"),
-                            ),
-                          );
-                        },
-                      ),
-                      FoodCard(
-                        imagelink: "images/High-Protein.jpg",
-                        about: 'contains list of high-protein foods',
-                        type: 'High-Protein',
-                        whichpatients: 'For test',
-                        press: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const FoodListScreen(title: "High Protein"),
-                            ),
-                          );
-                        },
-                      ),
-                      FoodCard(
-                        imagelink: "images/vegetarian.jpg",
-                        about: 'contains list of vegetarian foods',
-                        type: 'Vegetarian',
-                        whichpatients: 'For Vegans',
-                        press: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  const FoodListScreen(title: "Vegetarian"),
-                            ),
-                          );
-                        },
-                      )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                SmoothPageIndicator(
+          automaticallyImplyLeading: false,
+          centerTitle: true,
+        ),
+        //backgroundColor: Colors.white,
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              const SizedBox(
+                height: 20,
+              ),
+              SizedBox(
+                height: 200,
+                child: PageView(
+                  scrollDirection: Axis.horizontal,
                   controller: _controller,
-                  count: 3,
-                  effect: const ExpandingDotsEffect(
-                    activeDotColor: Colors.teal,
-                    dotHeight: 10,
-                    dotWidth: 10,
-                    strokeWidth: 2,
-                  ),
+                  children: [
+                    FoodCard(
+                      imagelink: "images/high-fiber.jpg",
+                      about: 'contains list of high-fiber foods',
+                      type: 'High-Fiber',
+                      whichpatients: 'For Piles',
+                      press: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const FoodListScreen(title: "High-Fiber"),
+                          ),
+                        );
+                      },
+                    ),
+                    FoodCard(
+                      imagelink: "images/High-Protein.jpg",
+                      about: 'contains list of high-protein foods',
+                      type: 'High-Protein',
+                      whichpatients: 'For test',
+                      press: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const FoodListScreen(title: "High Protein"),
+                          ),
+                        );
+                      },
+                    ),
+                    FoodCard(
+                      imagelink: "images/vegetarian.jpg",
+                      about: 'contains list of vegetarian foods',
+                      type: 'Vegetarian',
+                      whichpatients: 'For Vegans',
+                      press: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                const FoodListScreen(title: "Vegetarian"),
+                          ),
+                        );
+                      },
+                    )
+                  ],
                 ),
-                const SizedBox(
-                  height: 2,
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              SmoothPageIndicator(
+                controller: _controller,
+                count: 3,
+                effect: const ExpandingDotsEffect(
+                  activeDotColor: Colors.teal,
+                  dotHeight: 10,
+                  dotWidth: 10,
+                  strokeWidth: 2,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Hi, $username!",
-                        style: const TextStyle(
-                          letterSpacing: 1.5,
-                          fontSize: 25,
-                          //color: Colors.teal,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins',
-                        ),
+              ),
+              const SizedBox(
+                height: 2,
+              ),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Hi, $username!",
+                      style: const TextStyle(
+                        letterSpacing: 1.5,
+                        fontSize: 25,
+                        //color: Colors.teal,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins',
                       ),
-                      const SizedBox(
-                        height: 8,
+                    ),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    Text(
+                      dateStr,
+                      style: const TextStyle(
+                        letterSpacing: 1.5,
+                        fontSize: 15,
+                        //color: Colors.teal[500],
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins',
                       ),
-                      Text(
-                        dateStr,
-                        style: const TextStyle(
-                          letterSpacing: 1.5,
-                          fontSize: 15,
-                          //color: Colors.teal[500],
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins',
-                        ),
+                    ),
+                  ],
+                ),
+              ),
+              Smallcards(
+                foodname: 'Rice, white (1cup)',
+                totalcalories: '223 cal',
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const ViewData(
+                        foodId: "1",
+                        foodname: "Rice",
                       ),
-                    ],
-                  ),
-                ),
-                Smallcards(
-                  foodname: 'Rice, white (1cup)',
-                  totalcalories: '223 cal',
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ViewData(
-                          foodId: "1",
-                          foodname: "Rice",
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                Smallcards(
-                  foodname: 'Noodles, (1cup)',
-                  totalcalories: '159 cal',
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const ViewData(foodId: "2", foodname: "Noodles"),
-                      ),
-                    );
-                  },
-                ),
-                Smallcards(
-                  foodname: 'Potato, (1 baked)',
-                  totalcalories: '220 cal',
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const ViewData(foodId: "3", foodname: "Potato"),
-                      ),
-                    );
-                  },
-                ),
-                Smallcards(
-                  foodname: 'Banana, (1)',
-                  totalcalories: '105 cal',
-                  press: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            const ViewData(foodId: "4", foodname: "Banana"),
-                      ),
-                    );
-                  },
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-              ],
-            ),
+                    ),
+                  );
+                },
+              ),
+              Smallcards(
+                foodname: 'Noodles, (1cup)',
+                totalcalories: '159 cal',
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const ViewData(foodId: "2", foodname: "Noodles"),
+                    ),
+                  );
+                },
+              ),
+              Smallcards(
+                foodname: 'Potato, (1 baked)',
+                totalcalories: '220 cal',
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const ViewData(foodId: "3", foodname: "Potato"),
+                    ),
+                  );
+                },
+              ),
+              Smallcards(
+                foodname: 'Banana, (1)',
+                totalcalories: '105 cal',
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          const ViewData(foodId: "4", foodname: "Banana"),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+            ],
           ),
         ),
-      );
+      ),
+    );
+  }
 }
 
 class Smallcards extends StatelessWidget {

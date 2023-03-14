@@ -37,7 +37,7 @@ class _ViewDetailsState extends State<ViewDetails> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        //backgroundColor: Colors.white,
         appBar: AppBar(
           centerTitle: true,
           elevation: 0,
@@ -96,16 +96,16 @@ class _ViewDetailsState extends State<ViewDetails> {
           ],
         ),
         body: Container(
-          color: Colors.white,
+          //color: Colors.white,
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Container(
                   width: double.infinity,
                   height: 150,
-                  decoration: const BoxDecoration(
-                    color: Colors.teal,
-                    borderRadius: BorderRadius.only(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).backgroundColor,
+                    borderRadius: const BorderRadius.only(
                       bottomRight: Radius.circular(40),
                       bottomLeft: Radius.circular(40),
                     ),
@@ -227,7 +227,7 @@ class ProfileDetailColumn extends StatelessWidget {
                 style: const TextStyle(
                   letterSpacing: 1.5,
                   fontSize: 16,
-                  color: Colors.teal,
+                  //color: Colors.teal,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins',
                 ),
@@ -237,10 +237,10 @@ class ProfileDetailColumn extends StatelessWidget {
               ),
               Text(
                 value,
-                style: TextStyle(
+                style: const TextStyle(
                   letterSpacing: 1.5,
                   fontSize: 16,
-                  color: Colors.teal[300],
+                  //color: Colors.teal[300],
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins',
                 ),

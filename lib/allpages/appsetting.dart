@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/provider/darkthemeprov.dart';
+import 'package:provider/provider.dart';
 
 class Appsetting extends StatefulWidget {
   const Appsetting({super.key});
@@ -10,6 +12,7 @@ class Appsetting extends StatefulWidget {
 class _AppsettingState extends State<Appsetting> {
   @override
   Widget build(BuildContext context) {
+    final themeState = Provider.of<DarkThemeProvider>(context);
     return Scaffold(
       //backgroundColor: Color(0x5F303030),
       appBar: AppBar(
@@ -29,8 +32,12 @@ class _AppsettingState extends State<Appsetting> {
       body: Column(
         children: [
           SwitchListTile(
-            value: true,
-            onChanged: (bool value) {},
+            value: themeState.getDarkTheme,
+            onChanged: (bool value) {
+              setState(() {
+                themeState.setDarkTheme = value;
+              });
+            },
             title: const Text(
               "Dark Mode",
               style: TextStyle(
@@ -40,8 +47,10 @@ class _AppsettingState extends State<Appsetting> {
                 fontFamily: 'Poppins',
               ),
             ),
-            secondary: const Icon(
-              Icons.light_mode_outlined,
+            secondary: Icon(
+              themeState.getDarkTheme
+                  ? Icons.dark_mode_outlined
+                  : Icons.light_mode_outlined,
               size: 30,
               //color: Colors.teal,
             ),

@@ -127,9 +127,9 @@ class _EditDetailsState extends State<EditDetails> {
                   Container(
                     width: double.infinity,
                     height: 100,
-                    decoration: const BoxDecoration(
-                      color: Colors.teal,
-                      borderRadius: BorderRadius.only(
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).backgroundColor,
+                      borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(40),
                         bottomLeft: Radius.circular(40),
                       ),
@@ -289,7 +289,7 @@ class Editfield extends StatelessWidget {
             labeltext,
             style: const TextStyle(
               fontSize: 15,
-              color: Colors.teal,
+              //color: Colors.teal,
               fontWeight: FontWeight.bold,
               fontFamily: 'Poppins',
             ),
@@ -297,8 +297,8 @@ class Editfield extends StatelessWidget {
           TextField(
             controller: cont,
             decoration: InputDecoration(hintText: hinttext),
-            style: const TextStyle(
-              color: Colors.black,
+            style: TextStyle(
+              color: Theme.of(context).unselectedWidgetColor,
               fontSize: 15,
               fontFamily: 'Poppins',
             ),

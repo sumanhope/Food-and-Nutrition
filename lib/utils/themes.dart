@@ -20,7 +20,7 @@ class Styles {
           ),
       cardColor: isDark
           ? const Color.fromARGB(255, 67, 67, 67)
-          : const Color.fromARGB(153, 0, 150, 135),
+          : Color.fromARGB(102, 0, 150, 135),
       buttonTheme: Theme.of(context).buttonTheme.copyWith(
             buttonColor: isDark ? Colors.grey : Colors.teal,
             colorScheme:
