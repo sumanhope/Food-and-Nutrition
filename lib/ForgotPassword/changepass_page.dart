@@ -129,7 +129,7 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
         email: user.email!, password: currentPassword);
     await user.reauthenticateWithCredential(cred).then((value) async {
       await user.updatePassword(newPassword).then((_) {
-        print("Changed");
+        debugPrint("Changed");
       }).catchError((error) {
         errorDialog(error.toString());
       });

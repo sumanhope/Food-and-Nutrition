@@ -3,11 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/allpages/foodlist.dart';
 import 'package:foodandnutrition/allpages/nutritional.dart';
-import 'package:foodandnutrition/provider/darkthemeprov.dart';
 import 'package:foodandnutrition/utils/foodcard.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
-import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 //import 'package:foodandnutrition/allpages/profile_page.dart';
 

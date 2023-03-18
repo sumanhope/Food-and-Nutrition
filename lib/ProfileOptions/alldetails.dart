@@ -95,6 +95,7 @@ class _ViewDetailsState extends State<ViewDetails> {
             )
           ],
         ),
+        // ignore: avoid_unnecessary_containers
         body: Container(
           //color: Colors.white,
           child: SingleChildScrollView(

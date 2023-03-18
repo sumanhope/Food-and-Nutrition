@@ -4,20 +4,19 @@ import 'package:flutter/material.dart';
 import 'package:foodandnutrition/Verification/emailverification_page.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
 import 'package:foodandnutrition/provider/darkthemeprov.dart';
-import 'package:foodandnutrition/services/darkthemeperf.dart';
 import 'package:foodandnutrition/utils/themes.dart';
 import 'package:provider/provider.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
 class MyApp extends StatefulWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   @override
   State<MyApp> createState() => _MyAppState();

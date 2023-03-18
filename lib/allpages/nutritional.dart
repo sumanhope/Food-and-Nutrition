@@ -96,7 +96,7 @@ class _ViewDataState extends State<ViewData> {
       "calories": calories,
     }).then(
       (value) => debugPrint("Added to Favorites"),
-      onError: (e) => print("Error updating document $e"),
+      onError: (e) => debugPrint("Error updating document $e"),
     );
   }
 
@@ -111,8 +111,8 @@ class _ViewDataState extends State<ViewData> {
         .doc(widget.foodname)
         .delete()
         .then(
-          (value) => print("Removed from Fav"),
-          onError: (e) => print("Error updating document $e"),
+          (value) => debugPrint("Removed from Fav"),
+          onError: (e) => debugPrint("Error updating document $e"),
         );
   }
 
