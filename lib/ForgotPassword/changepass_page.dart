@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
+import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class ChangePassScreen extends StatefulWidget {
   const ChangePassScreen({super.key});
@@ -147,7 +147,7 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
             fontFamily: 'Poppins',
             fontWeight: FontWeight.bold),
         filled: true,
-        fillColor: const Color.fromARGB(117, 100, 255, 219),
+        fillColor: Theme.of(context).cardColor,
         enabledBorder: unfocuseborder,
         focusedBorder: focuseborder,
         errorBorder: unfocuseborder,
@@ -169,8 +169,8 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
         //prefixIconColor: Colors.teal,
       ),
       obscureText: isPasswordVisible,
-      style: const TextStyle(
-        color: Colors.black,
+      style: TextStyle(
+        color: Theme.of(context).unselectedWidgetColor,
         fontSize: 15,
         fontFamily: 'Poppins',
       ),
@@ -188,7 +188,7 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
             fontFamily: 'Poppins',
             fontWeight: FontWeight.bold),
         filled: true,
-        fillColor: const Color.fromARGB(117, 100, 255, 219),
+        fillColor: Theme.of(context).cardColor,
         enabledBorder: unfocuseborder,
         focusedBorder: focuseborder,
         errorBorder: unfocuseborder,
@@ -209,8 +209,8 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
         //prefixIconColor: Colors.teal,
       ),
       obscureText: isNewpass,
-      style: const TextStyle(
-        color: Colors.black,
+      style: TextStyle(
+        color: Theme.of(context).unselectedWidgetColor,
         fontSize: 15,
         fontFamily: 'Poppins',
       ),
@@ -229,7 +229,7 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
             fontWeight: FontWeight.bold),
         errorText: errorText,
         filled: true,
-        fillColor: const Color.fromARGB(117, 100, 255, 219),
+        fillColor: Theme.of(context).cardColor,
         enabledBorder: unfocuseborder,
         focusedBorder: focuseborder,
         errorBorder: unfocuseborder,
@@ -248,8 +248,8 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
         ),
       ),
       obscureText: isChangePass,
-      style: const TextStyle(
-        color: Colors.black,
+      style: TextStyle(
+        color: Theme.of(context).unselectedWidgetColor,
         fontSize: 15,
         fontFamily: 'Poppins',
       ),
@@ -260,200 +260,214 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Stack(
-              children: [
-                Opacity(
-                  opacity: 0.5,
-                  child: ClipPath(
-                    clipper: OvalBottomBorderClipper(),
-                    child: Container(
-                      color: Colors.teal,
-                      height: 150,
-                    ),
-                  ),
-                ),
-                ClipPath(
-                  clipper: OvalBottomBorderClipper(),
-                  child: Container(
-                    color: Colors.teal,
-                    height: 130,
-                  ),
-                ),
-              ],
+    return KeyboardDismisser(
+      gestures: const [
+        GestureType.onTap,
+        GestureType.onPanUpdateDownDirection,
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          elevation: 0,
+          title: const Text(
+            "New Password",
+            style: TextStyle(
+              fontSize: 20,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
             ),
-            box,
-            Container(
-              alignment: const Alignment(-0.67, 0.5),
-              child: const Text(
-                "Create new password",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 25,
-                  color: Colors.teal,
-                  fontFamily: 'Poppins',
+          ),
+        ),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Stack(
+              //   children: [
+              //     Opacity(
+              //       opacity: 0.5,
+              //       child: ClipPath(
+              //         clipper: OvalBottomBorderClipper(),
+              //         child: Container(
+              //           color: Theme.of(context).backgroundColor,
+              //           height: 110,
+              //         ),
+              //       ),
+              //     ),
+              //     ClipPath(
+              //       clipper: OvalBottomBorderClipper(),
+              //       child: Container(
+              //         color: Theme.of(context).backgroundColor,
+              //         height: 90,
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // box,
+              // Container(
+              //   alignment: const Alignment(-0.67, 0.5),
+              //   child: const Text(
+              //     "Create new password",
+              //     style: TextStyle(
+              //       fontWeight: FontWeight.bold,
+              //       fontSize: 25,
+              //       fontFamily: 'Poppins',
+              //     ),
+              //   ),
+              // ),
+              box,
+              Container(
+                alignment: const Alignment(-0.6, 0.5),
+                child: const Text(
+                  "Your new password must be different",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
               ),
-            ),
-            box,
-            Container(
-              alignment: const Alignment(-0.6, 0.5),
-              child: const Text(
-                "Your new password must be different",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                  color: Color.fromARGB(197, 2, 68, 62),
-                  fontFamily: 'Poppins',
+              Container(
+                alignment: const Alignment(-0.7, 0.5),
+                child: const Text(
+                  "from previous used passwords.",
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    fontFamily: 'Poppins',
+                  ),
                 ),
               ),
-            ),
-            Container(
-              alignment: const Alignment(-0.7, 0.5),
-              child: const Text(
-                "from previous used passwords.",
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 15,
-                  color: Color.fromARGB(197, 2, 68, 62),
-                  fontFamily: 'Poppins',
-                ),
-              ),
-            ),
-            box,
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 10, horizontal: 20.0),
-              child: Column(
-                children: [
-                  Container(
-                    alignment: const Alignment(-1, 0.5),
-                    child: const Text(
-                      "Password",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.teal,
-                        fontFamily: 'Poppins',
+              box,
+              Padding(
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20.0),
+                child: Column(
+                  children: [
+                    Container(
+                      alignment: const Alignment(-1, 0.5),
+                      child: const Text(
+                        "Password",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          fontFamily: 'Poppins',
+                        ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  buildPass(),
-                  box,
-                  Container(
-                    alignment: const Alignment(-1, 0.5),
-                    child: const Text(
-                      "New Password",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.teal,
-                        fontFamily: 'Poppins',
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    buildPass(),
+                    box,
+                    Container(
+                      alignment: const Alignment(-1, 0.5),
+                      child: const Text(
+                        "New Password",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          fontFamily: 'Poppins',
+                        ),
                       ),
                     ),
-                  ),
-                  buildNewPass(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Container(
-                    alignment: const Alignment(-1, 0.5),
-                    child: const Text(
-                      "Confirm Password",
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20,
-                        color: Colors.teal,
-                        fontFamily: 'Poppins',
+                    buildNewPass(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Container(
+                      alignment: const Alignment(-1, 0.5),
+                      child: const Text(
+                        "Confirm Password",
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                          fontFamily: 'Poppins',
+                        ),
                       ),
                     ),
-                  ),
-                  buildChangePass(),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    width: 300,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        //debugPrint("OTP: ${emailController.text}")
-                        if (passwordController.text.isNotEmpty &&
-                            newpassController.text.isNotEmpty &&
-                            changepassController.text.isNotEmpty) {
-                          if (passwordConfirmed()) {
-                            if (newpassController.text.length > 6) {
-                              if (passwordController.text !=
-                                  newpassController.text) {
-                                _changePassword(passwordController.text,
-                                    newpassController.text);
+                    buildChangePass(),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    SizedBox(
+                      width: 300,
+                      height: 50,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          //debugPrint("OTP: ${emailController.text}")
+                          if (passwordController.text.isNotEmpty &&
+                              newpassController.text.isNotEmpty &&
+                              changepassController.text.isNotEmpty) {
+                            if (passwordConfirmed()) {
+                              if (newpassController.text.length > 6) {
+                                if (passwordController.text !=
+                                    newpassController.text) {
+                                  _changePassword(passwordController.text,
+                                      newpassController.text);
+                                } else {
+                                  errorDialog(
+                                      "Your new password cannot be old password");
+                                }
                               } else {
                                 errorDialog(
-                                    "Your new password cannot be old password");
+                                  "Password should be more than 6 characters",
+                                );
                               }
                             } else {
-                              errorDialog(
-                                "Password should be more than 6 characters",
-                              );
+                              errorDialog("Password doesnot match");
                             }
                           } else {
-                            errorDialog("Password doesnot match");
+                            errorDialog("Please fill both field");
                           }
-                        } else {
-                          errorDialog("Please fill both field");
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color.fromARGB(255, 0, 150, 135),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 0, 150, 135),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          side: const BorderSide(
+                            width: 3,
+                            color: Color.fromARGB(88, 0, 0, 0),
+                          ),
                         ),
-                        side: const BorderSide(
-                          width: 3,
-                          color: Color.fromARGB(88, 0, 0, 0),
-                        ),
-                      ),
-                      child: const Text(
-                        "Confirm",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins',
-                          fontSize: 15,
-                          color: Colors.white,
+                        child: const Text(
+                          "Confirm",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                            fontSize: 15,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    alignment: Alignment.center,
-                    child: TextButton(
-                      child: const Text(
-                        'Back',
-                        style: TextStyle(
-                          color: Colors.teal,
-                          fontSize: 17,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pop(context);
-                      },
+                    const SizedBox(
+                      height: 5,
                     ),
-                  ),
-                ],
+                    Container(
+                      alignment: Alignment.center,
+                      child: TextButton(
+                        child: const Text(
+                          'Back',
+                          style: TextStyle(
+                            color: Colors.teal,
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.of(context).pop(context);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

@@ -49,14 +49,12 @@ class _FavouritePageState extends State<FavouritePage> {
                       Icon(
                         Icons.favorite,
                         size: 40,
-                        color: Colors.teal,
                       ),
                       Text(
                         "Click the Favorite button",
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: 20,
-                          color: Colors.teal,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins',
                         ),
@@ -66,7 +64,6 @@ class _FavouritePageState extends State<FavouritePage> {
                         textAlign: TextAlign.justify,
                         style: TextStyle(
                           fontSize: 20,
-                          color: Colors.teal,
                           fontWeight: FontWeight.bold,
                           fontFamily: 'Poppins',
                         ),

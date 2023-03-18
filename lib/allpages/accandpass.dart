@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/ForgotPassword/changepass_page.dart';
+import 'package:foodandnutrition/allpages/accountdelete.dart';
 import 'package:foodandnutrition/allpages/profile_page.dart';
 
 class AccountandPassword extends StatefulWidget {
@@ -44,7 +45,14 @@ class _AccountandPasswordState extends State<AccountandPassword> {
             text: "Account Deletion",
             firsticon: Icons.person_off,
             secondicon: Icons.chevron_right_sharp,
-            press: () {},
+            press: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const AccountDelete(),
+                ),
+              );
+            },
           ),
         ],
       ),

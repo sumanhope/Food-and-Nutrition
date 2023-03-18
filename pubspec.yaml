@@ -50,7 +50,6 @@ dependencies:
   dcdg: ^4.1.0
   google_nav_bar: ^5.0.6
   smooth_page_indicator: ^1.0.0+2
-  
   email_auth: ^1.0.0
   line_icons: ^2.0.1
   image_picker: ^0.8.6+1
@@ -59,6 +58,8 @@ dependencies:
   image_cropper: ^3.0.1
   shared_preferences: ^2.0.18
   provider: ^6.0.5
+  firebase_messaging: ^14.3.0
+  flutter_local_notifications: ^13.0.0
 
 dev_dependencies:
   flutter_test:
