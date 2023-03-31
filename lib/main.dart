@@ -8,7 +8,7 @@ import 'package:foodandnutrition/Welcome/welcome_page.dart';
 import 'package:foodandnutrition/provider/darkthemeprov.dart';
 import 'package:foodandnutrition/utils/themes.dart';
 import 'package:provider/provider.dart';
-
+import 'package:dcdg/dcdg.dart';
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel',
   'High Importace Notifications',

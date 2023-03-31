@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/allpages/details.dart';
 import 'package:foodandnutrition/allpages/nutritional.dart';
+import 'package:foodandnutrition/services/foodlist.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class SearchPage extends StatefulWidget {
@@ -60,43 +62,32 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  final List<Map<String, dynamic>> _allUsers = [
-    {"id": 1, "foodname": "Rice", "cal": 223},
-    {"id": 2, "foodname": "Noodles", "cal": 159},
-    {"id": 3, "foodname": "Potato", "cal": 220},
-    {"id": 4, "foodname": "Banana", "cal": 105},
-    {"id": 5, "foodname": "Orange", "cal": 65},
-    {"id": 6, "foodname": "Watermelon", "cal": 50},
-    {"id": 7, "foodname": "Peas,green", "cal": 63},
-    {"id": 8, "foodname": "Bread", "cal": 61},
-    {"id": 9, "foodname": "Pizza", "cal": 290},
-    {"id": 10, "foodname": "Sweet Potato", "cal": 118},
-  ];
+  var foodList = FoodList(name: '', foodCategory: '', id: 0);
 
   // This list holds the data for the list view
-  List<Map<String, dynamic>> _foundUsers = [];
+  List<FoodList> _foodList = [];
   @override
-  initState() {
-    _foundUsers = _allUsers;
+  void initState() {
+    _foodList = foodList.foodList();
     super.initState();
   }
 
   // This function is called whenever the text field changes
   void _runFilter(String enteredKeyword) {
-    List<Map<String, dynamic>> results = [];
+    List<FoodList> results = [];
     if (enteredKeyword.isEmpty) {
       // if the search field is empty or only contains white-space, we'll display all users
-      results = _allUsers;
+      results = foodList.foodList();
     } else {
-      results = _allUsers
-          .where((user) => user["foodname"]
-              .toLowerCase()
-              .contains(enteredKeyword.toLowerCase()))
+      results = foodList
+          .foodList()
+          .where((food) =>
+              food.name.toLowerCase().contains(enteredKeyword.toLowerCase()))
           .toList();
       // we use the toLowerCase() method to make it case-insensitive
     }
     setState(() {
-      _foundUsers = results;
+      _foodList = results;
     });
   }
 
@@ -131,36 +122,30 @@ class _SearchPageState extends State<SearchPage> {
                   child: buildUser(),
                 ),
                 Expanded(
-                  child: _foundUsers.isNotEmpty
+                  child: _foodList.isNotEmpty
                       ? ListView.builder(
-                          itemCount: _foundUsers.length,
+                          itemCount: _foodList.length,
                           itemBuilder: (context, index) => Card(
-                            key: ValueKey(_foundUsers[index]["id"]),
+                            key: ValueKey(_foodList[index].id),
                             //color: const Color.fromARGB(153, 0, 150, 135),
                             elevation: 9,
                             shadowColor: Colors.teal[800],
                             child: ListTile(
-                              leading: Text(
-                                _foundUsers[index]["id"].toString(),
-                                style: const TextStyle(
-                                    fontSize: 24, color: Colors.white),
-                              ),
-                              title: Text(_foundUsers[index]['foodname'],
+                              // leading: Text(
+                              //   _foodList[index].id.toString(),
+                              //   style: const TextStyle(
+                              //       fontSize: 24, color: Colors.white),
+                              // ),
+                              title: Text(_foodList[index].name,
                                   style: const TextStyle(color: Colors.white)),
-                              subtitle: Text(
-                                  '${_foundUsers[index]["cal"].toString()} cal',
+                              subtitle: Text(_foodList[index].foodCategory,
                                   style: const TextStyle(color: Colors.white)),
                               onTap: () {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => ViewData(
-                                      foodId:
-                                          _foundUsers[index]["id"].toString(),
-                                      foodname: _foundUsers[index]['foodname']
-                                          .toString(),
-                                    ),
-                                  ),
+                                      builder: (context) =>
+                                          DetailScreen(_foodList[index].id)),
                                 );
                               },
                             ),

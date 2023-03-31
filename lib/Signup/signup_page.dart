@@ -95,7 +95,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'weight': int.parse(weightcontroller.text.trim()),
         'register': dateStr,
         'before': '',
-        'after': ''
+        'after': '',
+        'profile': ''
       }).then((value) {
         Navigator.pushReplacement(
           context,
@@ -109,19 +110,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
       errorDialog(e.toString());
     }
   }
-
-  // Future addUser(String fullname, String username, String email, int age,
-  //     int height, int weight) async {
-  //   await FirebaseFirestore.instance.collection('users').doc(_uid).set({
-  //     'UserId': _uid,
-  //     'fullname': fullname,
-  //     'username': username,
-  //     'email': email,
-  //     'age': age,
-  //     'height': height,
-  //     'weight': weight,
-  //   });
-  // }
 
   bool passwordConfirmed() {
     if (passwordcontroller.text.trim() ==

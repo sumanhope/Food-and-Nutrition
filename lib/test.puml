@@ -1,0 +1,783 @@
+@startuml 
+set namespaceSeparator ::
+
+class "foodandnutrition::allpages::accandpass.dart::AccountandPassword" {
+  +State<AccountandPassword> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::allpages::accandpass.dart::AccountandPassword"
+
+class "foodandnutrition::allpages::accandpass.dart::_AccountandPasswordState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::allpages::accandpass.dart::_AccountandPasswordState"
+
+class "foodandnutrition::allpages::accountdelete.dart::AccountDelete" {
+  +State<AccountDelete> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::allpages::accountdelete.dart::AccountDelete"
+
+class "foodandnutrition::allpages::accountdelete.dart::_AccountDeleteState" {
+  +TextEditingController confirmcontroller
+  +OutlineInputBorder unfocuseborder
+  +OutlineInputBorder focuseborder
+  +Future<dynamic> errorDialog()
+  +Widget buildCon()
+  +void deldatabase()
+  +Widget build()
+}
+
+"foodandnutrition::allpages::accountdelete.dart::_AccountDeleteState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"   
+"foodandnutrition::allpages::accountdelete.dart::_AccountDeleteState" o-- "flutter::src::material::input_border.dart::OutlineInputBorder"      
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::allpages::accountdelete.dart::_AccountDeleteState"
+
+class "foodandnutrition::allpages::appsetting.dart::Appsetting" {
+  +State<Appsetting> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::allpages::appsetting.dart::Appsetting"
+
+class "foodandnutrition::allpages::appsetting.dart::_AppsettingState" {
+  +bool notification
+  +void initState()
+  +void showNotification()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::allpages::appsetting.dart::_AppsettingState"
+
+class "foodandnutrition::allpages::details.dart::DetailScreen" {
+  +int id
+  +_DetailScreenState createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::allpages::details.dart::DetailScreen"
+
+class "foodandnutrition::allpages::details.dart::_DetailScreenState" {
+  +FoodData foodData
+  +bool loading
+  +void initState()
+  +Future<void> fetchData()
+  +Widget build()
+}
+
+"foodandnutrition::allpages::details.dart::_DetailScreenState" o-- "foodandnutrition::models::foodmodel.dart::FoodData"
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::allpages::details.dart::_DetailScreenState"
+
+class "foodandnutrition::allpages::favourite_page.dart::FavouritePage" {
+  +State<FavouritePage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::allpages::favourite_page.dart::FavouritePage"
+
+class "foodandnutrition::allpages::favourite_page.dart::_FavouritePageState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::allpages::favourite_page.dart::_FavouritePageState"
+
+class "foodandnutrition::allpages::foodlist.dart::FoodListScreen" {
+  +String title
+  +State<FoodListScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::allpages::foodlist.dart::FoodListScreen"
+
+class "foodandnutrition::allpages::foodlist.dart::_FoodListScreenState" {
+  -List<Map<String, dynamic>> _allUsers
+  -List<Map<String, dynamic>> _foundUsers
+  +void initState()
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::allpages::foodlist.dart::_FoodListScreenState"
+
+class "foodandnutrition::allpages::food_page.dart::FoodPage" {
+  +State<FoodPage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::allpages::food_page.dart::FoodPage"
+
+class "foodandnutrition::allpages::food_page.dart::_FoodPageState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::allpages::food_page.dart::_FoodPageState"
+
+class "foodandnutrition::allpages::food_page.dart::FoodDisplay" {
+  +String imagelink
+  +String type
+  +String about
+  +String whichpatients
+  +void Function() press
+  +Widget build()
+}
+
+"foodandnutrition::allpages::food_page.dart::FoodDisplay" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "foodandnutrition::allpages::food_page.dart::FoodDisplay"
+
+class "foodandnutrition::allpages::home_page.dart::HomePage" {
+  +State<HomePage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::allpages::home_page.dart::HomePage"
+
+class "foodandnutrition::allpages::home_page.dart::_HomePageState" {
+  -PageController _controller
+  +User user
+  -String _uid
+  +String username
+  +DateTime today
+  +String dateStr
+  +bool reload
+  +void initState()
+  +void getData()
+  +Widget build()
+}
+
+"foodandnutrition::allpages::home_page.dart::_HomePageState" o-- "flutter::src::widgets::page_view.dart::PageController"
+"foodandnutrition::allpages::home_page.dart::_HomePageState" o-- "firebase_auth::firebase_auth.dart::User"
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::allpages::home_page.dart::_HomePageState"
+
+class "foodandnutrition::allpages::home_page.dart::Smallcards" {
+  +String foodname
+  +String totalcalories
+  +void Function() press
+  +Widget build()
+}
+
+"foodandnutrition::allpages::home_page.dart::Smallcards" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "foodandnutrition::allpages::home_page.dart::Smallcards"
+
+class "foodandnutrition::allpages::nutritional.dart::ViewData" {
+  +String foodname
+  +String foodId
+  +State<ViewData> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::allpages::nutritional.dart::ViewData"
+
+class "foodandnutrition::allpages::nutritional.dart::_ViewDataState" {
+  +SizedBox box
+  +String calories
+  +String foodCat
+  +String foodDesc
+  +String servSize
+  +String imageurl
+  +bool isfav
+  +void initState()
+  +void getData()
+  +Future<dynamic> favornot()
+  +Future<void> favtoggle()
+  +Future<dynamic> addtoFav()
+  +Future<dynamic> removefromFav()
+  +Widget build()
+}
+
+"foodandnutrition::allpages::nutritional.dart::_ViewDataState" o-- "flutter::src::widgets::basic.dart::SizedBox"
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::allpages::nutritional.dart::_ViewDataState"
+
+class "foodandnutrition::allpages::profile_page.dart::ProfileScreen" {
+  +State<ProfileScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::allpages::profile_page.dart::ProfileScreen"
+
+class "foodandnutrition::allpages::profile_page.dart::_ProfileScreenState" {
+  +User user
+  -String _uid
+  +String name
+  +int age
+  +String username
+  +int height
+  +int weight
+  +String email
+  +String gender
+  +String dob
+  +String register
+  +String profileurl
+  +String imageUrl
+  -File? _image
+  +void initState()
+  +void getData()
+  +void chooseProfile()
+  +Future<File?> cropimage()
+  +Future<dynamic> addProfile()
+  +Widget build()
+}
+
+"foodandnutrition::allpages::profile_page.dart::_ProfileScreenState" o-- "firebase_auth::firebase_auth.dart::User"
+"foodandnutrition::allpages::profile_page.dart::_ProfileScreenState" o-- "dart::io::File"
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::allpages::profile_page.dart::_ProfileScreenState"
+
+class "foodandnutrition::allpages::profile_page.dart::ProfileMenu" {
+  +String text
+  +IconData firsticon
+  +IconData secondicon
+  +void Function() press
+  +Widget build()
+}
+
+"foodandnutrition::allpages::profile_page.dart::ProfileMenu" o-- "flutter::src::widgets::icon_data.dart::IconData"
+"foodandnutrition::allpages::profile_page.dart::ProfileMenu" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "foodandnutrition::allpages::profile_page.dart::ProfileMenu"
+
+class "foodandnutrition::allpages::search_page.dart::SearchPage" {
+  +State<SearchPage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::allpages::search_page.dart::SearchPage"
+
+class "foodandnutrition::allpages::search_page.dart::_SearchPageState" {
+  +TextEditingController searchcontroller
+  +FoodList foodList
+  -List<FoodList> _foodList
+  +Widget buildUser()
+  +void initState()
+  -void _runFilter()
+  +Widget build()
+}
+
+"foodandnutrition::allpages::search_page.dart::_SearchPageState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"        
+"foodandnutrition::allpages::search_page.dart::_SearchPageState" o-- "foodandnutrition::services::foodlist.dart::FoodList"
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::allpages::search_page.dart::_SearchPageState"
+
+class "foodandnutrition::allpages::test_page.dart::Testscreen" {
+  +State<Testscreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::allpages::test_page.dart::Testscreen"
+
+class "foodandnutrition::allpages::test_page.dart::_TestscreenState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::allpages::test_page.dart::_TestscreenState"
+
+class "foodandnutrition::allpages::track_page.dart::TrackPage" {
+  +State<TrackPage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::allpages::track_page.dart::TrackPage"
+
+class "foodandnutrition::allpages::track_page.dart::_TrackPageState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::allpages::track_page.dart::_TrackPageState"
+
+class "foodandnutrition::ForgotPassword::changepass_page.dart::ChangePassScreen" {
+  +State<ChangePassScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::ForgotPassword::changepass_page.dart::ChangePassScreen"        
+
+class "foodandnutrition::ForgotPassword::changepass_page.dart::_ChangePassScreenState" {
+  +SizedBox box
+  +User user
+  +TextEditingController passwordController
+  +TextEditingController newpassController
+  +TextEditingController changepassController
+  +bool isPasswordVisible
+  +bool isNewpass
+  +bool isChangePass
+  +OutlineInputBorder unfocuseborder
+  +OutlineInputBorder focuseborder
+  +String? passerrorText
+  +String? newpasserrorText
+  +String? errorText
+  +void initState()
+  +bool passwordConfirmed()
+  +Future<dynamic> errorDialog()
+  -Future<dynamic> _changePassword()
+  +Widget buildPass()
+  +Widget buildNewPass()
+  +Widget buildChangePass()
+  +Widget build()
+}
+
+"foodandnutrition::ForgotPassword::changepass_page.dart::_ChangePassScreenState" o-- "flutter::src::widgets::basic.dart::SizedBox"
+"foodandnutrition::ForgotPassword::changepass_page.dart::_ChangePassScreenState" o-- "firebase_auth::firebase_auth.dart::User"
+"foodandnutrition::ForgotPassword::changepass_page.dart::_ChangePassScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"foodandnutrition::ForgotPassword::changepass_page.dart::_ChangePassScreenState" o-- "flutter::src::material::input_border.dart::OutlineInputBorder"
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::ForgotPassword::changepass_page.dart::_ChangePassScreenState"
+
+class "foodandnutrition::ForgotPassword::forgotpass_page.dart::ResetPasswordScreen" {
+  +State<ResetPasswordScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::ForgotPassword::forgotpass_page.dart::ResetPasswordScreen"     
+
+class "foodandnutrition::ForgotPassword::forgotpass_page.dart::_ResetPasswordScreenState" {
+  +SizedBox box
+  +TextEditingController emailController
+  +void initState()
+  +void dispose()
+  +dynamic checkaccount()
+  +Future<dynamic> passwordReset()
+  +Widget buildUser()
+  +Widget build()
+}
+
+"foodandnutrition::ForgotPassword::forgotpass_page.dart::_ResetPasswordScreenState" o-- "flutter::src::widgets::basic.dart::SizedBox"
+"foodandnutrition::ForgotPassword::forgotpass_page.dart::_ResetPasswordScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::ForgotPassword::forgotpass_page.dart::_ResetPasswordScreenState"        
+
+class "foodandnutrition::Homepage::landing.dart::LandingPage" {
+  +State<LandingPage> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::Homepage::landing.dart::LandingPage"
+
+class "foodandnutrition::Homepage::landing.dart::_LandingPageState" {
+  +List<Widget> pages
+  +int currentStep
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::Homepage::landing.dart::_LandingPageState"
+
+class "foodandnutrition::Login::login_page.dart::LoginScreen" {
+  +State<LoginScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::Login::login_page.dart::LoginScreen"
+
+class "foodandnutrition::Login::login_page.dart::_LoginScreenState" {
+  +TextEditingController usernameController
+  +String password
+  +bool isPasswordVisible
+  +void initState()
+  +Future<dynamic> errorDialog()
+  +Future<dynamic> signIn()
+  +Widget buildUser()
+  +Widget buildPassword()
+  +Widget build()
+}
+
+"foodandnutrition::Login::login_page.dart::_LoginScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::Login::login_page.dart::_LoginScreenState"
+
+class "foodandnutrition::main.dart::MyApp" {
+  +State<MyApp> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::main.dart::MyApp"
+
+class "foodandnutrition::main.dart::_MyAppState" {
+  +DarkThemeProvider themeProvider
+  +UsernameProvider usernameProvider
+  +void initState()
+  +void getCurrentAppTheme()
+  +Widget build()
+}
+
+"foodandnutrition::main.dart::_MyAppState" o-- "foodandnutrition::provider::darkthemeprov.dart::DarkThemeProvider"
+"foodandnutrition::main.dart::_MyAppState" o-- "foodandnutrition::provider::darkthemeprov.dart::UsernameProvider"
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::main.dart::_MyAppState"
+
+class "foodandnutrition::main.dart::MainPage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "foodandnutrition::main.dart::MainPage"
+
+class "foodandnutrition::models::foodmodel.dart::FoodData" {
+  +WweiaFoodCategory? wweiaFoodCategory
+  +String? description
+  +List<FoodAttribute>? foodAttributes
+  +String? foodCode
+  +List<InputFood>? inputFoods
+  +String? startDate
+  +String? endDate
+  +List<dynamic>? foodComponents
+  +String? foodClass
+  +String? fdcId
+  +String? publicationDate
+  +List<FoodNutrient>? foodNutrients
+  +List<FoodPortion>? foodPortions
+  +String? dataType
+  +FoodData copyWith()
+  +Map<String, dynamic> toMap()
+}
+
+"foodandnutrition::models::foodmodel.dart::FoodData" o-- "foodandnutrition::models::foodmodel.dart::WweiaFoodCategory"
+
+class "foodandnutrition::models::foodmodel.dart::FoodAttribute" {
+  +int? id
+  +String? value
+  +String? name
+  +FoodAttributeType? foodAttributeType
+  +FoodAttribute copyWith()
+  +Map<String, dynamic> toMap()
+}
+
+"foodandnutrition::models::foodmodel.dart::FoodAttribute" o-- "foodandnutrition::models::foodmodel.dart::FoodAttributeType"
+
+class "foodandnutrition::models::foodmodel.dart::FoodAttributeType" {
+  +int? id
+  +String? name
+  +String? description
+  +FoodAttributeType copyWith()
+  +Map<String, dynamic> toMap()
+}
+
+class "foodandnutrition::models::foodmodel.dart::FoodNutrient" {
+  +Nutrient? nutrient
+  +Type? type
+  +int? id
+  +double? amount
+  +FoodNutrient copyWith()
+  +Map<String, dynamic> toMap()
+}
+
+"foodandnutrition::models::foodmodel.dart::FoodNutrient" o-- "foodandnutrition::models::foodmodel.dart::Nutrient"
+"foodandnutrition::models::foodmodel.dart::FoodNutrient" o-- "foodandnutrition::models::foodmodel.dart::Type"
+
+class "foodandnutrition::models::foodmodel.dart::Nutrient" {
+  +int? id
+  +String? number
+  +String? name
+  +String? rank
+  +String? unitName
+  +Nutrient copyWith()
+  +Map<String, dynamic> toMap()
+}
+
+class "foodandnutrition::models::foodmodel.dart::FoodPortion" {
+  +int? id
+  +String? portionDescription
+  +String? gramWeight
+  +String? sequenceNumber
+  +String? modifier
+  +MeasureUnit? measureUnit
+  +FoodPortion copyWith()
+  +Map<String, dynamic> toMap()
+}
+
+"foodandnutrition::models::foodmodel.dart::FoodPortion" o-- "foodandnutrition::models::foodmodel.dart::MeasureUnit"
+
+class "foodandnutrition::models::foodmodel.dart::MeasureUnit" {
+  +int? id
+  +String? name
+  +String? abbreviation
+  +MeasureUnit copyWith()
+  +Map<String, dynamic> toMap()
+}
+
+class "foodandnutrition::models::foodmodel.dart::InputFood" {
+  +int? id
+  +String? foodDescription
+  +String? ingredientDescription
+  +String? ingredientWeight
+  +String? portionCode
+  +String? portionDescription
+  +String? sequenceNumber
+  +String? ingredientCode
+  +String? unit
+  +String? amount
+  +InputFood copyWith()
+  +Map<String, dynamic> toMap()
+}
+
+class "foodandnutrition::models::foodmodel.dart::WweiaFoodCategory" {
+  +int? wweiaFoodCategoryCode
+  +String? wweiaFoodCategoryDescription
+  +WweiaFoodCategory copyWith()
+  +Map<String, dynamic> toMap()
+}
+
+class "foodandnutrition::models::foodmodel.dart::EnumValues" {
+  +Map<String, T> map
+  +Map<T, String>? reverseMap
+  +Map<T, String>? reverse
+}
+
+class "foodandnutrition::models::foodmodel.dart::UnitName" {
+  +int index
+  {static} +List<UnitName> values
+  {static} +UnitName G
+  {static} +UnitName KCAL
+  {static} +UnitName MG
+  {static} +UnitName UNIT_NAME_G
+}
+
+"foodandnutrition::models::foodmodel.dart::UnitName" o-- "foodandnutrition::models::foodmodel.dart::UnitName"
+"dart::core::Enum" <|-- "foodandnutrition::models::foodmodel.dart::UnitName"
+
+class "foodandnutrition::models::foodmodel.dart::Type" {
+  +int index
+  {static} +List<Type> values
+  {static} +Type FOOD_NUTRIENT
+}
+
+"foodandnutrition::models::foodmodel.dart::Type" o-- "foodandnutrition::models::foodmodel.dart::Type"
+"dart::core::Enum" <|-- "foodandnutrition::models::foodmodel.dart::Type"
+
+class "foodandnutrition::ProfileOptions::alldetails.dart::ViewDetails" {
+  +String userid
+  +String username
+  +String fullname
+  +int age
+  +int height
+  +int weight
+  +String email
+  +String gender
+  +String dob
+  +String register
+  +String profileurl
+  +State<ViewDetails> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::ProfileOptions::alldetails.dart::ViewDetails"
+
+class "foodandnutrition::ProfileOptions::alldetails.dart::_ViewDetailsState" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::ProfileOptions::alldetails.dart::_ViewDetailsState"
+
+class "foodandnutrition::ProfileOptions::alldetails.dart::ProfileDetailColumn" {
+  +String title
+  +String value
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "foodandnutrition::ProfileOptions::alldetails.dart::ProfileDetailColumn"
+
+class "foodandnutrition::ProfileOptions::before_after.dart::BeforeandAfterScreen" {
+  +String userid
+  +State<BeforeandAfterScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::ProfileOptions::before_after.dart::BeforeandAfterScreen"       
+
+class "foodandnutrition::ProfileOptions::before_after.dart::_BeforeandAfterScreenState" {
+  +String imageUrl
+  +String beforeurl
+  +String afterurl
+  +String username
+  +File? beforeimage
+  +File? afterimage
+  +void initState()
+  +void getData()
+  +void chooseBefore()
+  +Future<dynamic> addBefore()
+  +void chooseAfter()
+  +Future<File?> cropimage()
+  +Future<dynamic> addAfter()
+  +Widget build()
+}
+
+"foodandnutrition::ProfileOptions::before_after.dart::_BeforeandAfterScreenState" o-- "dart::io::File"
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::ProfileOptions::before_after.dart::_BeforeandAfterScreenState"
+
+class "foodandnutrition::ProfileOptions::editdetails.dart::EditDetails" {
+  +String userid
+  +String username
+  +String fullname
+  +String email
+  +int age
+  +int height
+  +int weight
+  +String gender
+  +String dob
+  +State<EditDetails> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::ProfileOptions::editdetails.dart::EditDetails"
+
+class "foodandnutrition::ProfileOptions::editdetails.dart::_EditDetailsState" {
+  +TextEditingController fullnamecontroller
+  +TextEditingController usernamecontroller
+  +TextEditingController dobcontroller
+  +TextEditingController agecontroller
+  +TextEditingController gendercontroller
+  +TextEditingController heightcontroller
+  +TextEditingController weightcontroller
+  +void initState()
+  +void checkfield()
+  +Future<dynamic> updateuser()
+  +Widget build()
+}
+
+"foodandnutrition::ProfileOptions::editdetails.dart::_EditDetailsState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController" 
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::ProfileOptions::editdetails.dart::_EditDetailsState"
+
+class "foodandnutrition::ProfileOptions::editdetails.dart::Editfield" {
+  +String labeltext
+  +String hinttext
+  +TextEditingController cont
+  +Widget build()
+}
+
+"foodandnutrition::ProfileOptions::editdetails.dart::Editfield" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "foodandnutrition::ProfileOptions::editdetails.dart::Editfield"
+
+class "foodandnutrition::provider::darkthemeprov.dart::DarkThemeProvider" {
+  +DarkThemePrefs darkThemePrefs
+  -bool _darkTheme
+  +bool getDarkTheme
+  +bool setDarkTheme
+}
+
+"foodandnutrition::provider::darkthemeprov.dart::DarkThemeProvider" o-- "foodandnutrition::services::darkthemeperf.dart::DarkThemePrefs"       
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "foodandnutrition::provider::darkthemeprov.dart::DarkThemeProvider"      
+
+class "foodandnutrition::provider::darkthemeprov.dart::UsernameProvider" {
+  +UsernamePerfs usernamePerfs
+  -String _username
+  +String getUsername
+  +String setUsername
+}
+
+"foodandnutrition::provider::darkthemeprov.dart::UsernameProvider" o-- "foodandnutrition::services::darkthemeperf.dart::UsernamePerfs"
+"flutter::src::foundation::change_notifier.dart::ChangeNotifier" <|-- "foodandnutrition::provider::darkthemeprov.dart::UsernameProvider"       
+
+class "foodandnutrition::services::darkthemeperf.dart::DarkThemePrefs" {
+  {static} +String themeStatus
+  +dynamic setDarkTheme()
+  +Future<bool> getTheme()
+}
+
+class "foodandnutrition::services::darkthemeperf.dart::UsernamePerfs" {
+  {static} +String userName
+  +dynamic setUsername()
+  +Future<String> getTheme()
+}
+
+class "foodandnutrition::services::foodlist.dart::FoodList" {
+  +int id
+  +String name
+  +String foodCategory
+  +List<FoodList> foodList()
+}
+
+class "foodandnutrition::Signup::addfood.dart::Addfood" {
+  +State<Addfood> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::Signup::addfood.dart::Addfood"
+
+class "foodandnutrition::Signup::addfood.dart::_AddfoodState" {
+  +TextEditingController foodidcontroller
+  +TextEditingController foodnamecontroller
+  +TextEditingController foodcatcontroller
+  +TextEditingController fooddesccontroller
+  +TextEditingController servsizecontroller
+  +TextEditingController calcontroller
+  +Future<dynamic> submitfood()
+  +Widget build()
+}
+
+"foodandnutrition::Signup::addfood.dart::_AddfoodState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::Signup::addfood.dart::_AddfoodState"
+
+class "foodandnutrition::Signup::signup_page.dart::SignUpScreen" {
+  +State<SignUpScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::Signup::signup_page.dart::SignUpScreen"
+
+class "foodandnutrition::Signup::signup_page.dart::_SignUpScreenState" {
+  +int currentStep
+  +TextEditingController fullnamecontroller
+  +TextEditingController usernamecontroller
+  +TextEditingController emailcontroller
+  +TextEditingController passwordcontroller
+  +TextEditingController confirmpasswordcontroller
+  +TextEditingController gendercontroller
+  +TextEditingController dobcontroller
+  +TextEditingController agecontroller
+  +TextEditingController heightcontroller
+  +TextEditingController weightcontroller
+  +DateTime today
+  +FirebaseAuth auth
+  -dynamic _text
+  +dynamic texttwo
+  +TextStyle textstyle
+  +TextStyle steptextstyle
+  +OutlineInputBorder unfocuseborder
+  +OutlineInputBorder focuseborder
+  -String? _errorText
+  +String? errorText
+  +void dispose()
+  +Future<dynamic> signIn()
+  +bool passwordConfirmed()
+  +dynamic box()
+  +bool formone()
+  +bool formtwo()
+  +Future<dynamic> errorDialog()
+  +Widget build()
+  +List<Step> getSteps()
+}
+
+"foodandnutrition::Signup::signup_page.dart::_SignUpScreenState" o-- "flutter::src::widgets::editable_text.dart::TextEditingController"        
+"foodandnutrition::Signup::signup_page.dart::_SignUpScreenState" o-- "firebase_auth::firebase_auth.dart::FirebaseAuth"
+"foodandnutrition::Signup::signup_page.dart::_SignUpScreenState" o-- "flutter::src::painting::text_style.dart::TextStyle"
+"foodandnutrition::Signup::signup_page.dart::_SignUpScreenState" o-- "flutter::src::material::input_border.dart::OutlineInputBorder"
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::Signup::signup_page.dart::_SignUpScreenState"
+
+class "foodandnutrition::utils::foodcard.dart::FoodCard" {
+  +String imagelink
+  +String type
+  +String about
+  +String whichpatients
+  +void Function() press
+  +Widget build()
+}
+
+"foodandnutrition::utils::foodcard.dart::FoodCard" o-- "dart::ui::void Function()"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "foodandnutrition::utils::foodcard.dart::FoodCard"
+
+class "foodandnutrition::utils::themes.dart::Styles" {
+  {static} +ThemeData themeData()
+}
+
+class "foodandnutrition::Verification::auth_page.dart::AuthPage" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "foodandnutrition::Verification::auth_page.dart::AuthPage"
+
+class "foodandnutrition::Verification::emailverification_page.dart::EmailVerifyScreen" {
+  +State<EmailVerifyScreen> createState()
+}
+
+"flutter::src::widgets::framework.dart::StatefulWidget" <|-- "foodandnutrition::Verification::emailverification_page.dart::EmailVerifyScreen"  
+
+class "foodandnutrition::Verification::emailverification_page.dart::_EmailVerifyScreenState" {
+  +bool isEmailVerified
+  +bool canResendEmail
+  +Timer? timer
+  +SizedBox box
+  +void initState()
+  +void dispose()
+  +Future<dynamic> sendVerificationEmail()
+  +Future<dynamic> checkEmailVerified()
+  +Widget build()
+}
+
+"foodandnutrition::Verification::emailverification_page.dart::_EmailVerifyScreenState" o-- "dart::async::Timer"
+"foodandnutrition::Verification::emailverification_page.dart::_EmailVerifyScreenState" o-- "flutter::src::widgets::basic.dart::SizedBox"       
+"flutter::src::widgets::framework.dart::State" <|-- "foodandnutrition::Verification::emailverification_page.dart::_EmailVerifyScreenState"     
+
+class "foodandnutrition::Verification::resetverification.dart::ResetVerifyScreen" {
+  +String useremail
+  +SizedBox box
+  +Widget build()
+}
+
+"foodandnutrition::Verification::resetverification.dart::ResetVerifyScreen" o-- "flutter::src::widgets::basic.dart::SizedBox"
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "foodandnutrition::Verification::resetverification.dart::ResetVerifyScreen"      
+
+class "foodandnutrition::Welcome::welcome_page.dart::WelcomeScreen" {
+  +Widget build()
+}
+
+"flutter::src::widgets::framework.dart::StatelessWidget" <|-- "foodandnutrition::Welcome::welcome_page.dart::WelcomeScreen"
+
+
+@enduml
