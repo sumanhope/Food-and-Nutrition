@@ -35,170 +35,168 @@ class ViewDetails extends StatefulWidget {
 class _ViewDetailsState extends State<ViewDetails> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        //backgroundColor: Colors.white,
-        appBar: AppBar(
-          centerTitle: true,
-          elevation: 0,
-          title: const Text(
-            "User Details",
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
-            ),
+    return Scaffold(
+      //backgroundColor: Colors.white,
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0,
+        title: const Text(
+          "User Details",
+          style: TextStyle(
+            fontSize: 20,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontFamily: 'Poppins',
           ),
-          actions: [
-            InkWell(
-              onTap: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => EditDetails(
-                      userid: widget.userid,
-                      fullname: widget.fullname,
-                      username: widget.username,
-                      email: widget.email,
-                      dob: widget.dob,
-                      age: widget.age,
-                      gender: widget.gender,
-                      height: widget.height,
-                      weight: widget.weight,
-                    ),
-                  ),
-                );
-              },
-              child: Container(
-                padding: const EdgeInsets.only(right: 10),
-                child: Row(children: const [
-                  Icon(
-                    Icons.edit,
-                    size: 20,
-                  ),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Text(
-                    "Edit",
-                    style: TextStyle(
-                      letterSpacing: 1.5,
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Poppins',
-                    ),
-                  ),
-                ]),
-              ),
-            )
-          ],
         ),
-        // ignore: avoid_unnecessary_containers
-        body: Container(
-          //color: Colors.white,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  width: double.infinity,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).backgroundColor,
-                    borderRadius: const BorderRadius.only(
-                      bottomRight: Radius.circular(40),
-                      bottomLeft: Radius.circular(40),
-                    ),
+        actions: [
+          InkWell(
+            onTap: () {
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => EditDetails(
+                    userid: widget.userid,
+                    fullname: widget.fullname,
+                    username: widget.username,
+                    email: widget.email,
+                    dob: widget.dob,
+                    age: widget.age,
+                    gender: widget.gender,
+                    height: widget.height,
+                    weight: widget.weight,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      InkWell(
-                        child: SizedBox(
-                          height: 100,
+                ),
+              );
+            },
+            child: Container(
+              padding: const EdgeInsets.only(right: 10),
+              child: Row(children: const [
+                Icon(
+                  Icons.edit,
+                  size: 20,
+                ),
+                SizedBox(
+                  width: 5,
+                ),
+                Text(
+                  "Edit",
+                  style: TextStyle(
+                    letterSpacing: 1.5,
+                    fontSize: 16,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                  ),
+                ),
+              ]),
+            ),
+          )
+        ],
+      ),
+      // ignore: avoid_unnecessary_containers
+      body: Container(
+        //color: Colors.white,
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 150,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).backgroundColor,
+                  borderRadius: const BorderRadius.only(
+                    bottomRight: Radius.circular(40),
+                    bottomLeft: Radius.circular(40),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    InkWell(
+                      child: SizedBox(
+                        height: 100,
+                        width: 100,
+                        child: Container(
                           width: 100,
-                          child: Container(
-                            width: 100,
-                            height: 100,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              image: widget.profileurl != ""
-                                  ? DecorationImage(
-                                      image: NetworkImage(widget.profileurl),
-                                      fit: BoxFit.scaleDown,
-                                      scale: 2.5,
-                                    )
-                                  : const DecorationImage(
-                                      image: AssetImage("images/box.png"),
-                                      fit: BoxFit.cover,
-                                    ),
-                              shape: BoxShape.circle,
-                            ),
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            image: widget.profileurl != ""
+                                ? DecorationImage(
+                                    image: NetworkImage(widget.profileurl),
+                                    fit: BoxFit.scaleDown,
+                                    scale: 2.5,
+                                  )
+                                : const DecorationImage(
+                                    image: AssetImage("images/box.png"),
+                                    fit: BoxFit.cover,
+                                  ),
+                            shape: BoxShape.circle,
                           ),
                         ),
                       ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            widget.fullname,
-                            style: const TextStyle(
-                              letterSpacing: 1.5,
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Poppins',
-                            ),
+                    ),
+                    const SizedBox(
+                      width: 20,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          widget.fullname,
+                          style: const TextStyle(
+                            letterSpacing: 1.5,
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
                           ),
-                          Text(
-                            "${widget.gender}, ${widget.age}",
-                            style: const TextStyle(
-                              letterSpacing: 1.5,
-                              fontSize: 16,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Poppins',
-                            ),
+                        ),
+                        Text(
+                          "${widget.gender}, ${widget.age}",
+                          style: const TextStyle(
+                            letterSpacing: 1.5,
+                            fontSize: 16,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
                           ),
-                        ],
-                      )
-                    ],
-                  ),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
-                const SizedBox(
-                  height: 10,
-                ),
-                ProfileDetailColumn(
-                  title: "Username",
-                  value: widget.username,
-                ),
-                ProfileDetailColumn(
-                  title: "Email",
-                  value: widget.email,
-                ),
-                ProfileDetailColumn(
-                  title: "Date of Birth",
-                  value: widget.dob,
-                ),
-                ProfileDetailColumn(
-                  title: "Height",
-                  value: "${widget.height} cm",
-                ),
-                ProfileDetailColumn(
-                  title: "Weight",
-                  value: "${widget.weight} kg",
-                ),
-                ProfileDetailColumn(
-                  title: "Register Date",
-                  value: widget.register,
-                ),
-              ],
-            ),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              ProfileDetailColumn(
+                title: "Username",
+                value: widget.username,
+              ),
+              ProfileDetailColumn(
+                title: "Email",
+                value: widget.email,
+              ),
+              ProfileDetailColumn(
+                title: "Date of Birth",
+                value: widget.dob,
+              ),
+              ProfileDetailColumn(
+                title: "Height",
+                value: "${widget.height} cm",
+              ),
+              ProfileDetailColumn(
+                title: "Weight",
+                value: "${widget.weight} kg",
+              ),
+              ProfileDetailColumn(
+                title: "Register Date",
+                value: widget.register,
+              ),
+            ],
           ),
         ),
       ),

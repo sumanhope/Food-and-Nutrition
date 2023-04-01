@@ -2,6 +2,8 @@
 //
 //     final foodData = foodDataFromMap(jsonString);
 
+// ignore_for_file: prefer_null_aware_operators, prefer_if_null_operators
+
 import 'dart:convert';
 
 FoodData foodDataFromMap(String str) => FoodData.fromMap(json.decode(str));

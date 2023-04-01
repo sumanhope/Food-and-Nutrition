@@ -126,6 +126,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
     fontWeight: FontWeight.bold,
     fontFamily: 'Poppins',
   );
+  var labelstyle = const TextStyle(
+    color: Colors.teal,
+    fontSize: 14,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Poppins',
+  );
   var steptextstyle = const TextStyle(
     color: Colors.teal,
     fontSize: 14,
@@ -236,6 +242,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           GestureType.onPanUpdateDownDirection,
         ],
         child: Scaffold(
+          backgroundColor: Colors.white,
           body: Column(
             children: [
               Stack(
@@ -316,6 +323,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             Expanded(
                               child: ElevatedButton(
                                 onPressed: details.onStepCancel,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor:
+                                      const Color.fromARGB(255, 0, 150, 135),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  side: const BorderSide(
+                                    width: 3,
+                                    color: Color.fromARGB(88, 0, 0, 0),
+                                  ),
+                                ),
                                 child: Text(
                                   'Back',
                                   style: textstyle,
@@ -328,6 +346,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           Expanded(
                             child: ElevatedButton(
                               onPressed: details.onStepContinue,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor:
+                                    const Color.fromARGB(255, 0, 150, 135),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                side: const BorderSide(
+                                  width: 3,
+                                  color: Color.fromARGB(88, 0, 0, 0),
+                                ),
+                              ),
                               child: Text(
                                 'Next',
                                 style: textstyle,
@@ -367,6 +396,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
                     labelText: 'Full name',
+                    labelStyle: labelstyle,
                   ),
                 ),
               ),
@@ -380,6 +410,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     labelText: 'Username',
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
+                    labelStyle: labelstyle,
                   ),
                 ),
               ),
@@ -393,6 +424,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     labelText: 'Email',
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
+                    labelStyle: labelstyle,
                   ),
                   keyboardType: TextInputType.emailAddress,
                 ),
@@ -409,6 +441,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold),
                     labelText: 'Password',
+                    labelStyle: labelstyle,
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
                     errorBorder: unfocuseborder,
@@ -432,6 +465,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.bold),
                     labelText: 'Confirm Password',
+                    labelStyle: labelstyle,
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
                     errorBorder: unfocuseborder,
@@ -460,6 +494,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: steptextstyle,
                   decoration: InputDecoration(
                     labelText: 'Gender',
+                    labelStyle: labelstyle,
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
                   ),
@@ -474,6 +509,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: steptextstyle,
                   decoration: InputDecoration(
                     labelText: 'DOB',
+                    labelStyle: labelstyle,
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
                   ),
@@ -488,6 +524,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: steptextstyle,
                   decoration: InputDecoration(
                     labelText: 'Age',
+                    labelStyle: labelstyle,
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
                   ),
@@ -502,6 +539,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: steptextstyle,
                   decoration: InputDecoration(
                     labelText: 'Height (cm)',
+                    labelStyle: labelstyle,
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
                   ),
@@ -516,6 +554,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   style: steptextstyle,
                   decoration: InputDecoration(
                     labelText: 'Weight (kg)',
+                    labelStyle: labelstyle,
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
                   ),

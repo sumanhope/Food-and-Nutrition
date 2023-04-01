@@ -5,8 +5,9 @@ import 'dart:convert' as convert;
 
 class DetailScreen extends StatefulWidget {
   final int id;
-  DetailScreen(this.id);
+  const DetailScreen(this.id, {super.key});
   @override
+  // ignore: library_private_types_in_public_api
   _DetailScreenState createState() => _DetailScreenState();
 }
 
@@ -25,9 +26,9 @@ class _DetailScreenState extends State<DetailScreen> {
     var response = await http.get(url);
     if (response.statusCode == 200) {
       var decodedResponse = convert.jsonDecode(response.body);
-      print('===================$decodedResponse');
+      debugPrint('===================$decodedResponse');
       foodData = FoodData.fromMap(decodedResponse);
-      print('===================$foodData');
+      debugPrint('===================$foodData');
       setState(() {
         loading = false;
       });

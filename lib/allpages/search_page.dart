@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/allpages/details.dart';
-import 'package:foodandnutrition/allpages/nutritional.dart';
 import 'package:foodandnutrition/services/foodlist.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
