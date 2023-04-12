@@ -139,27 +139,29 @@ class _ViewDataState extends State<ViewData> {
               const SizedBox(
                 height: 5,
               ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                child: Container(
-                    alignment: Alignment.center,
-                    width: 350,
-                    height: 250,
-                    decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(16),
-                      image: imageurl != ""
-                          ? DecorationImage(
-                              image: NetworkImage(imageurl),
-                              fit: BoxFit.fill,
-                            )
-                          : const DecorationImage(
-                              image: AssetImage("images/box.png"),
-                              fit: BoxFit.cover,
-                            ),
-                      //color: const Color.fromARGB(94, 68, 137, 255),
-                    )),
+              Center(
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                  child: Container(
+                      alignment: Alignment.center,
+                      width: 350,
+                      height: 250,
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(16),
+                        image: imageurl != ""
+                            ? DecorationImage(
+                                image: NetworkImage(imageurl),
+                                fit: BoxFit.fill,
+                              )
+                            : const DecorationImage(
+                                image: AssetImage("images/box.png"),
+                                fit: BoxFit.cover,
+                              ),
+                        //color: const Color.fromARGB(94, 68, 137, 255),
+                      )),
+                ),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

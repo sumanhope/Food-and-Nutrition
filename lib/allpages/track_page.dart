@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/allpages/home_page.dart';
+import 'package:foodandnutrition/utils/foodcard.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,6 +16,18 @@ class TrackPage extends StatefulWidget {
 
 class _TrackPageState extends State<TrackPage> {
   final _controller = PageController();
+  final foodnamecontroller = TextEditingController();
+  final caloriescontroller = TextEditingController();
+  final carbscontroller = TextEditingController();
+  final proteincontroller = TextEditingController();
+  final fatscontroller = TextEditingController();
+  var textstyle = const TextStyle(
+    letterSpacing: 1.5,
+    fontSize: 14,
+    color: Colors.teal,
+    fontWeight: FontWeight.bold,
+    fontFamily: 'Poppins',
+  );
   Widget _circleProgress() {
     return SizedBox(
       width: 170,
@@ -55,7 +70,7 @@ class _TrackPageState extends State<TrackPage> {
                       Text(
                         "Remaining",
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 14,
                           color: Colors.white,
                           fontWeight: FontWeight.w600,
                           fontFamily: 'Poppins',
@@ -216,6 +231,61 @@ class _TrackPageState extends State<TrackPage> {
     await prefs.setInt('watercount', value1);
   }
 
+  Future errorDialog(String error) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(8)),
+          ),
+          backgroundColor: Colors.green,
+          elevation: 5,
+          title: Text(
+            error,
+            style: const TextStyle(
+              letterSpacing: 2.5,
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Future addFood() async {
+    try {
+      showDialog(
+          context: context,
+          barrierDismissible: true,
+          builder: (context) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          });
+      await FirebaseFirestore.instance.collection('foodtrack').doc().set({
+        "foodname": foodnamecontroller.text,
+        "calories": caloriescontroller.text,
+        "carbs": carbscontroller.text,
+        "protein": proteincontroller.text,
+        "fats": fatscontroller.text
+      }).then((value) {
+        Navigator.pop(context);
+        errorDialog("Sucessfully submitted");
+        foodnamecontroller.clear();
+        caloriescontroller.clear();
+        carbscontroller.clear();
+        proteincontroller.clear();
+        fatscontroller.clear();
+      });
+    } on FirebaseException catch (e) {
+      Navigator.pop(context);
+      errorDialog(e.toString());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -233,9 +303,124 @@ class _TrackPageState extends State<TrackPage> {
           ),
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text(
+                  'Track Food',
+                  style: textstyle,
+                  textAlign: TextAlign.center,
+                ),
+                content: SizedBox(
+                  height: 350,
+                  width: 450,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Name of food",
+                          style: textstyle,
+                        ),
+                        TextField(
+                          controller: foodnamecontroller,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Calories", style: textstyle),
+                        TextField(
+                          controller: caloriescontroller,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Carbs", style: textstyle),
+                        TextField(
+                          controller: carbscontroller,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Protein", style: textstyle),
+                        TextField(
+                          controller: proteincontroller,
+                        ),
+                        Text("Fats", style: textstyle),
+                        TextField(
+                          controller: fatscontroller,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                actions: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: 100,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              foodnamecontroller.clear();
+                              caloriescontroller.clear();
+                              carbscontroller.clear();
+                              proteincontroller.clear();
+                              fatscontroller.clear();
+                              Navigator.of(context).pop();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.teal,
+                            ),
+                            child: const Text('Close'),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: 100,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (foodnamecontroller.text.isNotEmpty &&
+                                  caloriescontroller.text.isNotEmpty &&
+                                  carbscontroller.text.isNotEmpty &&
+                                  proteincontroller.text.isNotEmpty &
+                                      fatscontroller.text.isNotEmpty) {
+                                addFood();
+                              } else {
+                                errorDialog("Please fill all fields");
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.teal,
+                            ),
+                            child: const Text('Submit'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SingleChildScrollView(
         child: Column(
-          //crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             SizedBox(
               height: 300,
@@ -444,7 +629,7 @@ class _TrackPageState extends State<TrackPage> {
                                 child: ElevatedButton(
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor:
-                                        const Color.fromARGB(255, 0, 150, 135),
+                                        const Color.fromARGB(255, 7, 255, 230),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30),
                                     ),
@@ -476,7 +661,7 @@ class _TrackPageState extends State<TrackPage> {
                                   },
                                   style: ElevatedButton.styleFrom(
                                     backgroundColor:
-                                        const Color.fromARGB(255, 0, 150, 135),
+                                        const Color.fromARGB(255, 7, 255, 230),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(30),
                                     ),
@@ -502,15 +687,76 @@ class _TrackPageState extends State<TrackPage> {
                 ],
               ),
             ),
-            SmoothPageIndicator(
-              controller: _controller,
-              count: 3,
-              effect: const ExpandingDotsEffect(
-                activeDotColor: Colors.teal,
-                dotHeight: 10,
-                dotWidth: 10,
-                strokeWidth: 2,
+            Center(
+              child: SmoothPageIndicator(
+                controller: _controller,
+                count: 3,
+                effect: const ExpandingDotsEffect(
+                  activeDotColor: Colors.teal,
+                  dotHeight: 10,
+                  dotWidth: 10,
+                  strokeWidth: 2,
+                ),
               ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(left: 20),
+              child: Text(
+                "All foods: ",
+                style: textstyle,
+                textAlign: TextAlign.left,
+              ),
+            ),
+            Flexible(
+              //fit: FlexFit.loose,
+              child: StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection("foodtrack")
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (snapshot.hasError) {
+                      return const Center(
+                        child: Text("Something is wrong"),
+                      );
+                    } else if (snapshot.data!.docs.isEmpty) {
+                      return Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "No food added",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                color: Colors.teal,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                    return ListView.builder(
+                      itemCount: snapshot.data!.docs.length,
+                      shrinkWrap: true,
+                      itemBuilder: ((context, index) {
+                        DocumentSnapshot docs = snapshot.data!.docs[index];
+                        return Smallcards(
+                            foodname: docs["foodname"],
+                            totalcalories: docs["calories"],
+                            press: () {});
+                      }),
+                    );
+                  }),
             ),
           ],
         ),

@@ -42,8 +42,12 @@ class _FoodPageState extends State<FoodPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          const FoodListScreen(title: "Low Fats"),
+                      builder: (context) => const FoodListScreen(
+                        title: "Low Fats",
+                        imageurl: "images/Low-Fat.jpg",
+                        description:
+                            "Beneficial for weight management, heart health. Nutrient-rich options, lower in calories and saturated fats.",
+                      ),
                     ),
                   );
                 },
@@ -57,8 +61,12 @@ class _FoodPageState extends State<FoodPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          const FoodListScreen(title: "High-Fiber"),
+                      builder: (context) => const FoodListScreen(
+                        title: "High-Fiber",
+                        imageurl: "images/high-fiber.jpg",
+                        description:
+                            "Important for healthy diet, Promote digestion, heart health, and weight management.",
+                      ),
                     ),
                   );
                 },
@@ -67,13 +75,17 @@ class _FoodPageState extends State<FoodPage> {
                 imagelink: "images/High-Protein.jpg",
                 about: 'contains list of high-protein foods',
                 type: 'High-Protein',
-                whichpatients: 'For test',
+                whichpatients: 'For muscles',
                 press: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          const FoodListScreen(title: "High-Protein"),
+                      builder: (context) => const FoodListScreen(
+                        title: "High-Protein",
+                        imageurl: "images/High-Protein.jpg",
+                        description:
+                            "Essential for muscle building and overall health, Support muscle growth and repair.",
+                      ),
                     ),
                   );
                 },
@@ -87,8 +99,12 @@ class _FoodPageState extends State<FoodPage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) =>
-                          const FoodListScreen(title: "Vegetarian"),
+                      builder: (context) => const FoodListScreen(
+                        title: "Vegetarian",
+                        imageurl: "images/vegetarian.jpg",
+                        description:
+                            "Nutrient-rich and support a healthy lifestyle, Provide essential vitamins, minerals, and fiber.",
+                      ),
                     ),
                   );
                 },

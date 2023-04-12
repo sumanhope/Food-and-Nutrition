@@ -67,9 +67,9 @@ class _LoginScreenState extends State<LoginScreen> {
     } on FirebaseAuthException catch (e) {
       Navigator.pop(context);
       if (e.code == 'user-not-found') {
-        errorDialog("Account doesn't exist");
+        errorDialog("Username or password is incorrect");
       } else if (e.code == 'wrong-password') {
-        errorDialog("Incorrect Passoword");
+        errorDialog("Username or passoword is incorrect.");
       } else if (e.code == 'invalid-email') {
         errorDialog("The email address is badly formatted");
       } else {
@@ -293,7 +293,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 signIn(usermail);
                               } on RangeError catch (e) {
                                 Navigator.of(context).pop();
-                                errorDialog("Account doesnot exist");
+                                errorDialog("Username or passoword is incorrect.");
                                 debugPrint(e.toString());
                               }
                             } else {

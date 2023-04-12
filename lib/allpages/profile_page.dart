@@ -300,12 +300,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 },
               ),
               ProfileMenu(
-                firsticon: Icons.notifications,
-                text: "Notification",
-                secondicon: Icons.chevron_right_sharp,
-                press: () {},
-              ),
-              ProfileMenu(
                 firsticon: Icons.share,
                 text: "Share with your friends",
                 secondicon: Icons.chevron_right_sharp,

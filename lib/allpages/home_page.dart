@@ -87,8 +87,11 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const FoodListScreen(title: "High-Fiber"),
+                            builder: (context) => const FoodListScreen(
+                              title: "High-Fiber",
+                              imageurl: "images/high-fiber.jpg",
+                              description: "",
+                            ),
                           ),
                         );
                       },
@@ -102,8 +105,11 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const FoodListScreen(title: "High Protein"),
+                            builder: (context) => const FoodListScreen(
+                              title: "High Protein",
+                              imageurl: "images/High-Protein.jpg",
+                              description: "",
+                            ),
                           ),
                         );
                       },
@@ -117,8 +123,11 @@ class _HomePageState extends State<HomePage> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) =>
-                                const FoodListScreen(title: "Vegetarian"),
+                            builder: (context) => const FoodListScreen(
+                              title: "Vegetarian",
+                              imageurl: "images/vegetarian.jpg",
+                              description: "",
+                            ),
                           ),
                         );
                       },
