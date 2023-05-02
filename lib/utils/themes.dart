@@ -4,6 +4,7 @@ class Styles {
   static ThemeData themeData(bool isDark, BuildContext context) {
     return ThemeData(
       canvasColor: Colors.white,
+      highlightColor: Colors.teal,
       scaffoldBackgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
       primarySwatch: Colors.teal,
       primaryColor: isDark ? Colors.black : Colors.teal,

@@ -14,14 +14,14 @@ class DarkThemePrefs {
 }
 
 class UsernamePerfs {
-  static const userName = "";
+  static const userName = "Loading";
   setUsername(String value) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString(userName, value);
   }
 
-  Future<String> getTheme() async {
+  Future<String> getUsername() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    return prefs.getString(userName) ?? "";
+    return prefs.getString(userName) ?? "Loading";
   }
 }

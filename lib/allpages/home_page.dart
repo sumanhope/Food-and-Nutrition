@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/allpages/foodlist.dart';
 import 'package:foodandnutrition/allpages/nutritional.dart';
+import 'package:foodandnutrition/services/darkthemeperf.dart';
 import 'package:foodandnutrition/utils/foodcard.dart';
 import 'package:intl/intl.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
@@ -24,13 +25,31 @@ class _HomePageState extends State<HomePage> {
   DateTime today = DateTime.now();
   String dateStr = "";
   bool reload = true;
+  UsernamePerfs testuser = UsernamePerfs();
   @override
   void initState() {
     //dateStr = "${today.year}/${today.month}/${today.day}";
     dateStr = DateFormat('MMM d,yyyy').format(today);
+    // testuser.getUsername().then((result) {
+    //   username = result;
+    //   if (username != "Loading") {
+    //     getData();
+    //   }
+    // });
+    callServer();
     debugPrint(dateStr);
     super.initState();
-    getData();
+  }
+
+  void callServer() async {
+    String test = await testuser.getUsername();
+    if (test == "Loading") {
+      getData();
+    } else {
+      setState(() {
+        username = test;
+      });
+    }
   }
 
   void getData() async {
@@ -40,6 +59,7 @@ class _HomePageState extends State<HomePage> {
         await FirebaseFirestore.instance.collection('users').doc(_uid).get();
     setState(() {
       username = userDoc.get('username');
+      testuser.setUsername(username);
     });
   }
 
