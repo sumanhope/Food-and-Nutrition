@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import "package:flutter/material.dart";
 import 'package:foodandnutrition/ProfileOptions/before_after.dart';
 import 'package:foodandnutrition/ProfileOptions/alldetails.dart';
+import 'package:foodandnutrition/Signup/addfood.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
 import 'package:foodandnutrition/allpages/accandpass.dart';
 import 'package:foodandnutrition/allpages/appsetting.dart';
@@ -296,6 +297,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => const AccountandPassword()),
+                  );
+                },
+              ),
+              ProfileMenu(
+                firsticon: Icons.fastfood,
+                text: "Add food",
+                secondicon: Icons.chevron_right_sharp,
+                press: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const Addfood()),
                   );
                 },
               ),

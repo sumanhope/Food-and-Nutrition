@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/allpages/food.dart';
 
 class ViewData extends StatefulWidget {
   const ViewData({super.key, required this.foodname, required this.foodId});
@@ -15,11 +16,26 @@ class _ViewDataState extends State<ViewData> {
   final box = const SizedBox(
     height: 5,
   );
+  final sidebox = const SizedBox(
+    width: 60,
+  );
   //String foodname = "Rice";
-  String calories = "0";
+  double calories = 0;
   String foodCat = "";
-  String servSize = "0";
+  double servSize = 0;
   bool isfav = false;
+  double fats = 100.0;
+  double crab = 100.0;
+  double fiber = 100.0;
+  double protein = 100.0;
+  double sugar = 100.0;
+  double iron = 100.0;
+  double calcium = 100.0;
+  double potassium = 100.0;
+  double vitaminA = 0.0;
+  double vitaminC = 0.0;
+  double vitaminD = 0.0;
+  String measure = "g";
 
   @override
   void initState() {
@@ -28,14 +44,27 @@ class _ViewDataState extends State<ViewData> {
   }
 
   void getData() async {
-    final DocumentSnapshot foodDoc = await FirebaseFirestore.instance
+    final foodDoc = await FirebaseFirestore.instance
         .collection('food')
         .doc(widget.foodId)
         .get();
+    final food = Food.fromMap(foodDoc.data()!);
     setState(() {
-      foodCat = foodDoc.get('foodCategory');
-      servSize = foodDoc.get('servingSize');
-      calories = foodDoc.get('calories');
+      foodCat = food.foodCategory;
+      servSize = food.servingSize;
+      calories = food.calories;
+      fats = food.fats;
+      crab = food.carbs;
+      fiber = food.fiber;
+      protein = food.protein;
+      sugar = food.sugar;
+      iron = food.iron;
+      calcium = food.calcium;
+      potassium = food.potassium;
+      vitaminA = food.vitaminA;
+      vitaminC = food.vitaminC;
+      vitaminD = food.vitaminD;
+      measure = food.measure;
       favornot();
     });
   }
@@ -214,7 +243,7 @@ class _ViewDataState extends State<ViewData> {
                     ),
                     box,
                     Text(
-                      "Serving Size: $servSize",
+                      "Serving Size: $servSize $measure",
                       style: const TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
@@ -224,7 +253,7 @@ class _ViewDataState extends State<ViewData> {
                     ),
                     box,
                     Text(
-                      "Calories: $calories",
+                      "Calories: $calories kcal",
                       style: const TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
@@ -259,9 +288,63 @@ class _ViewDataState extends State<ViewData> {
                       ),
                     ),
                     box,
-                    const Text(
-                      "Vitam A: ",
-                      style: TextStyle(
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Total Crab: ${crab}g",
+                          style: const TextStyle(
+                            letterSpacing: 1.5,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 40,
+                        ),
+                        Text(
+                          "Total Fats: ${fats}g",
+                          style: const TextStyle(
+                            letterSpacing: 1.5,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                      ],
+                    ),
+                    box,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Protein: ${protein}g",
+                          style: const TextStyle(
+                            letterSpacing: 1.5,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        sidebox,
+                        Text(
+                          "Fiber: ${fiber}g",
+                          style: const TextStyle(
+                            letterSpacing: 1.5,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                      ],
+                    ),
+                    box,
+                    Text(
+                      "Sugar: ${sugar}g",
+                      style: const TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -270,8 +353,44 @@ class _ViewDataState extends State<ViewData> {
                     ),
                     box,
                     const Text(
-                      "Total Crab:",
+                      "Minerals",
                       style: TextStyle(
+                        letterSpacing: 1.5,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                    box,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Iron: ${iron}mg",
+                          style: const TextStyle(
+                            letterSpacing: 1.5,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        sidebox,
+                        Text(
+                          "Calcium: ${calcium}mg",
+                          style: const TextStyle(
+                            letterSpacing: 1.5,
+                            fontSize: 14,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                      ],
+                    ),
+                    box,
+                    Text(
+                      "Potassium: ${potassium}mg",
+                      style: const TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -280,8 +399,18 @@ class _ViewDataState extends State<ViewData> {
                     ),
                     box,
                     const Text(
-                      "Iron: ",
+                      "Vitamins",
                       style: TextStyle(
+                        letterSpacing: 1.5,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                    box,
+                    Text(
+                      "Vitamin A: ${vitaminA}mcg",
+                      style: const TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -289,9 +418,9 @@ class _ViewDataState extends State<ViewData> {
                       ),
                     ),
                     box,
-                    const Text(
-                      "Sugar: ",
-                      style: TextStyle(
+                    Text(
+                      "Vitamin C: ${vitaminC}mcg",
+                      style: const TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
@@ -299,18 +428,47 @@ class _ViewDataState extends State<ViewData> {
                       ),
                     ),
                     box,
-                    const Text(
-                      "Vitamin D: ",
-                      style: TextStyle(
+                    Text(
+                      "Vitamin D: ${vitaminD}mcg",
+                      style: const TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                       ),
                     ),
+                    box,
                   ],
                 ),
               ),
+              const Divider(
+                thickness: 2,
+                indent: 14,
+                endIndent: 14,
+                color: Colors.teal,
+                height: 5,
+              ),
+              box,
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 19),
+                child: SizedBox(
+                  width: 400,
+                  child: Text(
+                    "Please note that nutrient values may vary depending "
+                    "on factors such as the type of rice, cooking method, "
+                    "and serving size.",
+                    maxLines: 5,
+                    softWrap: true,
+                    style: TextStyle(
+                      letterSpacing: 1.5,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ),
+              ),
+              box,
             ],
           ),
         ),

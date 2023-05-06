@@ -393,12 +393,12 @@ class _TrackPageState extends State<TrackPage> {
                             double testcarb = double.parse(carbs);
                             double testprotein = double.parse(protein);
                             double testfats = double.parse(fats);
-                            addCal(-testcal, -testcarb, -testprotein, -testfats)
-                                .then((_) {
-                              setState(() {
-                                // Refresh the page by calling setState()
-                              });
-                            });
+                            addCal(
+                              -testcal,
+                              -testcarb,
+                              -testprotein,
+                              -testfats,
+                            );
                           },
                         );
                       },
@@ -888,7 +888,7 @@ class _TrackPageState extends State<TrackPage> {
                     return const Center(child: CircularProgressIndicator());
                   }
 
-                  if (!snapshot.data!.exists) {
+                  if (!snapshot.hasData) {
                     return const Center(
                       child: Text(
                         "No food added",
@@ -906,9 +906,23 @@ class _TrackPageState extends State<TrackPage> {
                         snapshot.data!.data() as Map<String, dynamic>;
                     if (data.containsKey(currentDate)) {
                       List<dynamic> foodEntries = data[currentDate];
+                      if (foodEntries.isEmpty) {
+                        return const Center(
+                          child: Text(
+                            "Add food to track",
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(
+                              color: Colors.teal,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                      }
                       return ListView.builder(
                         itemCount: foodEntries.length,
                         shrinkWrap: true,
+
                         itemBuilder: (BuildContext context, int index) {
                           return Smallcards(
                             foodname: foodEntries[index]["foodname"],
@@ -924,6 +938,7 @@ class _TrackPageState extends State<TrackPage> {
                             },
                           );
                         },
+                        // add this line to show a message if the list is empty
                       );
                     } else {
                       return const Center(

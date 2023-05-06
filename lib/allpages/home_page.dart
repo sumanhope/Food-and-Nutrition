@@ -203,8 +203,8 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               Smallcards(
-                foodname: 'Rice, white (1cup)',
-                totalcalories: '223 cal',
+                foodname: 'Rice, cooked',
+                totalcalories: '130 kcal',
                 press: () {
                   Navigator.push(
                     context,
@@ -218,8 +218,8 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               Smallcards(
-                foodname: 'Noodles, (1cup)',
-                totalcalories: '159 cal',
+                foodname: 'Noodles, cooked',
+                totalcalories: '219 kcal',
                 press: () {
                   Navigator.push(
                     context,
@@ -231,8 +231,8 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               Smallcards(
-                foodname: 'Potato, (1 baked)',
-                totalcalories: '220 cal',
+                foodname: 'Potato, baked',
+                totalcalories: '220 kcal',
                 press: () {
                   Navigator.push(
                     context,
@@ -244,8 +244,8 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               Smallcards(
-                foodname: 'Banana, (1)',
-                totalcalories: '105 cal',
+                foodname: 'Banana',
+                totalcalories: '105 kcal',
                 press: () {
                   Navigator.push(
                     context,
