@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodandnutrition/allpages/foodlist.dart';
+import 'package:foodandnutrition/allpages/dietlist.dart';
 
 class FoodPage extends StatefulWidget {
   const FoodPage({super.key});

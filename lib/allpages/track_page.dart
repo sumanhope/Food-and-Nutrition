@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/allpages/home_page.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
-import 'package:percent_indicator/percent_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import 'trackpagewidgets.dart';
 
 class TrackPage extends StatefulWidget {
   const TrackPage({super.key});
@@ -21,10 +23,22 @@ class _TrackPageState extends State<TrackPage> {
   final carbscontroller = TextEditingController();
   final proteincontroller = TextEditingController();
   final fatscontroller = TextEditingController();
-  double percent = 0.0;
-  int basecal = 3000;
-  int foodcal = 0;
-  int remaining = 3000;
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+  String currentDate = DateTime.now().toString().substring(0, 10);
+  double percentcal = 0.0;
+  double percentcarbs = 0.0;
+  double percentprotein = 0.0;
+  double percentfats = 0.0;
+  double basecal = 3000;
+  double foodcal = 0;
+  double remaining = 3000;
+  double carbs = 0;
+  double protein = 0;
+  double fats = 0;
+  double basecarbs = 0; //(2000 x 0.5) / 4
+  double baseprotein = 0; // Grams of protein = (2000 x 0.2) / 4
+  double basefats = 0; //Grams of fats = (2000 x 0.3) / 9
+
   var textstyle = const TextStyle(
     letterSpacing: 1.5,
     fontSize: 14,
@@ -33,204 +47,100 @@ class _TrackPageState extends State<TrackPage> {
     fontFamily: 'Poppins',
   );
 
-  void addCal(int para) {
+  @override
+  void initState() {
+    super.initState();
+    loadWaterLevel();
+    getMacro();
+    getFoodTrack();
+  }
+
+  void getMacro() {
     setState(() {
-      if (percent > 1) {
-        percent = 1;
+      basecarbs = (basecal * 0.5) / 4;
+      baseprotein = (basecal * 0.2) / 4;
+      basefats = (basecal * 0.3) / 9;
+    });
+  }
+
+  addCal(double intakecal, double intakecarbs, double intakeprotein,
+      double intakefats) {
+    setState(() {
+      if (percentcal > 1) {
+        percentcal = 1;
       } else {
         //normalized_value = (value - min_value) / (max_value - min_value)
 
-        double test = (para - 0) / (basecal - 0);
-        foodcal += para;
+        double normalizecal = (intakecal - 0) / (basecal - 0);
+        double normalizecarbs = intakecarbs / basecarbs;
+        double normalizeprotein = intakeprotein / baseprotein;
+        double normalizefats = intakefats / basefats;
+
+        foodcal += intakecal;
+        carbs += intakecarbs;
+        protein += intakeprotein;
+        fats += intakefats;
         if (foodcal > basecal) {
           foodcal = basecal;
         }
-        percent += test;
-        if (percent > 1) {
-          percent = 1;
+        percentcal += normalizecal;
+        percentcarbs += normalizecarbs;
+        percentprotein += normalizeprotein;
+        percentfats += normalizefats;
+        if (percentcal > 1) {
+          percentcal = 1;
         }
-        remaining -= para;
+        remaining -= intakecal;
         if (remaining < 0) {
           remaining = basecal;
         }
-        debugPrint(foodcal.toString());
-        debugPrint(remaining.toString());
-        debugPrint(percent.toString());
+        // debugPrint(foodcal.toString());
+        // debugPrint(remaining.toString());
+        // debugPrint(percentcal.toString());
       }
     });
   }
 
-  Widget _circleProgress() {
-    return SizedBox(
-      width: 170,
-      height: 170,
-      child: Stack(
-        children: [
-          SizedBox(
-            width: 170,
-            height: 170,
-            child: CircularProgressIndicator(
-              strokeWidth: 8,
-              value: percent,
-              backgroundColor: Colors.white10.withOpacity(0.2),
-              valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
-            ),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              margin: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: const Color.fromARGB(88, 242, 242, 242),
-                  width: 6,
-                ),
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withOpacity(0.2),
-                ),
-                child: Container(
-                  margin: const EdgeInsets.all(22),
-                  child: foodcal != basecal
-                      ? Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const SizedBox(
-                              width: 150,
-                              child: Text(
-                                "Remaining",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: 'Poppins',
-                                ),
-                              ),
-                            ),
-                            Text(
-                              "$remaining",
-                              style: const TextStyle(
-                                fontSize: 22,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1,
-                                fontFamily: 'Poppins',
-                              ),
-                            ),
-                            const Text(
-                              "kcal",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Poppins',
-                              ),
-                            ),
-                          ],
-                        )
-                      : const Center(
-                          child: SizedBox(
-                            width: 150,
-                            child: Text(
-                              "All done",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.white,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: 'Poppins',
-                              ),
-                            ),
-                          ),
-                        ),
-                ),
-              ),
-            ),
-          )
-        ],
-      ),
-    );
-  }
+  Future getFoodTrack() async {
+    double totalCalories = 0;
+    double totalcarbs = 0;
+    double totalprotein = 0;
+    double totalfats = 0;
 
-  Widget _macronutrients() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        _marconutrientsTile(
-          title: 'Carbs',
-          percentValue: 0.5,
-          amountInGram: '14/323g',
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        _marconutrientsTile(
-          title: 'Protein',
-          percentValue: 0.7,
-          amountInGram: '14/129g',
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        _marconutrientsTile(
-          title: 'Fats',
-          percentValue: 0.4,
-          amountInGram: '14/85g',
-        ),
-      ],
-    );
-  }
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('foodtrack')
+          .doc(userId)
+          .get();
+      if (snapshot.exists) {
+        final data = snapshot.data();
+        if (data != null) {
+          final foodArray = data[currentDate] as List<dynamic>?;
 
-  Widget _marconutrientsTile(
-      {required String title,
-      required double percentValue,
-      required amountInGram}) {
-    return SizedBox(
-      height: 60,
-      width: 200,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            title,
-            style: const TextStyle(
-              fontSize: 18,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
-            ),
-          ),
-          LinearPercentIndicator(
-            width: 200,
-            animation: true,
-            lineHeight: 6,
-            animationDuration: 1500,
-            percent: percentValue,
-            barRadius: const Radius.circular(3),
-            padding: EdgeInsets.zero,
-            backgroundColor:
-                const Color.fromARGB(184, 255, 255, 255).withOpacity(0.3),
-            progressColor: Colors.white,
-          ),
-          Text(
-            amountInGram,
-            style: const TextStyle(
-              fontSize: 13,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Poppins',
-            ),
-          ),
-        ],
-      ),
-    );
+          if (foodArray != null) {
+            for (final foodData in foodArray) {
+              final calories = double.tryParse(foodData['calories'] ?? '');
+              final carbs = double.tryParse(foodData['carbs'] ?? '');
+              final protein = double.tryParse(foodData['protein'] ?? '');
+              final fats = double.tryParse(foodData['fats'] ?? '');
+
+              if (calories != null &&
+                  carbs != null &&
+                  protein != null &&
+                  fats != null) {
+                totalCalories += calories;
+                totalcarbs += carbs;
+                totalprotein += protein;
+                totalfats += fats;
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('Error getting food track data: $e');
+    }
+    addCal(totalCalories, totalcarbs, totalprotein, totalfats);
   }
 
   double waterlevel = 0;
@@ -261,12 +171,6 @@ class _TrackPageState extends State<TrackPage> {
       }
       saveWaterLevel(waterlevel, watercount);
     });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loadWaterLevel();
   }
 
   Future<void> loadWaterLevel() async {
@@ -307,7 +211,7 @@ class _TrackPageState extends State<TrackPage> {
     );
   }
 
-  Future addFood() async {
+  Future<void> addFood() async {
     try {
       showDialog(
           context: context,
@@ -317,13 +221,45 @@ class _TrackPageState extends State<TrackPage> {
               child: CircularProgressIndicator(),
             );
           });
-      await FirebaseFirestore.instance.collection('foodtrack').doc().set({
-        "foodname": foodnamecontroller.text,
-        "calories": caloriescontroller.text,
-        "carbs": carbscontroller.text,
-        "protein": proteincontroller.text,
-        "fats": fatscontroller.text
-      }).then((value) {
+
+      await FirebaseFirestore.instance
+          .collection('foodtrack')
+          .doc(userId)
+          .update({
+        currentDate: FieldValue.arrayUnion([
+          {
+            "foodname": foodnamecontroller.text,
+            "calories": caloriescontroller.text,
+            "carbs": carbscontroller.text,
+            "protein": proteincontroller.text,
+            "fats": fatscontroller.text
+          }
+        ])
+      });
+      Navigator.pop(context);
+      errorDialog("Sucessfully submitted");
+      foodnamecontroller.clear();
+      caloriescontroller.clear();
+      carbscontroller.clear();
+      proteincontroller.clear();
+      fatscontroller.clear();
+    } on FirebaseException catch (e) {
+      if (e.code == 'not-found') {
+        // Document doesn't exist, so create it with the food entry for the current date
+        await FirebaseFirestore.instance
+            .collection('foodtrack')
+            .doc(userId)
+            .set({
+          currentDate: [
+            {
+              "foodname": foodnamecontroller.text,
+              "calories": caloriescontroller.text,
+              "carbs": carbscontroller.text,
+              "protein": proteincontroller.text,
+              "fats": fatscontroller.text
+            }
+          ]
+        });
         Navigator.pop(context);
         errorDialog("Sucessfully submitted");
         foodnamecontroller.clear();
@@ -331,11 +267,154 @@ class _TrackPageState extends State<TrackPage> {
         carbscontroller.clear();
         proteincontroller.clear();
         fatscontroller.clear();
-      });
-    } on FirebaseException catch (e) {
+      } else {
+        // Handle other errors as needed
+        Navigator.pop(context);
+        errorDialog(e.toString());
+      }
+    } catch (e) {
+      // Handle other errors as needed
       Navigator.pop(context);
       errorDialog(e.toString());
     }
+    getFoodTrack();
+  }
+
+  Future<void> deleteFoodData(
+    int index,
+    String userId,
+    String currentDate,
+  ) async {
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('foodtrack')
+          .doc(userId)
+          .get();
+      if (snapshot.exists) {
+        final data = snapshot.data();
+        if (data != null) {
+          final foodArray = data[currentDate] as List<dynamic>?;
+
+          if (foodArray != null && foodArray.length > index) {
+            final newArray = List<dynamic>.from(foodArray)..removeAt(index);
+
+            await FirebaseFirestore.instance
+                .collection('foodtrack')
+                .doc(userId)
+                .update({
+              currentDate: newArray,
+            });
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint('Error deleting food data: $e');
+    }
+  }
+
+  Future showFoodDetails(String foodname, String calories, String carbs,
+      String protein, String fats, int whichindex) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(
+            'Food Details',
+            style: textstyle,
+            textAlign: TextAlign.center,
+          ),
+          content: SizedBox(
+            height: 200,
+            width: 450,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Text(
+                    "Name of food: $foodname",
+                    style: textstyle,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text("Calories: ${calories}kcal", style: textstyle),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text("Carbs: ${carbs}g", style: textstyle),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text("Protein: ${protein}g", style: textstyle),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text("Fats: ${fats}g", style: textstyle),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text("Index: $whichindex", style: textstyle),
+                ],
+              ),
+            ),
+          ),
+          actions: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 100,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                      ),
+                      child: const Text('Close'),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 100,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () async {
+                        await deleteFoodData(whichindex, userId, currentDate)
+                            .then(
+                          (value) {
+                            double testcal = double.parse(calories);
+                            double testcarb = double.parse(carbs);
+                            double testprotein = double.parse(protein);
+                            double testfats = double.parse(fats);
+                            addCal(-testcal, -testcarb, -testprotein, -testfats)
+                                .then((_) {
+                              setState(() {
+                                // Refresh the page by calling setState()
+                              });
+                            });
+                          },
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                      ),
+                      child: const Text('Delete'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -357,120 +436,119 @@ class _TrackPageState extends State<TrackPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          if (foodcal != basecal) {
-            addCal(600);
-          } else {
-            errorDialog("All done");
-          }
-
-          // showDialog(
-          //   context: context,
-          //   builder: (context) {
-          //     return AlertDialog(
-          //       title: Text(
-          //         'Track Food',
-          //         style: textstyle,
-          //         textAlign: TextAlign.center,
-          //       ),
-          //       content: SizedBox(
-          //         height: 350,
-          //         width: 450,
-          //         child: SingleChildScrollView(
-          //           child: Column(
-          //             mainAxisSize: MainAxisSize.min,
-          //             crossAxisAlignment: CrossAxisAlignment.start,
-          //             children: <Widget>[
-          //               Text(
-          //                 "Name of food",
-          //                 style: textstyle,
-          //               ),
-          //               TextField(
-          //                 controller: foodnamecontroller,
-          //               ),
-          //               const SizedBox(
-          //                 height: 10,
-          //               ),
-          //               Text("Calories", style: textstyle),
-          //               TextField(
-          //                 controller: caloriescontroller,
-          //               ),
-          //               const SizedBox(
-          //                 height: 10,
-          //               ),
-          //               Text("Carbs", style: textstyle),
-          //               TextField(
-          //                 controller: carbscontroller,
-          //               ),
-          //               const SizedBox(
-          //                 height: 10,
-          //               ),
-          //               Text("Protein", style: textstyle),
-          //               TextField(
-          //                 controller: proteincontroller,
-          //               ),
-          //               Text("Fats", style: textstyle),
-          //               TextField(
-          //                 controller: fatscontroller,
-          //               ),
-          //             ],
-          //           ),
-          //         ),
-          //       ),
-          //       actions: <Widget>[
-          //         Row(
-          //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          //           children: [
-          //             Padding(
-          //               padding: const EdgeInsets.all(8.0),
-          //               child: SizedBox(
-          //                 width: 100,
-          //                 height: 50,
-          //                 child: ElevatedButton(
-          //                   onPressed: () {
-          //                     foodnamecontroller.clear();
-          //                     caloriescontroller.clear();
-          //                     carbscontroller.clear();
-          //                     proteincontroller.clear();
-          //                     fatscontroller.clear();
-          //                     Navigator.of(context).pop();
-          //                   },
-          //                   style: ElevatedButton.styleFrom(
-          //                     backgroundColor: Colors.teal,
-          //                   ),
-          //                   child: const Text('Close'),
-          //                 ),
-          //               ),
-          //             ),
-          //             Padding(
-          //               padding: const EdgeInsets.all(8.0),
-          //               child: SizedBox(
-          //                 width: 100,
-          //                 height: 50,
-          //                 child: ElevatedButton(
-          //                   onPressed: () {
-          //                     if (foodnamecontroller.text.isNotEmpty &&
-          //                         caloriescontroller.text.isNotEmpty &&
-          //                         carbscontroller.text.isNotEmpty &&
-          //                         proteincontroller.text.isNotEmpty &
-          //                             fatscontroller.text.isNotEmpty) {
-          //                       addFood();
-          //                     } else {
-          //                       errorDialog("Please fill all fields");
-          //                     }
-          //                   },
-          //                   style: ElevatedButton.styleFrom(
-          //                     backgroundColor: Colors.teal,
-          //                   ),
-          //                   child: const Text('Submit'),
-          //                 ),
-          //               ),
-          //             ),
-          //           ],
-          //         ),
-          //       ],
-          //     );
-          //   },
-          // );
+          // if (foodcal != basecal) {
+          //   addCal(600);
+          // } else {
+          //   errorDialog("All done");
+          // }
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text(
+                  'Track Food',
+                  style: textstyle,
+                  textAlign: TextAlign.center,
+                ),
+                content: SizedBox(
+                  height: 350,
+                  width: 450,
+                  child: SingleChildScrollView(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Name of food",
+                          style: textstyle,
+                        ),
+                        TextField(
+                          controller: foodnamecontroller,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Calories", style: textstyle),
+                        TextField(
+                          controller: caloriescontroller,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Carbs", style: textstyle),
+                        TextField(
+                          controller: carbscontroller,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        Text("Protein", style: textstyle),
+                        TextField(
+                          controller: proteincontroller,
+                        ),
+                        Text("Fats", style: textstyle),
+                        TextField(
+                          controller: fatscontroller,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                actions: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: 100,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              foodnamecontroller.clear();
+                              caloriescontroller.clear();
+                              carbscontroller.clear();
+                              proteincontroller.clear();
+                              fatscontroller.clear();
+                              Navigator.of(context).pop();
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.teal,
+                            ),
+                            child: const Text('Close'),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: SizedBox(
+                          width: 100,
+                          height: 50,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (foodnamecontroller.text.isNotEmpty &&
+                                  caloriescontroller.text.isNotEmpty &&
+                                  carbscontroller.text.isNotEmpty &&
+                                  proteincontroller.text.isNotEmpty &
+                                      fatscontroller.text.isNotEmpty) {
+                                addFood();
+                              } else {
+                                errorDialog("Please fill all fields");
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.teal,
+                            ),
+                            child: const Text('Submit'),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              );
+            },
+          );
         },
         child: const Icon(Icons.add),
       ),
@@ -520,177 +598,56 @@ class _TrackPageState extends State<TrackPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              _circleProgress(),
+                              CircleProgress(
+                                  percentcal: percentcal,
+                                  foodcal: foodcal,
+                                  basecal: basecal,
+                                  remaining: remaining),
                               const SizedBox(
                                 width: 10,
                               ),
-                              Stack(
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      const Text(
-                                        "Base Goal",
-                                        style: TextStyle(
-                                          letterSpacing: 1,
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Poppins',
-                                        ),
-                                      ),
-                                      Text(
-                                        "$basecal kcal",
-                                        style: const TextStyle(
-                                          letterSpacing: 1.5,
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Poppins',
-                                        ),
-                                      ),
-                                      const Text(
-                                        "Food",
-                                        style: TextStyle(
-                                          letterSpacing: 1,
-                                          fontSize: 18,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Poppins',
-                                        ),
-                                      ),
-                                      Text(
-                                        "$foodcal kcal",
-                                        style: const TextStyle(
-                                          letterSpacing: 1.5,
-                                          fontSize: 14,
-                                          color: Colors.white,
-                                          fontWeight: FontWeight.bold,
-                                          fontFamily: 'Poppins',
-                                        ),
-                                      ),
-                                    ],
+                                  const Text(
+                                    "Base Goal",
+                                    style: TextStyle(
+                                      letterSpacing: 1,
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Poppins',
+                                    ),
                                   ),
-                                  Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 15, left: 80),
-                                    child: IconButton(
-                                      onPressed: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) {
-                                            return AlertDialog(
-                                              title: Text(
-                                                'Edit Base Goal',
-                                                style: textstyle,
-                                                textAlign: TextAlign.center,
-                                              ),
-                                              content: SizedBox(
-                                                height: 80,
-                                                width: 450,
-                                                child: Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    Text(
-                                                      "Total Calories",
-                                                      style: textstyle,
-                                                    ),
-                                                    TextField(
-                                                      controller:
-                                                          basecalcontroller,
-                                                      keyboardType:
-                                                          TextInputType.number,
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              actions: <Widget>[
-                                                Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceEvenly,
-                                                  children: [
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: SizedBox(
-                                                        width: 100,
-                                                        height: 50,
-                                                        child: ElevatedButton(
-                                                          onPressed: () {
-                                                            basecalcontroller
-                                                                .clear();
-                                                            Navigator.of(
-                                                                    context)
-                                                                .pop();
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            backgroundColor:
-                                                                Colors.teal,
-                                                          ),
-                                                          child: const Text(
-                                                              'Close'),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              8.0),
-                                                      child: SizedBox(
-                                                        width: 100,
-                                                        height: 50,
-                                                        child: ElevatedButton(
-                                                          onPressed: () {
-                                                            if (basecalcontroller
-                                                                .text
-                                                                .isNotEmpty) {
-                                                              setState(() {
-                                                                basecal = int.parse(
-                                                                    basecalcontroller
-                                                                        .text);
-                                                                remaining =
-                                                                    basecal;
-                                                              });
-                                                              Navigator.of(
-                                                                      context)
-                                                                  .pop();
-                                                              errorDialog(
-                                                                  "Changed");
-                                                            } else {
-                                                              errorDialog(
-                                                                  "Please fill all fields");
-                                                            }
-                                                          },
-                                                          style: ElevatedButton
-                                                              .styleFrom(
-                                                            backgroundColor:
-                                                                Colors.teal,
-                                                          ),
-                                                          child: const Text(
-                                                              'Submit'),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      },
-                                      icon: const Icon(
-                                        Icons.edit_note_rounded,
-                                        color: Colors.white,
-                                        size: 30,
-                                      ),
+                                  Text(
+                                    "$basecal kcal",
+                                    style: const TextStyle(
+                                      letterSpacing: 1.5,
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
+                                  const Text(
+                                    "Food",
+                                    style: TextStyle(
+                                      letterSpacing: 1,
+                                      fontSize: 18,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Poppins',
+                                    ),
+                                  ),
+                                  Text(
+                                    "$foodcal kcal",
+                                    style: const TextStyle(
+                                      letterSpacing: 1.5,
+                                      fontSize: 14,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontFamily: 'Poppins',
                                     ),
                                   ),
                                 ],
@@ -735,7 +692,16 @@ class _TrackPageState extends State<TrackPage> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              _macronutrients(),
+                              MacroNutrients(
+                                  basecarb: basecarbs,
+                                  carb: carbs,
+                                  perccarbs: percentcarbs,
+                                  baseprot: baseprotein,
+                                  prot: protein,
+                                  percprot: percentprotein,
+                                  basefat: basefats,
+                                  fat: fats,
+                                  percfats: percentfats),
                             ],
                           ),
                         ],
@@ -896,54 +862,98 @@ class _TrackPageState extends State<TrackPage> {
                 textAlign: TextAlign.left,
               ),
             ),
-            // Flexible(
-            //   //fit: FlexFit.loose,
-            //   child: StreamBuilder(
-            //       stream: FirebaseFirestore.instance
-            //           .collection("foodtrack")
-            //           .snapshots(),
-            //       builder: (context, snapshot) {
-            //         if (snapshot.connectionState == ConnectionState.waiting) {
-            //           return const Center(child: CircularProgressIndicator());
-            //         } else if (snapshot.hasError) {
-            //           return const Center(
-            //             child: Text("Something is wrong"),
-            //           );
-            //         } else if (snapshot.data!.docs.isEmpty) {
-            //           return Center(
-            //             child: Column(
-            //               crossAxisAlignment: CrossAxisAlignment.center,
-            //               mainAxisAlignment: MainAxisAlignment.center,
-            //               children: const [
-            //                 SizedBox(
-            //                   height: 5,
-            //                 ),
-            //                 Text(
-            //                   "No food added",
-            //                   textAlign: TextAlign.justify,
-            //                   style: TextStyle(
-            //                     color: Colors.teal,
-            //                     fontSize: 18,
-            //                     fontWeight: FontWeight.bold,
-            //                   ),
-            //                 ),
-            //               ],
-            //             ),
-            //           );
-            //         }
-            //         return ListView.builder(
-            //           itemCount: snapshot.data!.docs.length,
-            //           shrinkWrap: true,
-            //           itemBuilder: ((context, index) {
-            //             DocumentSnapshot docs = snapshot.data!.docs[index];
-            //             return Smallcards(
-            //                 foodname: docs["foodname"],
-            //                 totalcalories: docs["calories"],
-            //                 press: () {});
-            //           }),
-            //         );
-            //       }),
-            // ),
+            Flexible(
+              //fit: FlexFit.loose,
+              child: StreamBuilder(
+                stream: FirebaseFirestore.instance
+                    .collection('foodtrack')
+                    .doc(userId)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text(
+                        "Error: ${snapshot.error}",
+                        textAlign: TextAlign.justify,
+                        style: const TextStyle(
+                          color: Colors.teal,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (!snapshot.data!.exists) {
+                    return const Center(
+                      child: Text(
+                        "No food added",
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          color: Colors.teal,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  }
+                  if (snapshot.data!.exists) {
+                    Map<String, dynamic> data =
+                        snapshot.data!.data() as Map<String, dynamic>;
+                    if (data.containsKey(currentDate)) {
+                      List<dynamic> foodEntries = data[currentDate];
+                      return ListView.builder(
+                        itemCount: foodEntries.length,
+                        shrinkWrap: true,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Smallcards(
+                            foodname: foodEntries[index]["foodname"],
+                            totalcalories: foodEntries[index]["calories"],
+                            press: () {
+                              showFoodDetails(
+                                  foodEntries[index]["foodname"],
+                                  foodEntries[index]["calories"],
+                                  foodEntries[index]["carbs"],
+                                  foodEntries[index]["protein"],
+                                  foodEntries[index]["fats"],
+                                  index);
+                            },
+                          );
+                        },
+                      );
+                    } else {
+                      return const Center(
+                        child: Text(
+                          "Add food to track",
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            color: Colors.teal,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      );
+                    }
+                  } else {
+                    return const Center(
+                      child: Text(
+                        "No food added",
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          color: Colors.teal,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    );
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),

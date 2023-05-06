@@ -18,9 +18,7 @@ class _ViewDataState extends State<ViewData> {
   //String foodname = "Rice";
   String calories = "0";
   String foodCat = "";
-  String foodDesc = "";
   String servSize = "0";
-  String imageurl = "";
   bool isfav = false;
 
   @override
@@ -35,9 +33,7 @@ class _ViewDataState extends State<ViewData> {
         .doc(widget.foodId)
         .get();
     setState(() {
-      imageurl = foodDoc.get('imageurl');
       foodCat = foodDoc.get('foodCategory');
-      foodDesc = foodDoc.get('foodDescription');
       servSize = foodDoc.get('servingSize');
       calories = foodDoc.get('calories');
       favornot();
@@ -148,17 +144,17 @@ class _ViewDataState extends State<ViewData> {
                       width: 350,
                       height: 250,
                       decoration: BoxDecoration(
-                        color: Colors.amber,
+                        color: Colors.teal,
                         borderRadius: BorderRadius.circular(16),
-                        image: imageurl != ""
-                            ? DecorationImage(
-                                image: NetworkImage(imageurl),
-                                fit: BoxFit.fill,
-                              )
-                            : const DecorationImage(
-                                image: AssetImage("images/box.png"),
-                                fit: BoxFit.cover,
-                              ),
+                        // image: imageurl != ""
+                        //     ? DecorationImage(
+                        //         image: NetworkImage(imageurl),
+                        //         fit: BoxFit.fill,
+                        //       )
+                        //     : const DecorationImage(
+                        //         image: AssetImage("images/box.png"),
+                        //         fit: BoxFit.cover,
+                        //       ),
                         //color: const Color.fromARGB(94, 68, 137, 255),
                       )),
                 ),
@@ -219,16 +215,6 @@ class _ViewDataState extends State<ViewData> {
                     box,
                     Text(
                       "Serving Size: $servSize",
-                      style: const TextStyle(
-                        letterSpacing: 1.5,
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
-                    box,
-                    Text(
-                      "Food Description: $foodDesc",
                       style: const TextStyle(
                         letterSpacing: 1.5,
                         fontSize: 14,
