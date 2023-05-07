@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/allpages/food.dart';
+import 'package:foodandnutrition/allpages/indicator.dart';
+import 'package:foodandnutrition/allpages/piechart.dart';
 
 class ViewData extends StatefulWidget {
   const ViewData({super.key, required this.foodname, required this.foodId});
@@ -36,7 +39,10 @@ class _ViewDataState extends State<ViewData> {
   double vitaminC = 0.0;
   double vitaminD = 0.0;
   String measure = "g";
-
+  Showpiechart pie = Showpiechart();
+  double fatpercent = 0.0;
+  double carbspercent = 0.0;
+  double proteinpercent = 0.0;
   @override
   void initState() {
     getData();
@@ -66,6 +72,23 @@ class _ViewDataState extends State<ViewData> {
       vitaminD = food.vitaminD;
       measure = food.measure;
       favornot();
+    });
+    caloriesbreakdown(crab, fats, protein, calories);
+    debugPrint("Carbs %: $carbspercent");
+    debugPrint("Fat %: $fatpercent");
+    debugPrint("Protein %: $proteinpercent");
+  }
+
+  void caloriesbreakdown(
+      double carbs, double fat, double protein, double calories) {
+    double calfat = fat * 9;
+    double calcarb = carbs * 4;
+    double calprotein = protein * 4;
+    double cal = calfat + calcarb + calprotein;
+    setState(() {
+      carbspercent = (calcarb / cal) * 100;
+      fatpercent = (calfat / cal) * 100;
+      proteinpercent = (calprotein / cal) * 100;
     });
   }
 
@@ -141,6 +164,8 @@ class _ViewDataState extends State<ViewData> {
         );
   }
 
+  int touchedIndex = -1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,23 +194,102 @@ class _ViewDataState extends State<ViewData> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                   child: Container(
-                      alignment: Alignment.center,
-                      width: 350,
-                      height: 250,
-                      decoration: BoxDecoration(
-                        color: Colors.teal,
-                        borderRadius: BorderRadius.circular(16),
-                        // image: imageurl != ""
-                        //     ? DecorationImage(
-                        //         image: NetworkImage(imageurl),
-                        //         fit: BoxFit.fill,
-                        //       )
-                        //     : const DecorationImage(
-                        //         image: AssetImage("images/box.png"),
-                        //         fit: BoxFit.cover,
-                        //       ),
-                        //color: const Color.fromARGB(94, 68, 137, 255),
-                      )),
+                    alignment: Alignment.center,
+                    width: 350,
+                    height: 250,
+                    decoration: BoxDecoration(
+                      color: Colors.teal,
+                      borderRadius: BorderRadius.circular(16),
+                      // image: imageurl != ""
+                      //     ? DecorationImage(
+                      //         image: NetworkImage(imageurl),
+                      //         fit: BoxFit.fill,
+                      //       )
+                      //     : const DecorationImage(
+                      //         image: AssetImage("images/box.png"),
+                      //         fit: BoxFit.cover,
+                      //       ),
+                      //color: const Color.fromARGB(94, 68, 137, 255),
+                    ),
+                    child: Row(
+                      children: <Widget>[
+                        const SizedBox(
+                          width: 20,
+                        ),
+                        Expanded(
+                          child: AspectRatio(
+                            aspectRatio: 0.5,
+                            child: PieChart(
+                              PieChartData(
+                                pieTouchData: PieTouchData(
+                                  touchCallback:
+                                      (FlTouchEvent event, pieTouchResponse) {
+                                    setState(() {
+                                      if (!event.isInterestedForInteractions ||
+                                          pieTouchResponse == null ||
+                                          pieTouchResponse.touchedSection ==
+                                              null) {
+                                        touchedIndex = -1;
+                                        return;
+                                      }
+                                      touchedIndex = pieTouchResponse
+                                          .touchedSection!.touchedSectionIndex;
+                                    });
+                                  },
+                                ),
+                                borderData: FlBorderData(
+                                  show: false,
+                                ),
+                                sectionsSpace: 0,
+                                centerSpaceRadius: 0,
+                                sections: pie.showingSections(touchedIndex,
+                                    carbspercent, fatpercent, proteinpercent),
+                              ),
+                            ),
+                          ),
+                        ),
+                        // const SizedBox(
+                        //   width: 10,
+                        // ),
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: const <Widget>[
+                            Indicator(
+                              color: Colors.indigo,
+                              text: 'Carbs',
+                              isSquare: false,
+                              textColor: Colors.white,
+                            ),
+                            SizedBox(
+                              height: 6,
+                            ),
+                            Indicator(
+                              color: Colors.yellow,
+                              text: 'Fats',
+                              isSquare: false,
+                              textColor: Colors.white,
+                            ),
+                            SizedBox(
+                              height: 6,
+                            ),
+                            Indicator(
+                              color: Colors.blue,
+                              text: 'Protein',
+                              isSquare: false,
+                              textColor: Colors.white,
+                            ),
+                            SizedBox(
+                              height: 18,
+                            ),
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 18,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
               Row(

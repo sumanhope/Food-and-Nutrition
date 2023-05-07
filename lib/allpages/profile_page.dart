@@ -11,6 +11,7 @@ import 'package:foodandnutrition/Welcome/welcome_page.dart';
 import 'package:foodandnutrition/allpages/accandpass.dart';
 import 'package:foodandnutrition/allpages/appsetting.dart';
 import 'package:foodandnutrition/allpages/favourite_page.dart';
+import 'package:foodandnutrition/allpages/piechart.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 

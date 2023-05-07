@@ -77,14 +77,14 @@ class _FavouritePageState extends State<FavouritePage> {
                 itemBuilder: ((context, index) {
                   DocumentSnapshot docs = snapshot.data!.docs[index];
                   return Smallcards(
-                      foodname: docs['foodName'],
-                      totalcalories: docs['calories'],
+                      foodname: docs['foodName'].toString(),
+                      totalcalories: docs['calories'].toString(),
                       press: () {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
                             builder: (context) => ViewData(
-                                foodId: docs['foodID'],
+                                foodId: docs['foodID'].toString(),
                                 foodname: docs['foodName']),
                           ),
                         );

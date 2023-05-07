@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/allpages/details.dart';
+import 'package:foodandnutrition/allpages/nutritional.dart';
 import 'package:foodandnutrition/services/foodlist.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
@@ -111,51 +112,53 @@ class _SearchPageState extends State<SearchPage> {
             centerTitle: true,
           ),
           body: SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(
-                  height: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: buildUser(),
-                ),
-                Expanded(
-                  child: _foodList.isNotEmpty
-                      ? ListView.builder(
-                          itemCount: _foodList.length,
-                          itemBuilder: (context, index) => Card(
-                            key: ValueKey(_foodList[index].id),
-                            //color: const Color.fromARGB(153, 0, 150, 135),
-                            elevation: 9,
-                            shadowColor: Colors.teal[800],
-                            child: ListTile(
-                              // leading: Text(
-                              //   _foodList[index].id.toString(),
-                              //   style: const TextStyle(
-                              //       fontSize: 24, color: Colors.white),
-                              // ),
-                              title: Text(_foodList[index].name,
-                                  style: const TextStyle(color: Colors.white)),
-                              subtitle: Text(_foodList[index].foodCategory,
-                                  style: const TextStyle(color: Colors.white)),
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          DetailScreen(_foodList[index].id)),
-                                );
-                              },
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 8.0),
+                    child: buildUser(),
+                  ),
+                  Expanded(
+                    child: _foodList.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: _foodList.length,
+                            itemBuilder: (context, index) => Card(
+                              key: ValueKey(_foodList[index].id),
+                              //color: const Color.fromARGB(153, 0, 150, 135),
+                              elevation: 9,
+                              shadowColor: Colors.teal[800],
+                              child: ListTile(
+                                title: Text(_foodList[index].name,
+                                    style:
+                                        const TextStyle(color: Colors.white)),
+                                subtitle: Text(_foodList[index].foodCategory,
+                                    style:
+                                        const TextStyle(color: Colors.white)),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => ViewData(
+                                              foodId: '${_foodList[index].id}',
+                                              foodname: _foodList[index].name,
+                                            )),
+                                  );
+                                },
+                              ),
                             ),
+                          )
+                        : const Text(
+                            'No results found',
+                            style: TextStyle(fontSize: 24),
                           ),
-                        )
-                      : const Text(
-                          'No results found',
-                          style: TextStyle(fontSize: 24),
-                        ),
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

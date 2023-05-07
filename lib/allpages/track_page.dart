@@ -907,15 +907,32 @@ class _TrackPageState extends State<TrackPage> {
                     if (data.containsKey(currentDate)) {
                       List<dynamic> foodEntries = data[currentDate];
                       if (foodEntries.isEmpty) {
-                        return const Center(
-                          child: Text(
-                            "Add food to track",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                              color: Colors.teal,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        return Center(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              SizedBox(
+                                height: 50,
+                              ),
+                              Icon(
+                                Icons.fastfood,
+                                size: 40,
+                                color: Colors.teal,
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Use below button to track!",
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(
+                                  color: Colors.teal,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                         );
                       }
@@ -941,15 +958,32 @@ class _TrackPageState extends State<TrackPage> {
                         // add this line to show a message if the list is empty
                       );
                     } else {
-                      return const Center(
-                        child: Text(
-                          "Add food to track",
-                          textAlign: TextAlign.justify,
-                          style: TextStyle(
-                            color: Colors.teal,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                      return Center(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            SizedBox(
+                              height: 50,
+                            ),
+                            Icon(
+                              Icons.fastfood,
+                              size: 40,
+                              color: Colors.teal,
+                            ),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              "Use below button to track!",
+                              textAlign: TextAlign.justify,
+                              style: TextStyle(
+                                color: Colors.teal,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       );
                     }
