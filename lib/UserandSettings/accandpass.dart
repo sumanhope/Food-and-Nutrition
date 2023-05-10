@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/ForgotPassword/changepass_page.dart';
-import 'package:foodandnutrition/allpages/accountdelete.dart';
-import 'package:foodandnutrition/allpages/profile_page.dart';
+import 'package:foodandnutrition/UserandSettings/accountdelete.dart';
+import 'package:foodandnutrition/navpages/profile_page.dart';
 
 class AccountandPassword extends StatefulWidget {
   const AccountandPassword({super.key});

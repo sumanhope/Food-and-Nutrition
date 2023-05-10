@@ -1,12 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:foodandnutrition/allpages/home_page.dart';
+import 'package:foodandnutrition/CaloriesTracking/datadisplay.dart';
+import 'package:foodandnutrition/navpages/home_page.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
-import 'trackpagewidgets.dart';
+import '../CaloriesTracking/trackpagewidgets.dart';
 
 class TrackPage extends StatefulWidget {
   const TrackPage({super.key});
@@ -564,275 +565,317 @@ class _TrackPageState extends State<TrackPage> {
                 scrollDirection: Axis.horizontal,
                 controller: _controller,
                 children: [
-                  AspectRatio(
-                    aspectRatio: 1.2,
-                    child: Container(
-                      padding: const EdgeInsets.all(18),
-                      margin: const EdgeInsets.only(
-                          top: 20, left: 10, right: 10, bottom: 10),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 0.1, left: 10),
-                            child: Text(
-                              "Calories",
-                              style: TextStyle(
-                                letterSpacing: 1.5,
-                                fontSize: 22,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Poppins',
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const AllTrack(
+                              page: 0,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: AspectRatio(
+                      aspectRatio: 1.2,
+                      child: Container(
+                        padding: const EdgeInsets.all(18),
+                        margin: const EdgeInsets.only(
+                            top: 20, left: 10, right: 10, bottom: 10),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).backgroundColor,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(top: 0.1, left: 10),
+                              child: Text(
+                                "Calories",
+                                style: TextStyle(
+                                  letterSpacing: 1.5,
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins',
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              CircleProgress(
-                                  percentcal: percentcal,
-                                  foodcal: foodcal,
-                                  basecal: basecal,
-                                  remaining: remaining),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "Base Goal",
-                                    style: TextStyle(
-                                      letterSpacing: 1,
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Poppins',
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                CircleProgress(
+                                    percentcal: percentcal,
+                                    foodcal: foodcal,
+                                    basecal: basecal,
+                                    remaining: remaining),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    const Text(
+                                      "Base Goal",
+                                      style: TextStyle(
+                                        letterSpacing: 1,
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins',
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "$basecal kcal",
-                                    style: const TextStyle(
-                                      letterSpacing: 1.5,
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Poppins',
+                                    Text(
+                                      "$basecal kcal",
+                                      style: const TextStyle(
+                                        letterSpacing: 1.5,
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins',
+                                      ),
                                     ),
-                                  ),
-                                  const Text(
-                                    "Food",
-                                    style: TextStyle(
-                                      letterSpacing: 1,
-                                      fontSize: 18,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Poppins',
+                                    const Text(
+                                      "Food",
+                                      style: TextStyle(
+                                        letterSpacing: 1,
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins',
+                                      ),
                                     ),
-                                  ),
-                                  Text(
-                                    "$foodcal kcal",
-                                    style: const TextStyle(
-                                      letterSpacing: 1.5,
-                                      fontSize: 14,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Poppins',
+                                    Text(
+                                      "$foodcal kcal",
+                                      style: const TextStyle(
+                                        letterSpacing: 1.5,
+                                        fontSize: 14,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins',
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          )
-                        ],
+                                  ],
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                   AspectRatio(
                     aspectRatio: 1.4,
-                    child: Container(
-                      padding: const EdgeInsets.all(18),
-                      margin: const EdgeInsets.only(
-                          top: 20, left: 10, right: 10, bottom: 10),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 0.1, left: 10),
-                            child: Text(
-                              "Macro Nutrients",
-                              style: TextStyle(
-                                letterSpacing: 1.5,
-                                fontSize: 22,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Poppins',
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) {
+                              return const AllTrack(
+                                page: 1,
+                              );
+                            },
+                          ),
+                        );
+                      },
+                      child: Container(
+                        padding: const EdgeInsets.all(18),
+                        margin: const EdgeInsets.only(
+                            top: 20, left: 10, right: 10, bottom: 10),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).backgroundColor,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(top: 0.1, left: 10),
+                              child: Text(
+                                "Macro Nutrients",
+                                style: TextStyle(
+                                  letterSpacing: 1.5,
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins',
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              MacroNutrients(
-                                  basecarb: basecarbs,
-                                  carb: carbs,
-                                  perccarbs: percentcarbs,
-                                  baseprot: baseprotein,
-                                  prot: protein,
-                                  percprot: percentprotein,
-                                  basefat: basefats,
-                                  fat: fats,
-                                  percfats: percentfats),
-                            ],
-                          ),
-                        ],
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                MacroNutrients(
+                                    basecarb: basecarbs,
+                                    carb: carbs,
+                                    perccarbs: percentcarbs,
+                                    baseprot: baseprotein,
+                                    prot: protein,
+                                    percprot: percentprotein,
+                                    basefat: basefats,
+                                    fat: fats,
+                                    percfats: percentfats),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                  AspectRatio(
-                    aspectRatio: 1.4,
-                    child: Container(
-                      padding: const EdgeInsets.all(18),
-                      margin: const EdgeInsets.only(
-                          top: 20, left: 10, right: 10, bottom: 10),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).backgroundColor,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Padding(
-                            padding: EdgeInsets.only(top: 0.1, left: 10),
-                            child: Text(
-                              "Water",
-                              style: TextStyle(
-                                letterSpacing: 1.5,
-                                fontSize: 22,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Poppins',
+                  InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) {
+                            return const AllTrack(
+                              page: 2,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    child: AspectRatio(
+                      aspectRatio: 1.4,
+                      child: Container(
+                        padding: const EdgeInsets.all(18),
+                        margin: const EdgeInsets.only(
+                            top: 20, left: 10, right: 10, bottom: 10),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).backgroundColor,
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Padding(
+                              padding: EdgeInsets.only(top: 0.1, left: 10),
+                              child: Text(
+                                "Water",
+                                style: TextStyle(
+                                  letterSpacing: 1.5,
+                                  fontSize: 22,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins',
+                                ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              SizedBox(
-                                width: 140,
-                                height: 140,
-                                child: LiquidCircularProgressIndicator(
-                                  value: waterlevel,
-                                  backgroundColor: Colors.white,
-                                  valueColor: const AlwaysStoppedAnimation(
-                                      Colors.tealAccent),
-                                  center: Text(
-                                    watercount == 10
-                                        ? "😄"
-                                        : watercount == 0
-                                            ? "😔"
-                                            : "$watercount/10",
-                                    style: const TextStyle(
-                                      letterSpacing: 1.5,
-                                      fontSize: 22,
-                                      color: Colors.teal,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Poppins',
+                            const SizedBox(
+                              height: 4,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                SizedBox(
+                                  width: 140,
+                                  height: 140,
+                                  child: LiquidCircularProgressIndicator(
+                                    value: waterlevel,
+                                    backgroundColor: Colors.white,
+                                    valueColor: const AlwaysStoppedAnimation(
+                                        Colors.tealAccent),
+                                    center: Text(
+                                      watercount == 10
+                                          ? "😄"
+                                          : watercount == 0
+                                              ? "😔"
+                                              : "$watercount/10",
+                                      style: const TextStyle(
+                                        letterSpacing: 1.5,
+                                        fontSize: 22,
+                                        color: Colors.teal,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins',
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceAround,
-                            children: [
-                              SizedBox(
-                                width: 50,
-                                height: 50,
-                                child: ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 7, 255, 230),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
+                              ],
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 7, 255, 230),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
                                     ),
-                                  ),
-                                  child: const Text(
-                                    "+",
-                                    style: TextStyle(
-                                      letterSpacing: 1.5,
-                                      fontSize: 22,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Poppins',
+                                    child: const Text(
+                                      "+",
+                                      style: TextStyle(
+                                        letterSpacing: 1.5,
+                                        fontSize: 22,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins',
+                                      ),
                                     ),
-                                  ),
-                                  onPressed: () {
-                                    incrementWaterLevel();
-                                  },
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 10,
-                              ),
-                              SizedBox(
-                                width: 50,
-                                height: 50,
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    decrementWaterLevel();
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor:
-                                        const Color.fromARGB(255, 7, 255, 230),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                  ),
-                                  child: const Text(
-                                    "-",
-                                    style: TextStyle(
-                                      letterSpacing: 1.5,
-                                      fontSize: 22,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontFamily: 'Poppins',
-                                    ),
+                                    onPressed: () {
+                                      incrementWaterLevel();
+                                    },
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                SizedBox(
+                                  width: 50,
+                                  height: 50,
+                                  child: ElevatedButton(
+                                    onPressed: () {
+                                      decrementWaterLevel();
+                                    },
+                                    style: ElevatedButton.styleFrom(
+                                      backgroundColor: const Color.fromARGB(
+                                          255, 7, 255, 230),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                    ),
+                                    child: const Text(
+                                      "-",
+                                      style: TextStyle(
+                                        letterSpacing: 1.5,
+                                        fontSize: 22,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.bold,
+                                        fontFamily: 'Poppins',
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),

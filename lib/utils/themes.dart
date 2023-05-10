@@ -4,7 +4,7 @@ class Styles {
   static ThemeData themeData(bool isDark, BuildContext context) {
     return ThemeData(
       canvasColor: Colors.white,
-      highlightColor: Colors.teal,
+      highlightColor: isDark ? const Color(0xFF9C9C9C) : Colors.teal,
       scaffoldBackgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
       primarySwatch: Colors.teal,
       primaryColor: isDark ? Colors.black : Colors.teal,
@@ -16,11 +16,10 @@ class Styles {
           isDark ? Colors.grey.shade800 : Colors.teal.shade800,
       unselectedWidgetColor: isDark ? Colors.white : Colors.black,
       indicatorColor: isDark ? Colors.white : Colors.teal,
-      colorScheme: ThemeData().colorScheme.copyWith(
-            secondary:
-                isDark ? const Color.fromARGB(255, 22, 22, 22) : Colors.teal,
-            brightness: isDark ? Brightness.dark : Brightness.light,
-          ),
+      // colorScheme: ThemeData().colorScheme.copyWith(
+      //       secondary: isDark ? Color.fromARGB(255, 108, 16, 16) : Colors.teal,
+      //       brightness: isDark ? Brightness.dark : Brightness.light,
+      //     ),
       cardColor: isDark
           ? const Color.fromARGB(255, 48, 48, 48)
           : const Color.fromARGB(102, 0, 150, 135),

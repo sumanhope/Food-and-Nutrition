@@ -22,7 +22,7 @@ class Showpiechart {
               color: const Color(0xffffffff),
               fontFamily: 'Poppins',
             ),
-            titlePositionPercentageOffset: 1.2,
+            titlePositionPercentageOffset: 1.3,
           );
         case 1:
           return PieChartSectionData(
@@ -36,7 +36,7 @@ class Showpiechart {
               color: const Color(0xffffffff),
               fontFamily: 'Poppins',
             ),
-            titlePositionPercentageOffset: 1.2,
+            titlePositionPercentageOffset: 1.3,
           );
         case 2:
           return PieChartSectionData(
@@ -50,7 +50,7 @@ class Showpiechart {
               color: const Color(0xffffffff),
               fontFamily: 'Poppins',
             ),
-            titlePositionPercentageOffset: 1.2,
+            titlePositionPercentageOffset: 1.3,
           );
         default:
           throw Exception('Oh no');

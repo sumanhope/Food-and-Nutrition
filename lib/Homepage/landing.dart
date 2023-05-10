@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:foodandnutrition/allpages/food_page.dart';
-import 'package:foodandnutrition/allpages/home_page.dart';
-import 'package:foodandnutrition/allpages/profile_page.dart';
-import 'package:foodandnutrition/allpages/search_page.dart';
-import 'package:foodandnutrition/allpages/track_page.dart';
+import 'package:foodandnutrition/navpages/food_page.dart';
+import 'package:foodandnutrition/navpages/home_page.dart';
+import 'package:foodandnutrition/navpages/profile_page.dart';
+import 'package:foodandnutrition/navpages/search_page.dart';
+import 'package:foodandnutrition/navpages/track_page.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class LandingPage extends StatefulWidget {

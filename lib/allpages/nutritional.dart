@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:foodandnutrition/allpages/food.dart';
-import 'package:foodandnutrition/allpages/indicator.dart';
-import 'package:foodandnutrition/allpages/piechart.dart';
+import 'package:foodandnutrition/models/food.dart';
+import 'package:foodandnutrition/utils/indicator.dart';
+import 'package:foodandnutrition/utils/piechart.dart';
 
 class ViewData extends StatefulWidget {
   const ViewData({super.key, required this.foodname, required this.foodId});
@@ -192,24 +192,14 @@ class _ViewDataState extends State<ViewData> {
               Center(
                 child: Padding(
                   padding:
-                      const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                   child: Container(
                     alignment: Alignment.center,
-                    width: 350,
+                    width: 450,
                     height: 250,
                     decoration: BoxDecoration(
                       color: Colors.teal,
-                      borderRadius: BorderRadius.circular(16),
-                      // image: imageurl != ""
-                      //     ? DecorationImage(
-                      //         image: NetworkImage(imageurl),
-                      //         fit: BoxFit.fill,
-                      //       )
-                      //     : const DecorationImage(
-                      //         image: AssetImage("images/box.png"),
-                      //         fit: BoxFit.cover,
-                      //       ),
-                      //color: const Color.fromARGB(94, 68, 137, 255),
+                      borderRadius: BorderRadius.circular(5),
                     ),
                     child: Row(
                       children: <Widget>[
