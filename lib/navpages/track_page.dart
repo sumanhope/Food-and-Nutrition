@@ -281,7 +281,7 @@ class _TrackPageState extends State<TrackPage> {
     getFoodTrack();
   }
 
-  Future<void> deleteFoodData(
+  void deleteFoodData(
     int index,
     String userId,
     String currentDate,
@@ -386,21 +386,17 @@ class _TrackPageState extends State<TrackPage> {
                     width: 100,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () async {
-                        await deleteFoodData(whichindex, userId, currentDate)
-                            .then(
-                          (value) {
-                            double testcal = double.parse(calories);
-                            double testcarb = double.parse(carbs);
-                            double testprotein = double.parse(protein);
-                            double testfats = double.parse(fats);
-                            addCal(
-                              -testcal,
-                              -testcarb,
-                              -testprotein,
-                              -testfats,
-                            );
-                          },
+                      onPressed: () {
+                        deleteFoodData(whichindex, userId, currentDate);
+                        double testcal = double.parse(calories);
+                        double testcarb = double.parse(carbs);
+                        double testprotein = double.parse(protein);
+                        double testfats = double.parse(fats);
+                        addCal(
+                          -testcal,
+                          -testcarb,
+                          -testprotein,
+                          -testfats,
                         );
                       },
                       style: ElevatedButton.styleFrom(
@@ -984,19 +980,22 @@ class _TrackPageState extends State<TrackPage> {
                         shrinkWrap: true,
 
                         itemBuilder: (BuildContext context, int index) {
-                          return Smallcards(
-                            foodname: foodEntries[index]["foodname"],
-                            totalcalories: foodEntries[index]["calories"],
-                            press: () {
-                              showFoodDetails(
+                          return FoodLogCard(
+                              foodname: foodEntries[index]["foodname"],
+                              totalcalories: foodEntries[index]["calories"],
+                              press: () {
+                                showFoodDetails(
                                   foodEntries[index]["foodname"],
                                   foodEntries[index]["calories"],
                                   foodEntries[index]["carbs"],
                                   foodEntries[index]["protein"],
                                   foodEntries[index]["fats"],
-                                  index);
-                            },
-                          );
+                                  index,
+                                );
+                              },
+                              icontap: () {
+                                deleteFoodData(index, userId, currentDate);
+                              });
                         },
                         // add this line to show a message if the list is empty
                       );
@@ -1047,6 +1046,63 @@ class _TrackPageState extends State<TrackPage> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class FoodLogCard extends StatelessWidget {
+  const FoodLogCard({
+    Key? key,
+    required this.foodname,
+    required this.totalcalories,
+    required this.press,
+    required this.icontap,
+  }) : super(key: key);
+  final String foodname;
+  final String totalcalories;
+  final VoidCallback press;
+  final VoidCallback icontap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 4),
+      child: Card(
+        //color: const Color.fromARGB(153, 0, 150, 135),
+        elevation: 9,
+        shadowColor: Colors.teal[800],
+        child: ListTile(
+          title: Text(
+            foodname,
+            style: const TextStyle(
+              letterSpacing: 1.2,
+              fontSize: 19,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
+            ),
+          ),
+          subtitle: Text(
+            totalcalories,
+            style: const TextStyle(
+              letterSpacing: 1.5,
+              fontSize: 12,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
+            ),
+          ),
+          onTap: press,
+          trailing: IconButton(
+            icon: const Icon(
+              Icons.delete,
+              color: Colors.white,
+              size: 25,
+            ),
+            onPressed: icontap,
+          ),
         ),
       ),
     );

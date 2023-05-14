@@ -32,35 +32,75 @@ class FoodList {
         foodCategory: 'Fruit',
       ),
       FoodList(
-        id: 1102670,
-        name: 'Mango',
+        id: 5,
+        name: 'Lentils, Cooked',
+        foodCategory: 'Grains',
+      ),
+      FoodList(
+        id: 6,
+        name: 'Apples',
         foodCategory: 'Fruit',
       ),
       FoodList(
-        id: 1103528,
-        name: 'Okra',
-        foodCategory: 'vegetable',
+        id: 7,
+        name: 'Carrot',
+        foodCategory: 'Vegetables',
       ),
       FoodList(
-        id: 1102597,
-        name: 'Orange',
-        foodCategory: 'Fruit',
+        id: 7,
+        name: 'Cucumber',
+        foodCategory: 'Vegetables',
       ),
       FoodList(
-        id: 1100534,
-        name: 'Peanut',
-        foodCategory: 'Nuts',
+        id: 9,
+        name: 'Cooked Soybeans',
+        foodCategory: 'Seeds',
       ),
       FoodList(
-        id: 1102702,
-        name: 'Blueberries',
-        foodCategory: 'Fruit',
+        id: 10,
+        name: 'Bread',
+        foodCategory: 'Baked',
       ),
       FoodList(
-        id: 1102644,
-        name: 'Apple',
-        foodCategory: 'Fruit',
-      )
+        id: 11,
+        name: 'Chicken Burger',
+        foodCategory: 'Fast Food',
+      ),
+      FoodList(
+        id: 12,
+        name: 'Spaghetti',
+        foodCategory: 'Pasta',
+      ),
+      FoodList(
+        id: 13,
+        name: 'Milk Tea',
+        foodCategory: 'Drinks',
+      ),
+      FoodList(
+        id: 14,
+        name: 'Fried Rice',
+        foodCategory: 'Fried',
+      ),
+      FoodList(
+        id: 15,
+        name: 'Steamed Dumpling',
+        foodCategory: 'Steamed',
+      ),
+      FoodList(
+        id: 16,
+        name: 'Coffee',
+        foodCategory: 'Drinks',
+      ),
+      FoodList(
+        id: 17,
+        name: 'Water',
+        foodCategory: 'Drinks',
+      ),
+      FoodList(
+        id: 18,
+        name: 'Milk',
+        foodCategory: 'Drinks',
+      ),
     ];
   }
 }

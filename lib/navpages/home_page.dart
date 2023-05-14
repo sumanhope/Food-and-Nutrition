@@ -307,16 +307,7 @@ class Smallcards extends StatelessWidget {
                 fontFamily: 'Poppins',
               ),
             ),
-            onTap: press
-            //() {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(
-            //       builder: (context) => const ViewData(),
-            //     ),
-            //   );
-            // },
-            ),
+            onTap: press),
       ),
     );
   }

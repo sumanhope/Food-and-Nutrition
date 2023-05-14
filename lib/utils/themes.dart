@@ -15,7 +15,7 @@ class Styles {
       toggleableActiveColor:
           isDark ? Colors.grey.shade800 : Colors.teal.shade800,
       unselectedWidgetColor: isDark ? Colors.white : Colors.black,
-      indicatorColor: isDark ? Colors.white : Colors.teal,
+      indicatorColor: isDark ? Colors.white : Color(0xFF009688),
       // colorScheme: ThemeData().colorScheme.copyWith(
       //       secondary: isDark ? Color.fromARGB(255, 108, 16, 16) : Colors.teal,
       //       brightness: isDark ? Brightness.dark : Brightness.light,

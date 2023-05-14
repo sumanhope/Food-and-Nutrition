@@ -70,9 +70,6 @@ class _MyAppState extends State<MyApp> {
         ChangeNotifierProvider(create: (_) {
           return themeProvider;
         }),
-        ChangeNotifierProvider(create: (_) {
-          return usernameProvider;
-        })
       ],
       child: Consumer<DarkThemeProvider>(
         builder: (context, value, child) {

@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/allpages/dietlist.dart';
 import 'package:foodandnutrition/models/food.dart';
+import 'package:foodandnutrition/navpages/food_page.dart';
 import 'package:foodandnutrition/utils/indicator.dart';
 import 'package:foodandnutrition/utils/piechart.dart';
 
@@ -39,6 +41,7 @@ class _ViewDataState extends State<ViewData> {
   double vitaminC = 0.0;
   double vitaminD = 0.0;
   String measure = "g";
+  String diet = "Test";
   Showpiechart pie = Showpiechart();
   double fatpercent = 0.0;
   double carbspercent = 0.0;
@@ -71,6 +74,7 @@ class _ViewDataState extends State<ViewData> {
       vitaminC = food.vitaminC;
       vitaminD = food.vitaminD;
       measure = food.measure;
+      diet = food.diet;
       favornot();
     });
     caloriesbreakdown(crab, fats, protein, calories);
@@ -198,7 +202,7 @@ class _ViewDataState extends State<ViewData> {
                     width: 450,
                     height: 250,
                     decoration: BoxDecoration(
-                      color: Colors.teal,
+                      color: const Color(0x92abd1c6),
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: Row(
@@ -246,28 +250,28 @@ class _ViewDataState extends State<ViewData> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: const <Widget>[
                             Indicator(
-                              color: Colors.indigo,
+                              color: Color(0xFFE16162),
                               text: 'Carbs',
                               isSquare: false,
-                              textColor: Colors.white,
+                              textColor: Color(0xff001e1d),
                             ),
                             SizedBox(
                               height: 6,
                             ),
                             Indicator(
-                              color: Colors.yellow,
+                              color: Color(0xFFf9bc60),
                               text: 'Fats',
                               isSquare: false,
-                              textColor: Colors.white,
+                              textColor: Color(0xff001e1d),
                             ),
                             SizedBox(
                               height: 6,
                             ),
                             Indicator(
-                              color: Colors.blue,
+                              color: Color(0xFFe8e4e6),
                               text: 'Protein',
                               isSquare: false,
-                              textColor: Colors.white,
+                              textColor: Color(0xff001e1d),
                             ),
                             SizedBox(
                               height: 18,
@@ -310,6 +314,87 @@ class _ViewDataState extends State<ViewData> {
                     ),
                   ),
                 ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SizedBox(
+                  // width: 100,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      if (diet == "Low Fats") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const FoodListScreen(
+                              title: "Low Fats",
+                              imageurl: "images/Low-Fat.jpg",
+                              description:
+                                  "Beneficial for weight management, heart health. Nutrient-rich options, lower in calories and saturated fats.",
+                            ),
+                          ),
+                        );
+                      } else if (diet == "High-Fiber") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const FoodListScreen(
+                              title: "High-Fiber",
+                              imageurl: "images/high-fiber.jpg",
+                              description:
+                                  "Important for healthy diet, Promote digestion, heart health, and weight management.",
+                            ),
+                          ),
+                        );
+                      } else if (diet == "High-Protein") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const FoodListScreen(
+                              title: "High-Protein",
+                              imageurl: "images/High-Protein.jpg",
+                              description:
+                                  "Essential for muscle building and overall health, Support muscle growth and repair.",
+                            ),
+                          ),
+                        );
+                      } else if (diet == "Vegetables") {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const FoodListScreen(
+                              title: "Vegetarian",
+                              imageurl: "images/vegetarian.jpg",
+                              description:
+                                  "Nutrient-rich and support a healthy lifestyle, Provide essential vitamins, minerals, and fiber.",
+                            ),
+                          ),
+                        );
+                      } else {
+                        debugPrint("Error");
+                      }
+                    },
+                    style: OutlinedButton.styleFrom(
+                      backgroundColor: const Color.fromARGB(59, 0, 150, 135),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      side: const BorderSide(
+                        width: 3,
+                        color: Color.fromARGB(183, 60, 60, 60),
+                      ),
+                    ),
+                    child: Text(
+                      diet,
+                      style: const TextStyle(
+                        letterSpacing: 1.7,
+                        fontSize: 15,
+                        //color: Colors.teal,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                  ),
+                ),
               ),
               const Divider(
                 thickness: 2,
@@ -568,5 +653,28 @@ class _ViewDataState extends State<ViewData> {
         ),
       ),
     );
+  }
+}
+
+class Test extends StatelessWidget {
+  const Test({super.key, required this.dietname});
+  final String dietname;
+
+  @override
+  Widget build(BuildContext context) {
+    if (dietname == "Low Fats") {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) {
+          return const FoodListScreen(
+            title: "Low Fats",
+            imageurl: "images/Low-Fat.jpg",
+            description:
+                "Beneficial for weight management, heart health. Nutrient-rich options, lower in calories and saturated fats.",
+          );
+        }),
+      );
+    }
+    return Text("data");
   }
 }

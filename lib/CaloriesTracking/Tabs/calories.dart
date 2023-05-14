@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/CaloriesTracking/trackpagewidgets.dart';
 import 'package:intl/intl.dart';
 
 class CaloriesTab extends StatefulWidget {
@@ -11,12 +13,19 @@ class CaloriesTab extends StatefulWidget {
 
 class _CaloriesTabState extends State<CaloriesTab> {
   late DateTime _selectedDate;
+  double percentcal = 0;
+  double foodcal = 0;
+  double basecal = 3000;
+  double remaining = 3000;
+  String userId = FirebaseAuth.instance.currentUser!.uid;
   //Stream<QuerySnapshot> _contentStream;
 
   @override
   void initState() {
     super.initState();
     _selectedDate = DateTime.now();
+    getFoodTrack(_selectedDate);
+
     //_loadContent();
   }
 
@@ -30,19 +39,62 @@ class _CaloriesTabState extends State<CaloriesTab> {
   //     //     .snapshots();
   //   });
   // }
+  Future getFoodTrack(DateTime date) async {
+    String currentDate = DateFormat('yyyy-MM-dd').format(date);
+    try {
+      final snapshot = await FirebaseFirestore.instance
+          .collection('foodtrack')
+          .doc(userId)
+          .get();
+      if (snapshot.exists) {
+        final data = snapshot.data();
+        if (data != null) {
+          final foodArray = data[currentDate] as List<dynamic>?;
+
+          if (foodArray != null) {
+            for (final foodData in foodArray) {
+              final calories = double.tryParse(foodData['calories'] ?? '');
+              if (calories != null) {
+                foodcal += calories;
+              }
+            }
+            remaining -= foodcal;
+            percentcal = (foodcal - 0) / (basecal - 0);
+          } else {
+            debugPrint("Food Array null");
+            foodcal = 0;
+          }
+        } else {
+          debugPrint("data null");
+        }
+      } else {
+        debugPrint("snapshot not found");
+      }
+      setState(() {});
+    } catch (e) {
+      debugPrint('Error getting food track data: $e');
+    }
+  }
 
   void _goToPreviousDate() {
     setState(() {
       _selectedDate = _selectedDate.subtract(const Duration(days: 1));
-      //_loadContent();
+      foodcal = 0;
+      remaining = 3000;
+      percentcal = 0;
     });
+    getFoodTrack(_selectedDate);
   }
 
   void _goToNextDate() {
     setState(() {
       _selectedDate = _selectedDate.add(const Duration(days: 1));
+      foodcal = 0;
+      remaining = 3000;
+      percentcal = 0;
       //_loadContent();
     });
+    getFoodTrack(_selectedDate);
   }
 
   @override
@@ -64,7 +116,12 @@ class _CaloriesTabState extends State<CaloriesTab> {
             const SizedBox(width: 16),
             Text(
               DateFormat('yyyy-MM-dd').format(_selectedDate),
-              style: const TextStyle(fontSize: 24),
+              style: const TextStyle(
+                letterSpacing: 1.5,
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'Poppins',
+              ),
             ),
             const SizedBox(width: 16),
             IconButton(
@@ -76,8 +133,123 @@ class _CaloriesTabState extends State<CaloriesTab> {
             ),
           ],
         ),
-        const SizedBox(height: 16),
-        Text("Date: $_selectedDate"),
+        const SizedBox(height: 15),
+        //Text("Date: $_selectedDate"),
+        Container(
+          padding: const EdgeInsets.all(18),
+          width: 450,
+          // height: 400,
+          margin:
+              const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
+          decoration: BoxDecoration(
+            color: Theme.of(context).backgroundColor,
+            borderRadius: BorderRadius.circular(5),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Padding(
+                padding: EdgeInsets.only(top: 0.1, left: 10),
+                child: Text(
+                  "Calories",
+                  style: TextStyle(
+                    letterSpacing: 1.5,
+                    fontSize: 22,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'Poppins',
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              CircleProgress(
+                  percentcal: percentcal,
+                  foodcal: foodcal,
+                  basecal: basecal,
+                  remaining: remaining),
+              const SizedBox(
+                width: 10,
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.only(left: 18.0),
+          child: Row(
+            children: [
+              const Text(
+                "Base Goal: ",
+                style: TextStyle(
+                  letterSpacing: 1,
+                  fontSize: 18,
+                  color: Colors.teal,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                ),
+              ),
+              Text(
+                "$basecal kcal",
+                style: const TextStyle(
+                  letterSpacing: 1.5,
+                  fontSize: 18,
+                  color: Colors.teal,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                ),
+              ),
+            ],
+          ),
+        ),
+        Padding(
+          padding:
+              const EdgeInsets.only(top: 5, bottom: 5, left: 18, right: 10),
+          child: Row(
+            children: [
+              const Text(
+                "Food: ",
+                style: TextStyle(
+                  letterSpacing: 1,
+                  fontSize: 18,
+                  color: Colors.teal,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                ),
+              ),
+              Text(
+                "$foodcal kcal",
+                style: const TextStyle(
+                  letterSpacing: 1.5,
+                  fontSize: 18,
+                  color: Colors.teal,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                ),
+              ),
+            ],
+          ),
+        ),
+        foodcal < 1
+            ? const Text(
+                "No Food Logged Found",
+                style: TextStyle(
+                  letterSpacing: 1.5,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                ),
+              )
+            : const Text(
+                "Food Logged Found",
+                style: TextStyle(
+                  letterSpacing: 1.5,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Poppins',
+                ),
+              )
         // Expanded(
         //   child: StreamBuilder<QuerySnapshot>(
         //     stream: _contentStream,

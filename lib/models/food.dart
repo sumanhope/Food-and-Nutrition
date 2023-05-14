@@ -14,6 +14,7 @@ class Food {
   final double vitaminA;
   final double vitaminC;
   final double vitaminD;
+  final String diet;
 
   Food({
     required this.foodCategory,
@@ -31,6 +32,7 @@ class Food {
     required this.vitaminA,
     required this.vitaminC,
     required this.vitaminD,
+    required this.diet,
   });
 
   factory Food.fromMap(Map<String, dynamic> map) {
@@ -50,6 +52,7 @@ class Food {
       vitaminA: double.parse(map['vitaminA'].toString()),
       vitaminC: double.parse(map['vitaminC'].toString()),
       vitaminD: double.parse(map['vitaminD'].toString()),
+      diet: map['diet'],
     );
   }
 
@@ -70,6 +73,7 @@ class Food {
       'vitaminA': vitaminA,
       'vitaminC': vitaminC,
       'vitaminD': vitaminD,
+      'diet': diet,
     };
   }
 }

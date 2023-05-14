@@ -12,45 +12,45 @@ class Showpiechart {
       switch (i) {
         case 0:
           return PieChartSectionData(
-            color: Colors.indigo,
+            color: const Color(0xFFE16162),
             value: carbspercent,
             title: carbspercent.toStringAsFixed(2),
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: const Color(0xffffffff),
+              color: const Color(0xff001e1d),
               fontFamily: 'Poppins',
             ),
-            titlePositionPercentageOffset: 1.3,
+            titlePositionPercentageOffset: 1.25,
           );
         case 1:
           return PieChartSectionData(
-            color: Colors.yellow,
+            color: Color(0xFFf9bc60),
             value: fatpercent,
             title: fatpercent.toStringAsFixed(2),
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: const Color(0xffffffff),
+              color: const Color(0xff001e1d),
               fontFamily: 'Poppins',
             ),
-            titlePositionPercentageOffset: 1.3,
+            titlePositionPercentageOffset: 1.25,
           );
         case 2:
           return PieChartSectionData(
-            color: Colors.blue,
+            color: Color(0xFFe8e4e6),
             value: proteinpercent,
             title: proteinpercent.toStringAsFixed(2),
             radius: radius,
             titleStyle: TextStyle(
               fontSize: fontSize,
               fontWeight: FontWeight.bold,
-              color: const Color(0xffffffff),
+              color: const Color(0xff001e1d),
               fontFamily: 'Poppins',
             ),
-            titlePositionPercentageOffset: 1.3,
+            titlePositionPercentageOffset: 1.25,
           );
         default:
           throw Exception('Oh no');
