@@ -6,9 +6,10 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:foodandnutrition/Verification/emailverification_page.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
 import 'package:foodandnutrition/provider/darkthemeprov.dart';
+import 'package:foodandnutrition/services/notification_api.dart';
 import 'package:foodandnutrition/utils/themes.dart';
 import 'package:provider/provider.dart';
-import 'package:dcdg/dcdg.dart';
+// import 'package:dcdg/dcdg.dart';
 
 const AndroidNotificationChannel channel = AndroidNotificationChannel(
   'high_importance_channel',
@@ -51,7 +52,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   DarkThemeProvider themeProvider = DarkThemeProvider();
-  UsernameProvider usernameProvider = UsernameProvider();
+  NotificationProvider notificationProvider = NotificationProvider();
   @override
   void initState() {
     getCurrentAppTheme();
@@ -61,6 +62,8 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   void getCurrentAppTheme() async {
     themeProvider.setDarkTheme = await themeProvider.darkThemePrefs.getTheme();
+    notificationProvider.setNotification =
+        await notificationProvider.noti.getNotification();
   }
 
   @override
@@ -69,6 +72,9 @@ class _MyAppState extends State<MyApp> {
       providers: [
         ChangeNotifierProvider(create: (_) {
           return themeProvider;
+        }),
+        ChangeNotifierProvider(create: (_) {
+          return notificationProvider;
         }),
       ],
       child: Consumer<DarkThemeProvider>(

@@ -22,3 +22,14 @@ class UsernameProvider with ChangeNotifier {
     notifyListeners();
   }
 }
+
+class NotificationProvider with ChangeNotifier {
+  Notificatonperfs noti = Notificatonperfs();
+  bool _notification = false;
+  bool get getNotification => _notification;
+  set setNotification(bool value) {
+    _notification = value;
+    noti.setNotification(value);
+    notifyListeners();
+  }
+}

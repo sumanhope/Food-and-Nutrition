@@ -4,7 +4,6 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/allpages/dietlist.dart';
 import 'package:foodandnutrition/models/food.dart';
-import 'package:foodandnutrition/navpages/food_page.dart';
 import 'package:foodandnutrition/utils/indicator.dart';
 import 'package:foodandnutrition/utils/piechart.dart';
 
@@ -374,7 +373,7 @@ class _ViewDataState extends State<ViewData> {
                       }
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(195, 1, 149, 135),
+                      backgroundColor: const Color.fromARGB(195, 1, 149, 135),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),

@@ -23,7 +23,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final passwordcontroller = TextEditingController();
   final confirmpasswordcontroller = TextEditingController();
   final gendercontroller = TextEditingController();
-  final dobcontroller = TextEditingController();
+  final basecaloriescontoller = TextEditingController();
   final agecontroller = TextEditingController();
   final heightcontroller = TextEditingController();
   final weightcontroller = TextEditingController();
@@ -40,7 +40,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     passwordcontroller.dispose();
     confirmpasswordcontroller.dispose();
     gendercontroller.dispose();
-    dobcontroller.dispose();
+    basecaloriescontoller.dispose();
     agecontroller.dispose();
     heightcontroller.dispose();
     weightcontroller.dispose();
@@ -49,22 +49,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future signIn() async {
-    // showDialog(
-    //     context: context,
-    //     barrierDismissible: false,
-    //     builder: (context) {
-    //       return const Center(
-    //         child: CircularProgressIndicator(),
-    //       );
-    //     });
-    // addUser(
-    //   fullnamecontroller.text.trim(),
-    //   usernamecontroller.text.trim(),
-    //   emailcontroller.text.trim(),
-    //   int.parse(agecontroller.text.trim()),
-    //   int.parse(heightcontroller.text.trim()),
-    //   int.parse(weightcontroller.text.trim()),
-    // );
     try {
       showDialog(
           context: context,
@@ -89,7 +73,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         'username': usernamecontroller.text.trim(),
         'email': emailcontroller.text.trim(),
         'gender': gendercontroller.text.trim(),
-        'DOB': dobcontroller.text.trim(),
+        'basecalories': double.parse(basecaloriescontoller.text.trim()),
         'age': int.parse(agecontroller.text.trim()),
         'height': int.parse(heightcontroller.text.trim()),
         'weight': int.parse(weightcontroller.text.trim()),
@@ -202,7 +186,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   bool formtwo() {
     if (gendercontroller.text.isNotEmpty &&
         agecontroller.text.isNotEmpty &&
-        dobcontroller.text.isNotEmpty &&
+        basecaloriescontoller.text.isNotEmpty &&
         heightcontroller.text.isNotEmpty &&
         weightcontroller.text.isNotEmpty) {
       return true;
@@ -505,10 +489,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 height: 50,
                 child: TextFormField(
-                  controller: dobcontroller,
+                  controller: basecaloriescontoller,
                   style: steptextstyle,
                   decoration: InputDecoration(
-                    labelText: 'DOB',
+                    labelText: 'Base Calories',
                     labelStyle: labelstyle,
                     enabledBorder: unfocuseborder,
                     focusedBorder: focuseborder,
@@ -571,7 +555,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             style: steptextstyle,
           ),
           content: Text(
-            'Full name : ${fullnamecontroller.text}\nUsername : ${usernamecontroller.text}\nEmail : ${emailcontroller.text}\nPassword : ${passwordcontroller.text}\nConfirmPassword : ${confirmpasswordcontroller.text}\nGender : ${gendercontroller.text}\nDate of Birth : ${dobcontroller.text}\nAge: ${agecontroller.text}\nHeight : ${heightcontroller.text}\nweight : ${weightcontroller.text}',
+            'Full name : ${fullnamecontroller.text}\nUsername : ${usernamecontroller.text}\nEmail : ${emailcontroller.text}\nPassword : ${passwordcontroller.text}\nConfirmPassword : ${confirmpasswordcontroller.text}\nGender : ${gendercontroller.text}\nBase Calories : ${basecaloriescontoller.text}\nAge: ${agecontroller.text}\nHeight : ${heightcontroller.text}\nweight : ${weightcontroller.text}',
             style: steptextstyle,
           ),
         ),

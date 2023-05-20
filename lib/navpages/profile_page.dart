@@ -33,7 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   int weight = 0;
   String email = "Loading";
   String gender = "Loading";
-  String dob = "";
+  double calories = 0;
   String register = "";
   String profileurl = '';
   String imageUrl = '';
@@ -57,7 +57,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       weight = userDoc.get('weight');
       email = userDoc.get('email');
       gender = userDoc.get('gender');
-      dob = userDoc.get('DOB');
+      calories = double.parse(userDoc.get('basecalories').toString());
       register = userDoc.get('register');
       profileurl = userDoc.get('profile');
     });
@@ -242,7 +242,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         email: email,
                         gender: gender,
                         register: register,
-                        dob: dob,
+                        calories: calories,
                         profileurl: profileurl,
                       ),
                     ),

@@ -12,7 +12,7 @@ class ViewDetails extends StatefulWidget {
     required this.weight,
     required this.email,
     required this.gender,
-    required this.dob,
+    required this.calories,
     required this.register,
     required this.profileurl,
   });
@@ -24,7 +24,7 @@ class ViewDetails extends StatefulWidget {
   final int weight;
   final String email;
   final String gender;
-  final String dob;
+  final double calories;
   final String register;
   final String profileurl;
 
@@ -60,7 +60,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                     fullname: widget.fullname,
                     username: widget.username,
                     email: widget.email,
-                    dob: widget.dob,
+                    calories: widget.calories,
                     age: widget.age,
                     gender: widget.gender,
                     height: widget.height,
@@ -181,8 +181,8 @@ class _ViewDetailsState extends State<ViewDetails> {
                 value: widget.email,
               ),
               ProfileDetailColumn(
-                title: "Date of Birth",
-                value: widget.dob,
+                title: "Base Calories",
+                value: "${widget.calories}",
               ),
               ProfileDetailColumn(
                 title: "Height",

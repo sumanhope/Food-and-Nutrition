@@ -232,7 +232,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Smallcards(
                 foodname: 'Potato, baked',
-                totalcalories: '220 kcal',
+                totalcalories: '103 kcal',
                 press: () {
                   Navigator.push(
                     context,
@@ -245,7 +245,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Smallcards(
                 foodname: 'Banana',
-                totalcalories: '105 kcal',
+                totalcalories: '89 kcal',
                 press: () {
                   Navigator.push(
                     context,

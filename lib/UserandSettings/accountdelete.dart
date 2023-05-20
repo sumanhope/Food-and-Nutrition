@@ -79,11 +79,9 @@ class _AccountDeleteState extends State<AccountDelete> {
 
   void deldatabase() async {
     final user = FirebaseAuth.instance.currentUser!;
+    String userid = user.uid;
     try {
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc("f8lO1TiVo9hMwywi8sHGcwMgX3n1")
-          .delete();
+      await FirebaseFirestore.instance.collection('users').doc(userid).delete();
     } on FirebaseException catch (e) {
       errorDialog(e.toString());
     }

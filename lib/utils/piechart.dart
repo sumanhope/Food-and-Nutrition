@@ -26,7 +26,7 @@ class Showpiechart {
           );
         case 1:
           return PieChartSectionData(
-            color: Color(0xFFf9bc60),
+            color: const Color(0xFFf9bc60),
             value: fatpercent,
             title: fatpercent.toStringAsFixed(2),
             radius: radius,
@@ -40,7 +40,7 @@ class Showpiechart {
           );
         case 2:
           return PieChartSectionData(
-            color: Color(0xFFe8e4e6),
+            color: const Color(0xFFe8e4e6),
             value: proteinpercent,
             title: proteinpercent.toStringAsFixed(2),
             radius: radius,

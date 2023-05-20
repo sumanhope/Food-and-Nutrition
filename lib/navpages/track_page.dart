@@ -1,13 +1,17 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:foodandnutrition/CaloriesTracking/addfood.dart';
 import 'package:foodandnutrition/CaloriesTracking/datadisplay.dart';
-import 'package:foodandnutrition/navpages/home_page.dart';
 import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../CaloriesTracking/trackpagewidgets.dart';
+
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
 class TrackPage extends StatefulWidget {
   const TrackPage({super.key});
@@ -30,16 +34,16 @@ class _TrackPageState extends State<TrackPage> {
   double percentcarbs = 0.0;
   double percentprotein = 0.0;
   double percentfats = 0.0;
-  double basecal = 3000;
+  double basecal = 1;
   double foodcal = 0;
-  double remaining = 3000;
+  double remaining = 1;
   double carbs = 0;
   double protein = 0;
   double fats = 0;
   double basecarbs = 0; //(2000 x 0.5) / 4
   double baseprotein = 0; // Grams of protein = (2000 x 0.2) / 4
   double basefats = 0; //Grams of fats = (2000 x 0.3) / 9
-
+  String foodname = "";
   var textstyle = const TextStyle(
     letterSpacing: 1.5,
     fontSize: 14,
@@ -51,9 +55,24 @@ class _TrackPageState extends State<TrackPage> {
   @override
   void initState() {
     super.initState();
+    getData();
     loadWaterLevel();
-    getMacro();
+
     getFoodTrack();
+  }
+
+  void getData() async {
+    final User user = FirebaseAuth.instance.currentUser!;
+
+    String uid = user.uid;
+
+    final DocumentSnapshot userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    setState(() {
+      basecal = double.parse(userDoc.get('basecalories').toString());
+      remaining = basecal;
+    });
+    getMacro();
   }
 
   void getMacro() {
@@ -98,6 +117,9 @@ class _TrackPageState extends State<TrackPage> {
         // debugPrint(foodcal.toString());
         // debugPrint(remaining.toString());
         // debugPrint(percentcal.toString());
+        // debugPrint(percentcarbs.toString());
+        // debugPrint(percentfats.toString());
+        // debugPrint(percentprotein.toString());
       }
     });
   }
@@ -120,10 +142,10 @@ class _TrackPageState extends State<TrackPage> {
 
           if (foodArray != null) {
             for (final foodData in foodArray) {
-              final calories = double.tryParse(foodData['calories'] ?? '');
-              final carbs = double.tryParse(foodData['carbs'] ?? '');
-              final protein = double.tryParse(foodData['protein'] ?? '');
-              final fats = double.tryParse(foodData['fats'] ?? '');
+              final calories = double.tryParse(foodData['calories'] ?? 0.0);
+              final carbs = double.tryParse(foodData['carbs'] ?? 0);
+              final protein = double.tryParse(foodData['protein'] ?? 0);
+              final fats = double.tryParse(foodData['fats'] ?? 0);
 
               if (calories != null &&
                   carbs != null &&
@@ -212,7 +234,8 @@ class _TrackPageState extends State<TrackPage> {
     );
   }
 
-  Future<void> addFood() async {
+  Future<void> addFood(String addfood, double addcalories, double addcarbs,
+      double addprotein, double addfats) async {
     try {
       showDialog(
           context: context,
@@ -229,21 +252,16 @@ class _TrackPageState extends State<TrackPage> {
           .update({
         currentDate: FieldValue.arrayUnion([
           {
-            "foodname": foodnamecontroller.text,
-            "calories": caloriescontroller.text,
-            "carbs": carbscontroller.text,
-            "protein": proteincontroller.text,
-            "fats": fatscontroller.text
+            "foodname": addfood,
+            "calories": addcalories,
+            "carbs": addcarbs,
+            "protein": addprotein,
+            "fats": addfats
           }
         ])
       });
       Navigator.pop(context);
       errorDialog("Sucessfully submitted");
-      foodnamecontroller.clear();
-      caloriescontroller.clear();
-      carbscontroller.clear();
-      proteincontroller.clear();
-      fatscontroller.clear();
     } on FirebaseException catch (e) {
       if (e.code == 'not-found') {
         // Document doesn't exist, so create it with the food entry for the current date
@@ -253,21 +271,16 @@ class _TrackPageState extends State<TrackPage> {
             .set({
           currentDate: [
             {
-              "foodname": foodnamecontroller.text,
-              "calories": caloriescontroller.text,
-              "carbs": carbscontroller.text,
-              "protein": proteincontroller.text,
-              "fats": fatscontroller.text
+              "foodname": addfood,
+              "calories": addcalories,
+              "carbs": addcarbs,
+              "protein": addprotein,
+              "fats": addfats
             }
           ]
         });
         Navigator.pop(context);
         errorDialog("Sucessfully submitted");
-        foodnamecontroller.clear();
-        caloriescontroller.clear();
-        carbscontroller.clear();
-        proteincontroller.clear();
-        fatscontroller.clear();
       } else {
         // Handle other errors as needed
         Navigator.pop(context);
@@ -311,6 +324,7 @@ class _TrackPageState extends State<TrackPage> {
     } catch (e) {
       debugPrint('Error deleting food data: $e');
     }
+    getFoodTrack();
   }
 
   Future showFoodDetails(String foodname, String calories, String carbs,
@@ -432,120 +446,134 @@ class _TrackPageState extends State<TrackPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          bool refresh = await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) {
+                return const AddFoodScreen();
+              },
+            ),
+          );
+          if (refresh) {
+            getFoodTrack();
+            setState(() {
+              refresh = false;
+            });
+          }
           // if (foodcal != basecal) {
           //   addCal(600);
           // } else {
           //   errorDialog("All done");
           // }
-          showDialog(
-            context: context,
-            builder: (context) {
-              return AlertDialog(
-                title: Text(
-                  'Track Food',
-                  style: textstyle,
-                  textAlign: TextAlign.center,
-                ),
-                content: SizedBox(
-                  height: 350,
-                  width: 450,
-                  child: SingleChildScrollView(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          "Name of food",
-                          style: textstyle,
-                        ),
-                        TextField(
-                          controller: foodnamecontroller,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text("Calories", style: textstyle),
-                        TextField(
-                          controller: caloriescontroller,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text("Carbs", style: textstyle),
-                        TextField(
-                          controller: carbscontroller,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text("Protein", style: textstyle),
-                        TextField(
-                          controller: proteincontroller,
-                        ),
-                        Text("Fats", style: textstyle),
-                        TextField(
-                          controller: fatscontroller,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                actions: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: 100,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              foodnamecontroller.clear();
-                              caloriescontroller.clear();
-                              carbscontroller.clear();
-                              proteincontroller.clear();
-                              fatscontroller.clear();
-                              Navigator.of(context).pop();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.teal,
-                            ),
-                            child: const Text('Close'),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: SizedBox(
-                          width: 100,
-                          height: 50,
-                          child: ElevatedButton(
-                            onPressed: () {
-                              if (foodnamecontroller.text.isNotEmpty &&
-                                  caloriescontroller.text.isNotEmpty &&
-                                  carbscontroller.text.isNotEmpty &&
-                                  proteincontroller.text.isNotEmpty &
-                                      fatscontroller.text.isNotEmpty) {
-                                addFood();
-                              } else {
-                                errorDialog("Please fill all fields");
-                              }
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.teal,
-                            ),
-                            child: const Text('Submit'),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              );
-            },
-          );
+          // showDialog(
+          //   context: context,
+          //   builder: (context) {
+          //     return AlertDialog(
+          //       title: Text(
+          //         'Track Food',
+          //         style: textstyle,
+          //         textAlign: TextAlign.center,
+          //       ),
+          //       content: SizedBox(
+          //         height: 350,
+          //         width: 450,
+          //         child: SingleChildScrollView(
+          //           child: Column(
+          //             mainAxisSize: MainAxisSize.min,
+          //             crossAxisAlignment: CrossAxisAlignment.start,
+          //             children: <Widget>[
+          //               Text(
+          //                 "Name of food",
+          //                 style: textstyle,
+          //               ),
+          //               TextField(
+          //                 controller: foodnamecontroller,
+          //               ),
+          //               const SizedBox(
+          //                 height: 10,
+          //               ),
+          //               Text("Calories", style: textstyle),
+          //               TextField(
+          //                 controller: caloriescontroller,
+          //               ),
+          //               const SizedBox(
+          //                 height: 10,
+          //               ),
+          //               Text("Carbs", style: textstyle),
+          //               TextField(
+          //                 controller: carbscontroller,
+          //               ),
+          //               const SizedBox(
+          //                 height: 10,
+          //               ),
+          //               Text("Protein", style: textstyle),
+          //               TextField(
+          //                 controller: proteincontroller,
+          //               ),
+          //               Text("Fats", style: textstyle),
+          //               TextField(
+          //                 controller: fatscontroller,
+          //               ),
+          //             ],
+          //           ),
+          //         ),
+          //       ),
+          //       actions: <Widget>[
+          //         Row(
+          //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //           children: [
+          //             Padding(
+          //               padding: const EdgeInsets.all(8.0),
+          //               child: SizedBox(
+          //                 width: 100,
+          //                 height: 50,
+          //                 child: ElevatedButton(
+          //                   onPressed: () {
+          //                     foodnamecontroller.clear();
+          //                     caloriescontroller.clear();
+          //                     carbscontroller.clear();
+          //                     proteincontroller.clear();
+          //                     fatscontroller.clear();
+          //                     Navigator.of(context).pop();
+          //                   },
+          //                   style: ElevatedButton.styleFrom(
+          //                     backgroundColor: Colors.teal,
+          //                   ),
+          //                   child: const Text('Close'),
+          //                 ),
+          //               ),
+          //             ),
+          //             Padding(
+          //               padding: const EdgeInsets.all(8.0),
+          //               child: SizedBox(
+          //                 width: 100,
+          //                 height: 50,
+          //                 child: ElevatedButton(
+          //                   onPressed: () {
+          //                     if (foodnamecontroller.text.isNotEmpty &&
+          //                         caloriescontroller.text.isNotEmpty &&
+          //                         carbscontroller.text.isNotEmpty &&
+          //                         proteincontroller.text.isNotEmpty &
+          //                             fatscontroller.text.isNotEmpty) {
+          //                       addFood();
+          //                     } else {
+          //                       errorDialog("Please fill all fields");
+          //                     }
+          //                   },
+          //                   style: ElevatedButton.styleFrom(
+          //                     backgroundColor: Colors.teal,
+          //                   ),
+          //                   child: const Text('Submit'),
+          //                 ),
+          //               ),
+          //             ),
+          //           ],
+          //         ),
+          //       ],
+          //     );
+          //   },
+          // );
         },
         child: const Icon(Icons.add),
       ),
@@ -981,21 +1009,22 @@ class _TrackPageState extends State<TrackPage> {
 
                         itemBuilder: (BuildContext context, int index) {
                           return FoodLogCard(
-                              foodname: foodEntries[index]["foodname"],
-                              totalcalories: foodEntries[index]["calories"],
-                              press: () {
-                                showFoodDetails(
-                                  foodEntries[index]["foodname"],
-                                  foodEntries[index]["calories"],
-                                  foodEntries[index]["carbs"],
-                                  foodEntries[index]["protein"],
-                                  foodEntries[index]["fats"],
-                                  index,
-                                );
-                              },
-                              icontap: () {
-                                deleteFoodData(index, userId, currentDate);
-                              });
+                            foodname: foodEntries[index]["foodname"],
+                            totalcalories: foodEntries[index]["calories"],
+                            press: () {
+                              showFoodDetails(
+                                foodEntries[index]["foodname"],
+                                foodEntries[index]["calories"],
+                                foodEntries[index]["carbs"],
+                                foodEntries[index]["protein"],
+                                foodEntries[index]["fats"],
+                                index,
+                              );
+                            },
+                            // icontap: () {
+                            //   deleteFoodData(index, userId, currentDate);
+                            // },
+                          );
                         },
                         // add this line to show a message if the list is empty
                       );
@@ -1058,12 +1087,12 @@ class FoodLogCard extends StatelessWidget {
     required this.foodname,
     required this.totalcalories,
     required this.press,
-    required this.icontap,
+    // required this.icontap,
   }) : super(key: key);
   final String foodname;
   final String totalcalories;
   final VoidCallback press;
-  final VoidCallback icontap;
+  // final VoidCallback icontap;
 
   @override
   Widget build(BuildContext context) {
@@ -1095,14 +1124,14 @@ class FoodLogCard extends StatelessWidget {
             ),
           ),
           onTap: press,
-          trailing: IconButton(
-            icon: const Icon(
-              Icons.delete,
-              color: Colors.white,
-              size: 25,
-            ),
-            onPressed: icontap,
-          ),
+          // trailing: IconButton(
+          //   icon: const Icon(
+          //     Icons.delete,
+          //     color: Colors.white,
+          //     size: 25,
+          //   ),
+          //   onPressed: icontap,
+          // ),
         ),
       ),
     );

@@ -4,6 +4,8 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:foodandnutrition/main.dart';
 import 'package:foodandnutrition/provider/darkthemeprov.dart';
 import 'package:provider/provider.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 class Appsetting extends StatefulWidget {
   const Appsetting({super.key});
@@ -60,25 +62,54 @@ class _AppsettingState extends State<Appsetting> {
   }
 
   void showNotification() {
+    debugPrint("once");
     flutterLocalNotificationsPlugin.show(
-        0,
-        "Stay Hydrated",
-        "A drink for a wise man is only water.",
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            color: Colors.teal,
-            importance: Importance.high,
-            playSound: true,
-            icon: '@mipmap/ic_launcher_foreground',
-          ),
-        ));
+      0,
+      "Stay Hydrated",
+      "A drink for a wise man is only water.",
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          color: Colors.teal,
+          importance: Importance.high,
+          playSound: true,
+          icon: '@mipmap/ic_launcher_foreground',
+        ),
+      ),
+    );
+  }
+
+  Future<void> repeatNotification() async {
+    // Adjust the delay between notifications as desired
+    debugPrint("repeat");
+    flutterLocalNotificationsPlugin.periodicallyShow(
+      0,
+      "Stay Hydrated",
+      "A drink for a wise man is only water.",
+      RepeatInterval.everyMinute,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          color: Colors.teal,
+          importance: Importance.high,
+          playSound: true,
+          icon: '@mipmap/ic_launcher_foreground',
+        ),
+      ),
+    );
+  }
+
+  Future<void> cancelAllNotifications() async {
+    debugPrint("cancel");
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 
   @override
   Widget build(BuildContext context) {
     final themeState = Provider.of<DarkThemeProvider>(context);
+    final notificationstate = Provider.of<NotificationProvider>(context);
     return Scaffold(
       //backgroundColor: Color(0x5F303030),
       appBar: AppBar(
@@ -139,13 +170,18 @@ class _AppsettingState extends State<Appsetting> {
                 borderRadius: const BorderRadius.all(Radius.circular(8)),
               ),
               child: SwitchListTile(
-                value: notification,
+                value: notificationstate.getNotification,
                 onChanged: (bool value) {
                   setState(() {
+                    notificationstate.setNotification = value;
                     notification = value;
                   });
                   if (notification) {
                     showNotification();
+                    //scheduleNotification(1, "Food", "Testing");
+                    repeatNotification();
+                  } else {
+                    cancelAllNotifications();
                   }
                 },
                 title: const Text(

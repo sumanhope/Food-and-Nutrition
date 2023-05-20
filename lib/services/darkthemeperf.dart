@@ -25,3 +25,16 @@ class UsernamePerfs {
     return prefs.getString(userName) ?? "Loading";
   }
 }
+
+class Notificatonperfs {
+  static const notificationStatus = "Test";
+  setNotification(bool value) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(notificationStatus, value);
+  }
+
+  Future<bool> getNotification() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getBool(notificationStatus) ?? false;
+  }
+}

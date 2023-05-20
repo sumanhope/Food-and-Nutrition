@@ -14,7 +14,7 @@ class EditDetails extends StatefulWidget {
     required this.height,
     required this.weight,
     required this.gender,
-    required this.dob,
+    required this.calories,
   });
   final String userid;
   final String username;
@@ -24,7 +24,7 @@ class EditDetails extends StatefulWidget {
   final int height;
   final int weight;
   final String gender;
-  final String dob;
+  final double calories;
 
   @override
   State<EditDetails> createState() => _EditDetailsState();
@@ -33,7 +33,7 @@ class EditDetails extends StatefulWidget {
 class _EditDetailsState extends State<EditDetails> {
   var fullnamecontroller = TextEditingController();
   final usernamecontroller = TextEditingController();
-  final dobcontroller = TextEditingController();
+  final caloriescontroller = TextEditingController();
   final agecontroller = TextEditingController();
   final gendercontroller = TextEditingController();
   final heightcontroller = TextEditingController();
@@ -44,7 +44,7 @@ class _EditDetailsState extends State<EditDetails> {
   }
 
   void checkfield() {
-    String uid, name, username, email, dob, age, gender, height, weight;
+    String uid, name, username, email, calories, age, gender, height, weight;
     uid = widget.userid;
     name = fullnamecontroller.text.isEmpty
         ? widget.fullname
@@ -53,7 +53,9 @@ class _EditDetailsState extends State<EditDetails> {
         ? widget.username
         : usernamecontroller.text;
     email = widget.email;
-    dob = dobcontroller.text.isEmpty ? widget.dob : dobcontroller.text;
+    calories = caloriescontroller.text.isEmpty
+        ? "${widget.calories}"
+        : caloriescontroller.text;
     age = agecontroller.text.isEmpty ? "${widget.age}" : agecontroller.text;
     gender =
         gendercontroller.text.isEmpty ? widget.gender : gendercontroller.text;
@@ -63,8 +65,9 @@ class _EditDetailsState extends State<EditDetails> {
     weight = weightcontroller.text.isEmpty
         ? "${widget.weight}"
         : weightcontroller.text;
-    debugPrint("$uid,$name,$username,$email,$dob,$age,$gender,$height,$weight");
-    updateuser(uid, name, username, dob, int.parse(age), gender,
+    debugPrint(
+        "$uid,$name,$username,$email,$calories,$age,$gender,$height,$weight");
+    updateuser(uid, name, username, calories, int.parse(age), gender,
         int.parse(height), int.parse(weight));
   }
 
@@ -72,7 +75,7 @@ class _EditDetailsState extends State<EditDetails> {
     String uid,
     String fullname,
     String username,
-    String dob,
+    String calories,
     int age,
     String gender,
     int height,
@@ -86,7 +89,7 @@ class _EditDetailsState extends State<EditDetails> {
         "username": username,
         "fullname": fullname,
         "age": age,
-        "DOB": dob,
+        "basecalories": calories,
         "gender": gender,
         "height": height,
         "weight": weight
@@ -176,9 +179,9 @@ class _EditDetailsState extends State<EditDetails> {
                     cont: usernamecontroller,
                   ),
                   Editfield(
-                    labeltext: "Date of Birth",
-                    hinttext: widget.dob,
-                    cont: dobcontroller,
+                    labeltext: "Base Calories",
+                    hinttext: "${widget.calories}",
+                    cont: caloriescontroller,
                   ),
                   Editfield(
                     labeltext: "Age",
