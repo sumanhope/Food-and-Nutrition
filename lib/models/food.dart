@@ -1,5 +1,7 @@
 class Food {
+  final int foodID;
   final String foodCategory;
+  final String foodname;
   final String measure;
   final double servingSize;
   final double calories;
@@ -17,6 +19,8 @@ class Food {
   final String diet;
 
   Food({
+    required this.foodID,
+    required this.foodname,
     required this.foodCategory,
     required this.servingSize,
     required this.measure,
@@ -37,6 +41,8 @@ class Food {
 
   factory Food.fromMap(Map<String, dynamic> map) {
     return Food(
+      foodID: int.parse(map['foodId'].toString()),
+      foodname: map['foodName'],
       foodCategory: map['foodCategory'],
       measure: map['measure'],
       servingSize: double.parse(map['servingSize'].toString()),
@@ -58,6 +64,8 @@ class Food {
 
   Map<String, dynamic> toMap() {
     return {
+      'foodId': foodID,
+      'foodname': foodname,
       'foodCategory': foodCategory,
       'servingSize': servingSize,
       'measure': measure,

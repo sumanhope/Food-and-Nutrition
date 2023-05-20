@@ -78,9 +78,9 @@ class _ViewDataState extends State<ViewData> {
       favornot();
     });
     caloriesbreakdown(crab, fats, protein, calories);
-    debugPrint("Carbs %: $carbspercent");
-    debugPrint("Fat %: $fatpercent");
-    debugPrint("Protein %: $proteinpercent");
+    // debugPrint("Carbs %: $carbspercent");
+    // debugPrint("Fat %: $fatpercent");
+    // debugPrint("Protein %: $proteinpercent");
   }
 
   void caloriesbreakdown(
@@ -200,7 +200,7 @@ class _ViewDataState extends State<ViewData> {
                   child: Container(
                     alignment: Alignment.center,
                     width: 450,
-                    height: 250,
+                    height: 290,
                     decoration: BoxDecoration(
                       color: const Color(0x92abd1c6),
                       borderRadius: BorderRadius.circular(5),
@@ -374,13 +374,13 @@ class _ViewDataState extends State<ViewData> {
                       }
                     },
                     style: OutlinedButton.styleFrom(
-                      backgroundColor: const Color.fromARGB(59, 0, 150, 135),
+                      backgroundColor: Color.fromARGB(195, 1, 149, 135),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
                       side: const BorderSide(
                         width: 3,
-                        color: Color.fromARGB(183, 60, 60, 60),
+                        color: Color.fromARGB(183, 0, 0, 0),
                       ),
                     ),
                     child: Text(
@@ -388,7 +388,7 @@ class _ViewDataState extends State<ViewData> {
                       style: const TextStyle(
                         letterSpacing: 1.7,
                         fontSize: 15,
-                        //color: Colors.teal,
+                        color: Colors.white,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'Poppins',
                       ),
@@ -653,28 +653,5 @@ class _ViewDataState extends State<ViewData> {
         ),
       ),
     );
-  }
-}
-
-class Test extends StatelessWidget {
-  const Test({super.key, required this.dietname});
-  final String dietname;
-
-  @override
-  Widget build(BuildContext context) {
-    if (dietname == "Low Fats") {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) {
-          return const FoodListScreen(
-            title: "Low Fats",
-            imageurl: "images/Low-Fat.jpg",
-            description:
-                "Beneficial for weight management, heart health. Nutrient-rich options, lower in calories and saturated fats.",
-          );
-        }),
-      );
-    }
-    return Text("data");
   }
 }

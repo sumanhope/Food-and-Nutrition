@@ -1,7 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:foodandnutrition/allpages/details.dart';
 import 'package:foodandnutrition/allpages/nutritional.dart';
-import 'package:foodandnutrition/services/foodlist.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class SearchPage extends StatefulWidget {
@@ -12,10 +11,9 @@ class SearchPage extends StatefulWidget {
 }
 
 class _SearchPageState extends State<SearchPage> {
-  final searchcontroller = TextEditingController();
+  String foodname = "";
   Widget buildUser() {
     return TextField(
-      controller: searchcontroller,
       decoration: InputDecoration(
         filled: true,
         fillColor: Theme.of(context).cardColor,
@@ -34,24 +32,28 @@ class _SearchPageState extends State<SearchPage> {
           fontWeight: FontWeight.bold,
           fontFamily: 'Poppins',
         ),
+        floatingLabelStyle: const TextStyle(
+          color: Colors.teal,
+          fontSize: 15,
+          fontWeight: FontWeight.bold,
+          fontFamily: 'Poppins',
+        ),
         prefixIcon: const Icon(
           Icons.search,
           color: Colors.white,
           size: 30,
         ),
-        suffixIcon: searchcontroller.text.isEmpty
-            ? Container(width: 0)
-            : IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: () => searchcontroller.clear(),
-                color: Colors.white,
-              ),
+
         focusedBorder: const OutlineInputBorder(
           borderRadius: BorderRadius.all(Radius.circular(8)),
           borderSide: BorderSide(color: Colors.teal, width: 3),
         ),
       ),
-      onChanged: (value) => _runFilter(value),
+      onChanged: (value) {
+        setState(() {
+          foodname = value;
+        });
+      },
       style: TextStyle(
         color: Theme.of(context).unselectedWidgetColor,
         fontSize: 15,
@@ -62,105 +64,174 @@ class _SearchPageState extends State<SearchPage> {
     );
   }
 
-  var foodList = FoodList(name: '', foodCategory: '', id: 0);
-
-  // This list holds the data for the list view
-  List<FoodList> _foodList = [];
   @override
-  void initState() {
-    _foodList = foodList.foodList();
-    super.initState();
-  }
+  Widget build(BuildContext context) {
+    return KeyboardDismisser(
+      gestures: const [
+        GestureType.onTap,
+        GestureType.onPanUpdateDownDirection,
+      ],
+      child: Scaffold(
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          title: const Text(
+            "Search",
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
+            ),
+          ),
+          centerTitle: true,
+        ),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: Column(
+              children: [
+                const SizedBox(
+                  height: 10,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: buildUser(),
+                ),
+                Flexible(
+                  child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection("food")
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text(
+                            "Error: ${snapshot.error}",
+                            textAlign: TextAlign.justify,
+                            style: const TextStyle(
+                              color: Colors.teal,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        );
+                      }
 
-  // This function is called whenever the text field changes
-  void _runFilter(String enteredKeyword) {
-    List<FoodList> results = [];
-    if (enteredKeyword.isEmpty) {
-      // if the search field is empty or only contains white-space, we'll display all users
-      results = foodList.foodList();
-    } else {
-      results = foodList
-          .foodList()
-          .where((food) =>
-              food.name.toLowerCase().contains(enteredKeyword.toLowerCase()))
-          .toList();
-      // we use the toLowerCase() method to make it case-insensitive
-    }
-    setState(() {
-      _foodList = results;
-    });
+                      return ListView.builder(
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          var data = snapshot.data!.docs[index].data();
+                          if (foodname.isEmpty) {
+                            return SearchCards(
+                              foodname: data['foodName'].toString(),
+                              category: data['foodCategory'].toString(),
+                              press: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ViewData(
+                                      foodId: data["foodId"].toString(),
+                                      foodname: data["foodName"].toString(),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          if (data['foodName']
+                              .toString()
+                              .toLowerCase()
+                              .startsWith(foodname.toLowerCase())) {
+                            return SearchCards(
+                              foodname: data['foodName'].toString(),
+                              category: data['foodCategory'].toString(),
+                              press: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ViewData(
+                                      foodId: data["foodId"].toString(),
+                                      foodname: data["foodName"].toString(),
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          }
+                          if (index == snapshot.data!.docs.length - 1) {
+                            return const Center(
+                              child: Text(
+                                'No food found',
+                                style: TextStyle(
+                                  letterSpacing: 1.2,
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            );
+                          }
+                          return Container();
+                        },
+                      );
+                    },
+                  ),
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
+}
+
+class SearchCards extends StatelessWidget {
+  const SearchCards({
+    Key? key,
+    required this.foodname,
+    required this.category,
+    required this.press,
+  }) : super(key: key);
+  final String foodname;
+  final String category;
+  final VoidCallback press;
 
   @override
-  Widget build(BuildContext context) => KeyboardDismisser(
-        gestures: const [
-          GestureType.onTap,
-          GestureType.onPanUpdateDownDirection,
-        ],
-        child: Scaffold(
-          appBar: AppBar(
-            automaticallyImplyLeading: false,
-            title: const Text(
-              "Search",
-              style: TextStyle(
-                fontSize: 18,
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 1),
+      child: Card(
+        //color: const Color.fromARGB(153, 0, 150, 135),
+        elevation: 9,
+        shadowColor: Colors.teal[800],
+        child: ListTile(
+            title: Text(
+              foodname,
+              style: const TextStyle(
+                letterSpacing: 1.2,
+                fontSize: 16,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Poppins',
               ),
             ),
-            centerTitle: true,
-          ),
-          body: SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Column(
-                children: [
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 8.0),
-                    child: buildUser(),
-                  ),
-                  Expanded(
-                    child: _foodList.isNotEmpty
-                        ? ListView.builder(
-                            itemCount: _foodList.length,
-                            itemBuilder: (context, index) => Card(
-                              key: ValueKey(_foodList[index].id),
-                              //color: const Color.fromARGB(153, 0, 150, 135),
-                              elevation: 9,
-                              shadowColor: Colors.teal[800],
-                              child: ListTile(
-                                title: Text(_foodList[index].name,
-                                    style:
-                                        const TextStyle(color: Colors.white)),
-                                subtitle: Text(_foodList[index].foodCategory,
-                                    style:
-                                        const TextStyle(color: Colors.white)),
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ViewData(
-                                              foodId: '${_foodList[index].id}',
-                                              foodname: _foodList[index].name,
-                                            )),
-                                  );
-                                },
-                              ),
-                            ),
-                          )
-                        : const Text(
-                            'No results found',
-                            style: TextStyle(fontSize: 24),
-                          ),
-                  ),
-                ],
+            subtitle: Text(
+              category,
+              style: const TextStyle(
+                letterSpacing: 1.5,
+                fontSize: 12,
+                color: Colors.white,
+                fontWeight: FontWeight.w300,
+                fontFamily: 'Poppins',
               ),
             ),
-          ),
-        ),
-      );
+            onTap: press),
+      ),
+    );
+  }
 }
