@@ -57,8 +57,6 @@ class _TrackPageState extends State<TrackPage> {
     super.initState();
     getData();
     loadWaterLevel();
-
-    getFoodTrack();
   }
 
   void getData() async {
@@ -79,8 +77,11 @@ class _TrackPageState extends State<TrackPage> {
     setState(() {
       basecarbs = (basecal * 0.5) / 4;
       baseprotein = (basecal * 0.2) / 4;
-      basefats = (basecal * 0.3) / 9;
+      double basefat = (basecal * 0.3) / 9;
+      String formattedfats = basefat.toStringAsFixed(1);
+      basefats = double.parse(formattedfats);
     });
+    getFoodTrack();
   }
 
   addCal(double intakecal, double intakecarbs, double intakeprotein,
@@ -100,6 +101,12 @@ class _TrackPageState extends State<TrackPage> {
         carbs += intakecarbs;
         protein += intakeprotein;
         fats += intakefats;
+        String formatcarbs = carbs.toStringAsFixed(2);
+        carbs = double.parse(formatcarbs);
+        String formatprotein = protein.toStringAsFixed(2);
+        protein = double.parse(formatprotein);
+        String formatfats = fats.toStringAsFixed(2);
+        fats = double.parse(formatfats);
         if (foodcal > basecal) {
           foodcal = basecal;
         }
@@ -107,6 +114,15 @@ class _TrackPageState extends State<TrackPage> {
         percentcarbs += normalizecarbs;
         percentprotein += normalizeprotein;
         percentfats += normalizefats;
+        if (percentcarbs > 1) {
+          percentcarbs = 1;
+        }
+        if (percentprotein > 1) {
+          percentprotein = 1;
+        }
+        if (percentfats > 1) {
+          percentfats = 1;
+        }
         if (percentcal > 1) {
           percentcal = 1;
         }
@@ -120,6 +136,7 @@ class _TrackPageState extends State<TrackPage> {
         // debugPrint(percentcarbs.toString());
         // debugPrint(percentfats.toString());
         // debugPrint(percentprotein.toString());
+        debugPrint(fats.toString());
       }
     });
   }
@@ -208,6 +225,24 @@ class _TrackPageState extends State<TrackPage> {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setDouble('waterlevel', value);
     await prefs.setInt('watercount', value1);
+    try {
+      await FirebaseFirestore.instance
+          .collection('watertrack')
+          .doc(userId)
+          .update({currentDate: value1});
+    } on FirebaseException catch (e) {
+      if (e.code == 'not-found') {
+        // Document doesn't exist, so create it with the food entry for the current date
+        await FirebaseFirestore.instance
+            .collection('watertrack')
+            .doc(userId)
+            .set({currentDate: value1});
+      } else {
+        errorDialog(e.toString());
+      }
+    } catch (e) {
+      errorDialog(e.toString());
+    }
   }
 
   Future errorDialog(String error) {
@@ -258,7 +293,7 @@ class _TrackPageState extends State<TrackPage> {
             "protein": addprotein,
             "fats": addfats
           }
-        ])
+        ]),
       });
       Navigator.pop(context);
       errorDialog("Sucessfully submitted");
@@ -277,7 +312,7 @@ class _TrackPageState extends State<TrackPage> {
               "protein": addprotein,
               "fats": addfats
             }
-          ]
+          ],
         });
         Navigator.pop(context);
         errorDialog("Sucessfully submitted");
@@ -291,6 +326,16 @@ class _TrackPageState extends State<TrackPage> {
       Navigator.pop(context);
       errorDialog(e.toString());
     }
+    setState(() {
+      foodcal = 0;
+      carbs = 0;
+      protein = 0;
+      fats = 0;
+      percentcal = 0;
+      percentcarbs = 0;
+      percentprotein = 0;
+      percentfats = 0;
+    });
     getFoodTrack();
   }
 
@@ -324,11 +369,29 @@ class _TrackPageState extends State<TrackPage> {
     } catch (e) {
       debugPrint('Error deleting food data: $e');
     }
+    setState(() {
+      foodcal = 0;
+      carbs = 0;
+      protein = 0;
+      fats = 0;
+      percentcal = 0;
+      percentcarbs = 0;
+      percentprotein = 0;
+      percentfats = 0;
+    });
+
     getFoodTrack();
   }
 
-  Future showFoodDetails(String foodname, String calories, String carbs,
-      String protein, String fats, int whichindex) {
+  Future showFoodDetails(
+      String foodname,
+      String servingsize,
+      String measure,
+      String calories,
+      String carbs,
+      String protein,
+      String fats,
+      int whichindex) {
     return showDialog(
       context: context,
       builder: (context) {
@@ -350,6 +413,10 @@ class _TrackPageState extends State<TrackPage> {
                     "Name of food: $foodname",
                     style: textstyle,
                   ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Text("Serving Size: $servingsize $measure", style: textstyle),
                   const SizedBox(
                     height: 10,
                   ),
@@ -456,6 +523,16 @@ class _TrackPageState extends State<TrackPage> {
             ),
           );
           if (refresh) {
+            setState(() {
+              foodcal = 0;
+              carbs = 0;
+              protein = 0;
+              fats = 0;
+              percentcal = 0;
+              percentcarbs = 0;
+              percentprotein = 0;
+              percentfats = 0;
+            });
             getFoodTrack();
             setState(() {
               refresh = false;
@@ -1014,6 +1091,8 @@ class _TrackPageState extends State<TrackPage> {
                             press: () {
                               showFoodDetails(
                                 foodEntries[index]["foodname"],
+                                foodEntries[index]["servingSize"],
+                                foodEntries[index]["measure"],
                                 foodEntries[index]["calories"],
                                 foodEntries[index]["carbs"],
                                 foodEntries[index]["protein"],

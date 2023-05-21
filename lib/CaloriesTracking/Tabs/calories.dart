@@ -15,8 +15,8 @@ class _CaloriesTabState extends State<CaloriesTab> {
   late DateTime _selectedDate;
   double percentcal = 0;
   double foodcal = 0;
-  double basecal = 3000;
-  double remaining = 3000;
+  double basecal = 0;
+  double remaining = 0;
   String userId = FirebaseAuth.instance.currentUser!.uid;
   //Stream<QuerySnapshot> _contentStream;
 
@@ -24,9 +24,23 @@ class _CaloriesTabState extends State<CaloriesTab> {
   void initState() {
     super.initState();
     _selectedDate = DateTime.now();
-    getFoodTrack(_selectedDate);
+    getData(_selectedDate);
 
     //_loadContent();
+  }
+
+  void getData(DateTime date) async {
+    final User user = FirebaseAuth.instance.currentUser!;
+
+    String uid = user.uid;
+
+    final DocumentSnapshot userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    setState(() {
+      basecal = double.parse(userDoc.get('basecalories').toString());
+      remaining = basecal;
+    });
+    getFoodTrack(date);
   }
 
   //  void _loadContent() {
@@ -80,7 +94,7 @@ class _CaloriesTabState extends State<CaloriesTab> {
     setState(() {
       _selectedDate = _selectedDate.subtract(const Duration(days: 1));
       foodcal = 0;
-      remaining = 3000;
+      remaining = basecal;
       percentcal = 0;
     });
     getFoodTrack(_selectedDate);
@@ -90,7 +104,7 @@ class _CaloriesTabState extends State<CaloriesTab> {
     setState(() {
       _selectedDate = _selectedDate.add(const Duration(days: 1));
       foodcal = 0;
-      remaining = 3000;
+      remaining = basecal;
       percentcal = 0;
       //_loadContent();
     });

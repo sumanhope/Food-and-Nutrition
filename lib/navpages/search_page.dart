@@ -165,7 +165,7 @@ class _SearchPageState extends State<SearchPage> {
                           if (index == snapshot.data!.docs.length - 1) {
                             return const Center(
                               child: Text(
-                                'No food found',
+                                'No similar food found',
                                 style: TextStyle(
                                   letterSpacing: 1.2,
                                   fontSize: 19,

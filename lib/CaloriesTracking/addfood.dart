@@ -18,6 +18,14 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
   TrackPage track = const TrackPage();
   String userId = FirebaseAuth.instance.currentUser!.uid;
   String currentDate = DateTime.now().toString().substring(0, 10);
+  final foodnamecontroller = TextEditingController();
+  final basecalcontroller = TextEditingController();
+  final caloriescontroller = TextEditingController();
+  final carbscontroller = TextEditingController();
+  final proteincontroller = TextEditingController();
+  final fatscontroller = TextEditingController();
+  final sizecontroller = TextEditingController();
+  final measurecontroller = TextEditingController();
   Future errorDialog(String error) {
     return showDialog(
       context: context,
@@ -33,7 +41,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
             style: const TextStyle(
               letterSpacing: 2.5,
               color: Colors.white,
-              fontSize: 18,
+              fontSize: 16,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -101,8 +109,14 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
     fontFamily: 'Poppins',
   );
 
-  Future<void> addFood(String addfood, String addcalories, String addcarbs,
-      String addprotein, String addfats) async {
+  Future<void> addFood(
+      String addfood,
+      String servingsize,
+      String addcalories,
+      String addcarbs,
+      String addprotein,
+      String addfats,
+      String measure) async {
     try {
       showDialog(
           context: context,
@@ -120,6 +134,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
         currentDate: FieldValue.arrayUnion([
           {
             "foodname": addfood,
+            "servingSize": servingsize,
+            "measure": measure,
             "calories": addcalories,
             "carbs": addcarbs,
             "protein": addprotein,
@@ -139,6 +155,8 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
           currentDate: [
             {
               "foodname": addfood,
+              "servingSize": servingsize,
+              "measure": measure,
               "calories": addcalories,
               "carbs": addcarbs,
               "protein": addprotein,
@@ -224,7 +242,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
             return AlertDialog(
               title: const Text('Food Details'),
               content: SizedBox(
-                height: 200,
+                height: 280,
                 width: 350,
                 child: SingleChildScrollView(
                   child: Column(
@@ -318,25 +336,51 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                 ),
               ),
               actions: <Widget>[
-                OutlinedButton(
-                  child: const Text('Cancel'),
-                  onPressed: () {
-                    Navigator.of(context).pop(); // Close the dialog
-                  },
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 100,
+                    height: 50,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: Color.fromARGB(141, 0, 150, 135),
+                      ),
+                      child: const Text('Close'),
+                    ),
+                  ),
                 ),
-                ElevatedButton(
-                  child: const Text('OK'),
-                  onPressed: () {
-                    addFood(
-                      foodname,
-                      testcalories.toString(),
-                      testcarb.toString(),
-                      testprotein.toString(),
-                      testfats.toString(),
-                    );
-                    // Perform action when OK is pressed
-                    Navigator.of(context).pop(); // Close the dialog
-                  },
+                const SizedBox(
+                  width: 40,
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 100,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (servingsize > 0) {
+                          addFood(
+                              foodname,
+                              servingsize.toString(),
+                              testcalories.toString(),
+                              testcarb.toString(),
+                              testprotein.toString(),
+                              testfats.toString(),
+                              measure);
+                        } else {
+                          errorDialog("Serving Size can not be 0");
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.teal,
+                      ),
+                      child: const Text('Submit'),
+                    ),
+                  ),
                 ),
               ],
             );
@@ -367,6 +411,151 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                 Navigator.pop(context, true);
               },
             ),
+            actions: [
+              IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: Text(
+                            'Track Food',
+                            style: textstyle,
+                            textAlign: TextAlign.center,
+                          ),
+                          content: SizedBox(
+                            height: 350,
+                            width: 450,
+                            child: SingleChildScrollView(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Name of food",
+                                    style: textstyle,
+                                  ),
+                                  TextField(
+                                    controller: foodnamecontroller,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text("Serving Size", style: textstyle),
+                                  TextField(
+                                    controller: sizecontroller,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text("Measure", style: textstyle),
+                                  TextField(
+                                    controller: measurecontroller,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text("Calories", style: textstyle),
+                                  TextField(
+                                    controller: caloriescontroller,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text("Carbs", style: textstyle),
+                                  TextField(
+                                    controller: carbscontroller,
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text("Protein", style: textstyle),
+                                  TextField(
+                                    controller: proteincontroller,
+                                  ),
+                                  Text("Fats", style: textstyle),
+                                  TextField(
+                                    controller: fatscontroller,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          actions: <Widget>[
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: 100,
+                                    height: 50,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        foodnamecontroller.clear();
+                                        sizecontroller.clear();
+                                        measurecontroller.clear();
+                                        caloriescontroller.clear();
+                                        carbscontroller.clear();
+                                        proteincontroller.clear();
+                                        fatscontroller.clear();
+                                        Navigator.of(context).pop();
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.teal,
+                                      ),
+                                      child: const Text('Close'),
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SizedBox(
+                                    width: 100,
+                                    height: 50,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        if (foodnamecontroller.text.isNotEmpty &&
+                                            sizecontroller.text.isNotEmpty &&
+                                            measurecontroller.text.isNotEmpty &&
+                                            caloriescontroller
+                                                .text.isNotEmpty &&
+                                            carbscontroller.text.isNotEmpty &&
+                                            proteincontroller.text.isNotEmpty &
+                                                fatscontroller
+                                                    .text.isNotEmpty) {
+                                          addFood(
+                                            foodnamecontroller.text.trim(),
+                                            sizecontroller.text.trim(),
+                                            caloriescontroller.text.trim(),
+                                            carbscontroller.text.trim(),
+                                            proteincontroller.text.trim(),
+                                            fatscontroller.text.trim(),
+                                            measurecontroller.text.trim(),
+                                          );
+                                        } else {
+                                          errorDialog("Please fill all fields");
+                                        }
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.teal,
+                                      ),
+                                      child: const Text('Submit'),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  icon: const Icon(
+                    Icons.fastfood,
+                    size: 25,
+                  ))
+            ],
             title: const Text(
               "Add Food",
               style: TextStyle(

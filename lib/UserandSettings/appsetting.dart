@@ -87,7 +87,7 @@ class _AppsettingState extends State<Appsetting> {
       0,
       "Stay Hydrated",
       "A drink for a wise man is only water.",
-      RepeatInterval.everyMinute,
+      RepeatInterval.hourly,
       NotificationDetails(
         android: AndroidNotificationDetails(
           channel.id,
