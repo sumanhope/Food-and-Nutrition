@@ -11,6 +11,7 @@ import 'package:foodandnutrition/UserandSettings/accandpass.dart';
 import 'package:foodandnutrition/UserandSettings/appsetting.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
 import 'package:foodandnutrition/UserandSettings/favourite_page.dart';
+import 'package:foodandnutrition/services/darkthemeperf.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -38,6 +39,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   String profileurl = '';
   String imageUrl = '';
   File? _image;
+  UsernamePerfs testuser = UsernamePerfs();
   @override
   void initState() {
     super.initState();
@@ -196,6 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         backgroundColor: Colors.teal,
                       ),
                       onPressed: () {
+                        testuser.setUsername("Loading");
                         FirebaseAuth.instance.signOut().then((value) {
                           Navigator.pushReplacement(
                             context,

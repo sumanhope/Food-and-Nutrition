@@ -6,7 +6,6 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:foodandnutrition/Verification/emailverification_page.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
 import 'package:foodandnutrition/provider/darkthemeprov.dart';
-import 'package:foodandnutrition/services/notification_api.dart';
 import 'package:foodandnutrition/utils/themes.dart';
 import 'package:provider/provider.dart';
 // import 'package:dcdg/dcdg.dart';

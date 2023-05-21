@@ -293,7 +293,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                 signIn(usermail);
                               } on RangeError catch (e) {
                                 Navigator.of(context).pop();
-                                errorDialog("Username or passoword is incorrect.");
+                                errorDialog(
+                                    "Username or passoword is incorrect.");
                                 debugPrint(e.toString());
                               }
                             } else {

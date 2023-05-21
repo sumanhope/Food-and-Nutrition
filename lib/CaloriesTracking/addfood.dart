@@ -346,7 +346,7 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                         Navigator.of(context).pop();
                       },
                       style: OutlinedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(141, 0, 150, 135),
+                        backgroundColor: const Color.fromARGB(141, 0, 150, 135),
                       ),
                       child: const Text('Close'),
                     ),
@@ -515,15 +515,25 @@ class _AddFoodScreenState extends State<AddFoodScreen> {
                                     height: 50,
                                     child: ElevatedButton(
                                       onPressed: () {
-                                        if (foodnamecontroller.text.isNotEmpty &&
-                                            sizecontroller.text.isNotEmpty &&
-                                            measurecontroller.text.isNotEmpty &&
-                                            caloriescontroller
-                                                .text.isNotEmpty &&
-                                            carbscontroller.text.isNotEmpty &&
-                                            proteincontroller.text.isNotEmpty &
-                                                fatscontroller
-                                                    .text.isNotEmpty) {
+                                        if (foodnamecontroller.text.trim().isNotEmpty &&
+                                            sizecontroller.text
+                                                .trim()
+                                                .isNotEmpty &&
+                                            measurecontroller.text
+                                                .trim()
+                                                .isNotEmpty &&
+                                            caloriescontroller.text
+                                                .trim()
+                                                .isNotEmpty &&
+                                            carbscontroller.text
+                                                .trim()
+                                                .isNotEmpty &&
+                                            proteincontroller.text
+                                                    .trim()
+                                                    .isNotEmpty &
+                                                fatscontroller.text
+                                                    .trim()
+                                                    .isNotEmpty) {
                                           addFood(
                                             foodnamecontroller.text.trim(),
                                             sizecontroller.text.trim(),

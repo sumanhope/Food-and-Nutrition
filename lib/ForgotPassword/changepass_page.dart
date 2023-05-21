@@ -8,6 +8,7 @@ class ChangePassScreen extends StatefulWidget {
   @override
   State<ChangePassScreen> createState() => _ChangePassScreenState();
 }
+
 //test
 class _ChangePassScreenState extends State<ChangePassScreen> {
   var box = const SizedBox(
@@ -396,15 +397,17 @@ class _ChangePassScreenState extends State<ChangePassScreen> {
                       child: ElevatedButton(
                         onPressed: () {
                           //debugPrint("OTP: ${emailController.text}")
-                          if (passwordController.text.isNotEmpty &&
-                              newpassController.text.isNotEmpty &&
-                              changepassController.text.isNotEmpty) {
+                          if (passwordController.text.trim().isNotEmpty &&
+                              newpassController.text.trim().isNotEmpty &&
+                              changepassController.text.trim().isNotEmpty) {
                             if (passwordConfirmed()) {
-                              if (newpassController.text.length > 6) {
-                                if (passwordController.text !=
-                                    newpassController.text) {
-                                  _changePassword(passwordController.text,
-                                      newpassController.text);
+                              if (newpassController.text.trim().length > 6) {
+                                if (passwordController.text.trim() !=
+                                    newpassController.text.trim()) {
+                                  _changePassword(
+                                    passwordController.text.trim(),
+                                    newpassController.text.trim(),
+                                  );
                                 } else {
                                   errorDialog(
                                       "Your new password cannot be old password");

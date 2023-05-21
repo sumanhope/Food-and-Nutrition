@@ -139,7 +139,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String? get _errorText {
     // at any time, we can get the text from _controller.value.text
-    final text = passwordcontroller.value.text;
+    final text = passwordcontroller.value.text.trim();
 
     // Note: you can do your own custom validation here
     // Move this logic this outside the widget for more testable code
@@ -156,7 +156,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   String? get errorText {
     // at any time, we can get the text from _controller.value.text
-    final text = confirmpasswordcontroller.value.text;
+    final text = confirmpasswordcontroller.value.text.trim();
 
     // Note: you can do your own custom validation here
     // Move this logic this outside the widget for more testable code
@@ -172,11 +172,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   bool formone() {
-    if (fullnamecontroller.text.isNotEmpty &&
-        usernamecontroller.text.isNotEmpty &&
-        emailcontroller.text.isNotEmpty &&
-        passwordcontroller.text.isNotEmpty &&
-        confirmpasswordcontroller.text.isNotEmpty) {
+    if (fullnamecontroller.text.trim().isNotEmpty &&
+        usernamecontroller.text.trim().isNotEmpty &&
+        emailcontroller.text.trim().isNotEmpty &&
+        passwordcontroller.text.trim().isNotEmpty &&
+        confirmpasswordcontroller.text.trim().isNotEmpty) {
       return true;
     } else {
       return false;
@@ -184,11 +184,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   bool formtwo() {
-    if (gendercontroller.text.isNotEmpty &&
-        agecontroller.text.isNotEmpty &&
-        basecaloriescontoller.text.isNotEmpty &&
-        heightcontroller.text.isNotEmpty &&
-        weightcontroller.text.isNotEmpty) {
+    if (gendercontroller.text.trim().isNotEmpty &&
+        agecontroller.text.trim().isNotEmpty &&
+        basecaloriescontoller.text.trim().isNotEmpty &&
+        heightcontroller.text.trim().isNotEmpty &&
+        weightcontroller.text.trim().isNotEmpty) {
       return true;
     } else {
       return false;
@@ -272,7 +272,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       if (currentStep == 0) {
                         if (formone()) {
                           if (passwordConfirmed()) {
-                            if (passwordcontroller.text.length > 6) {
+                            if (passwordcontroller.text.trim().length > 6) {
                               setState(() => currentStep += 1);
                             } else {
                               errorDialog(

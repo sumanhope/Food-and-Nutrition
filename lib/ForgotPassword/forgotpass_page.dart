@@ -32,7 +32,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   }
 
   checkaccount() async {
-    String text = emailController.text;
+    String text = emailController.text.trim();
     if (text == '') {
       debugPrint("Please fill the email address.");
       await showFlash(

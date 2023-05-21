@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/Welcome/welcome_page.dart';
+import 'package:foodandnutrition/services/darkthemeperf.dart';
 import 'package:keyboard_dismisser/keyboard_dismisser.dart';
 
 class AccountDelete extends StatefulWidget {
@@ -12,6 +13,7 @@ class AccountDelete extends StatefulWidget {
 }
 
 class _AccountDeleteState extends State<AccountDelete> {
+  UsernamePerfs testuser = UsernamePerfs();
   final confirmcontroller = TextEditingController();
   var unfocuseborder = const OutlineInputBorder(
     borderRadius: BorderRadius.all(Radius.circular(8)),
@@ -77,26 +79,36 @@ class _AccountDeleteState extends State<AccountDelete> {
     );
   }
 
-  void deldatabase() async {
+  void deldatabase(String password) async {
     final user = FirebaseAuth.instance.currentUser!;
     String userid = user.uid;
+    testuser.setUsername("Loading");
     try {
-      await FirebaseFirestore.instance.collection('users').doc(userid).delete();
+      final cred =
+          EmailAuthProvider.credential(email: user.email!, password: password);
+      await user.reauthenticateWithCredential(cred).then((value) async {
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(userid)
+            .delete();
+        await user.delete().then(
+              (value) => FirebaseAuth.instance.signOut().then(
+                (value) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const WelcomeScreen(),
+                    ),
+                  );
+                },
+              ),
+            );
+      }).catchError((err) {
+        errorDialog(err.toString());
+      });
     } on FirebaseException catch (e) {
       errorDialog(e.toString());
     }
-    await user.delete().then(
-          (value) => FirebaseAuth.instance.signOut().then(
-            (value) {
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const WelcomeScreen(),
-                ),
-              );
-            },
-          ),
-        );
   }
 
   @override
@@ -138,13 +150,13 @@ class _AccountDeleteState extends State<AccountDelete> {
             const Padding(
               padding: EdgeInsets.only(top: 8.0, bottom: 8.0, right: 19.0),
               child: Text(
-                "Enter {CONFIRM} to delete the account.",
+                "Enter your password to delete the account.",
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Poppins',
                 ),
-                textAlign: TextAlign.justify,
+                textAlign: TextAlign.center,
               ),
             ),
             Padding(
@@ -159,8 +171,8 @@ class _AccountDeleteState extends State<AccountDelete> {
               height: 50,
               child: ElevatedButton(
                 onPressed: () {
-                  if (confirmcontroller.text.trim() == "CONFIRM") {
-                    deldatabase();
+                  if (confirmcontroller.text.trim().isNotEmpty) {
+                    deldatabase(confirmcontroller.text.trim());
                   } else {
                     errorDialog("Please enter 'CONFIRM'. All uppercase");
                   }

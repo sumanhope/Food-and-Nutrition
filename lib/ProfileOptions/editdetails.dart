@@ -46,25 +46,28 @@ class _EditDetailsState extends State<EditDetails> {
   void checkfield() {
     String uid, name, username, email, calories, age, gender, height, weight;
     uid = widget.userid;
-    name = fullnamecontroller.text.isEmpty
+    name = fullnamecontroller.text.trim().isEmpty
         ? widget.fullname
-        : fullnamecontroller.text;
-    username = usernamecontroller.text.isEmpty
+        : fullnamecontroller.text.trim();
+    username = usernamecontroller.text.trim().isEmpty
         ? widget.username
-        : usernamecontroller.text;
+        : usernamecontroller.text.trim();
     email = widget.email;
-    calories = caloriescontroller.text.isEmpty
+    calories = caloriescontroller.text.trim().isEmpty
         ? "${widget.calories}"
-        : caloriescontroller.text;
-    age = agecontroller.text.isEmpty ? "${widget.age}" : agecontroller.text;
-    gender =
-        gendercontroller.text.isEmpty ? widget.gender : gendercontroller.text;
-    height = heightcontroller.text.isEmpty
+        : caloriescontroller.text.trim();
+    age = agecontroller.text.trim().isEmpty
+        ? "${widget.age}"
+        : agecontroller.text.trim();
+    gender = gendercontroller.text.trim().isEmpty
+        ? widget.gender
+        : gendercontroller.text.trim();
+    height = heightcontroller.text.trim().isEmpty
         ? "${widget.height}"
-        : heightcontroller.text;
-    weight = weightcontroller.text.isEmpty
+        : heightcontroller.text.trim();
+    weight = weightcontroller.text.trim().isEmpty
         ? "${widget.weight}"
-        : weightcontroller.text;
+        : weightcontroller.text.trim();
     debugPrint(
         "$uid,$name,$username,$email,$calories,$age,$gender,$height,$weight");
     updateuser(uid, name, username, calories, int.parse(age), gender,
