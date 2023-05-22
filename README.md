@@ -1,16 +1,13 @@
 # foodandnutrition
 
-A new Flutter project.
+Final Year Project
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+All the pages are inside the lib folder. 
+This project aim is to build an application through which user can track their calories, macro, as well as water level
+This application also have a search page where user can search food, all the food are from firebase database. 
+There is also a diet list where users can check low fats, high fiber foods. 
+This application also have a dark mode, notification(hourly) which send message users to drink water. 
+User can also view their past calories records.
+User can also check nutritional facts of foods through the search page. 
+To track the calories users need to select food from the food list, or search using search bar.
+If the food is not in the list user can add manually. 
