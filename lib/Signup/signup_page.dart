@@ -90,6 +90,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         );
       });
     } on FirebaseAuthException catch (e) {
+      // ignore: use_build_context_synchronously
       Navigator.pop(context);
       errorDialog(e.toString());
     }
@@ -267,7 +268,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       signIn();
 
                       //send data to server from here
-
                     } else {
                       if (currentStep == 0) {
                         if (formone()) {

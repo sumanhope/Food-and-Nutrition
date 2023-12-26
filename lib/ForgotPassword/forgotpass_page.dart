@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flash/flash.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:foodandnutrition/Login/login_page.dart';
@@ -31,31 +30,34 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     super.dispose();
   }
 
+  Future errorDialog(String error) {
+    return showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          backgroundColor: const Color.fromARGB(121, 53, 233, 215),
+          elevation: 5,
+          title: Text(
+            error,
+            style: const TextStyle(
+              letterSpacing: 2.5,
+              color: Colors.white,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'Poppins',
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   checkaccount() async {
     String text = emailController.text.trim();
     if (text == '') {
-      debugPrint("Please fill the email address.");
-      await showFlash(
-          context: context,
-          duration: const Duration(seconds: 4),
-          builder: (context, controller) {
-            return Flash.bar(
-              controller: controller,
-              backgroundColor: Colors.white,
-              position: FlashPosition.bottom,
-              horizontalDismissDirection: HorizontalDismissDirection.horizontal,
-              margin: const EdgeInsets.all(8),
-              borderRadius: const BorderRadius.all(Radius.circular(8)),
-              forwardAnimationCurve: Curves.easeOutBack,
-              reverseAnimationCurve: Curves.slowMiddle,
-              child: FlashBar(
-                content: const Text("Fill the email address."),
-                primaryAction: IconButton(
-                    onPressed: () {}, icon: const Icon(Icons.error_outline)),
-                showProgressIndicator: true,
-              ),
-            );
-          });
+      errorDialog("Please fill the email address.");
     } else {
       passwordReset();
     }
@@ -81,12 +83,13 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     } on FirebaseAuthException catch (e) {
       debugPrint(e.toString());
       showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              content: Text(e.message.toString()),
-            );
-          });
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            content: Text(e.message.toString()),
+          );
+        },
+      );
     }
   }
 
@@ -145,6 +148,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
         child: Scaffold(
           body: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Stack(
                   children: [
@@ -168,9 +172,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ],
                 ),
                 box,
-                Container(
-                  alignment: const Alignment(-0.8, 0.5),
-                  child: const Text(
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0),
+                  child: Text(
                     "Reset Password",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
@@ -181,34 +185,11 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                 ),
                 box,
-                Container(
-                  alignment: const Alignment(0, 0.5),
-                  child: const Text(
-                    "Enter the email assoociated with your account",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Color.fromARGB(197, 2, 68, 62),
-                      fontFamily: 'Poppins',
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: const Alignment(-0.4, 0.5),
-                  child: const Text(
-                    "and we'll send an email with instructions to",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15,
-                      color: Color.fromARGB(197, 2, 68, 62),
-                      fontFamily: 'Poppins',
-                    ),
-                  ),
-                ),
-                Container(
-                  alignment: const Alignment(-0.8, 0.5),
-                  child: const Text(
-                    "reset your password",
+                const Padding(
+                  padding: EdgeInsets.only(left: 20.0, right: 20),
+                  child: Text(
+                    "Enter the email assoociated with your account and we'll"
+                    " send an email with instructions to reset your password.",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 15,
@@ -218,9 +199,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                   ),
                 ),
                 box,
-                Container(
-                  alignment: const Alignment(60, 1),
-                  child: const Text(
+                const Padding(
+                  padding: EdgeInsets.only(left: 20),
+                  child: Text(
                     "Email address                                                           ",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,

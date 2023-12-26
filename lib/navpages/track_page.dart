@@ -5,7 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:foodandnutrition/CaloriesTracking/addfood.dart';
 import 'package:foodandnutrition/CaloriesTracking/datadisplay.dart';
-import 'package:liquid_progress_indicator/liquid_progress_indicator.dart';
+import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -686,7 +687,7 @@ class _TrackPageState extends State<TrackPage> {
                         margin: const EdgeInsets.only(
                             top: 20, left: 10, right: 10, bottom: 10),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).backgroundColor,
+                          color: Theme.of(context).primaryColor,
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Column(
@@ -794,7 +795,7 @@ class _TrackPageState extends State<TrackPage> {
                         margin: const EdgeInsets.only(
                             top: 20, left: 10, right: 10, bottom: 10),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).backgroundColor,
+                          color: Theme.of(context).primaryColor,
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Column(
@@ -858,7 +859,7 @@ class _TrackPageState extends State<TrackPage> {
                         margin: const EdgeInsets.only(
                             top: 20, left: 10, right: 10, bottom: 10),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).backgroundColor,
+                          color: Theme.of(context).primaryColor,
                           borderRadius: BorderRadius.circular(30),
                         ),
                         child: Column(
@@ -1051,11 +1052,11 @@ class _TrackPageState extends State<TrackPage> {
                     if (data.containsKey(currentDate)) {
                       List<dynamic> foodEntries = data[currentDate];
                       if (foodEntries.isEmpty) {
-                        return Center(
+                        return const Center(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
-                            children: const [
+                            children: [
                               SizedBox(
                                 height: 50,
                               ),
@@ -1108,11 +1109,11 @@ class _TrackPageState extends State<TrackPage> {
                         // add this line to show a message if the list is empty
                       );
                     } else {
-                      return Center(
+                      return const Center(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: const [
+                          children: [
                             SizedBox(
                               height: 50,
                             ),

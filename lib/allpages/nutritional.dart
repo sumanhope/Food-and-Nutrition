@@ -244,10 +244,10 @@ class _ViewDataState extends State<ViewData> {
                         // const SizedBox(
                         //   width: 10,
                         // ),
-                        Column(
+                        const Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           crossAxisAlignment: CrossAxisAlignment.start,
-                          children: const <Widget>[
+                          children: <Widget>[
                             Indicator(
                               color: Color(0xFFE16162),
                               text: 'Carbs',

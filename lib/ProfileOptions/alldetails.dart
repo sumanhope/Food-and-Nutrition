@@ -71,25 +71,27 @@ class _ViewDetailsState extends State<ViewDetails> {
             },
             child: Container(
               padding: const EdgeInsets.only(right: 10),
-              child: Row(children: const [
-                Icon(
-                  Icons.edit,
-                  size: 20,
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  "Edit",
-                  style: TextStyle(
-                    letterSpacing: 1.5,
-                    fontSize: 16,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Poppins',
+              child: const Row(
+                children: [
+                  Icon(
+                    Icons.edit,
+                    size: 20,
                   ),
-                ),
-              ]),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    "Edit",
+                    style: TextStyle(
+                      letterSpacing: 1.5,
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ],
+              ),
             ),
           )
         ],
@@ -104,7 +106,7 @@ class _ViewDetailsState extends State<ViewDetails> {
                 width: double.infinity,
                 height: 150,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).backgroundColor,
+                  color: Theme.of(context).primaryColor,
                   borderRadius: const BorderRadius.only(
                     bottomRight: Radius.circular(40),
                     bottomLeft: Radius.circular(40),

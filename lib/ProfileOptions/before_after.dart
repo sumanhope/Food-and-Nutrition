@@ -155,9 +155,9 @@ class _BeforeandAfterScreenState extends State<BeforeandAfterScreen> {
           const SizedBox(
             height: 10,
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: const [
+            children: [
               Text(
                 "Before",
                 style: TextStyle(

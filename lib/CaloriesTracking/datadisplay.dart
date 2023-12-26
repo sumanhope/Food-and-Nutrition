@@ -30,8 +30,8 @@ class _AllTrackState extends State<AllTrack> {
           ),
           centerTitle: true,
         ),
-        body: Column(
-          children: const [
+        body: const Column(
+          children: [
             TabBar(
               unselectedLabelStyle: TextStyle(
                 fontSize: 18,

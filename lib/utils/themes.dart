@@ -8,12 +8,13 @@ class Styles {
       scaffoldBackgroundColor: isDark ? Colors.grey.shade900 : Colors.white,
       primarySwatch: Colors.teal,
       primaryColor: isDark ? Colors.black : Colors.teal,
-      hoverColor: isDark ? Colors.grey : Colors.teal.shade800,
-      backgroundColor:
-          isDark ? const Color.fromARGB(184, 0, 0, 0) : Colors.teal,
+      hoverColor: isDark ? Colors.grey.shade800 : Colors.teal.shade800,
+
+      // backgroundColor:
+      //     isDark ? const Color.fromARGB(184, 0, 0, 0) : Colors.teal,
       focusColor: isDark ? Colors.teal : Colors.white,
-      toggleableActiveColor:
-          isDark ? Colors.grey.shade800 : Colors.teal.shade800,
+      // toggleableActiveColor:
+      //     isDark ? Colors.grey.shade800 : Colors.teal.shade800,
       unselectedWidgetColor: isDark ? Colors.white : Colors.black,
       indicatorColor: isDark ? Colors.white : const Color(0xFF009688),
       // colorScheme: ThemeData().colorScheme.copyWith(

@@ -37,10 +37,10 @@ class _LandingPageState extends State<LandingPage> {
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 11),
             child: GNav(
               hoverColor: Theme.of(context).hoverColor,
-              backgroundColor: Theme.of(context).backgroundColor,
+              backgroundColor: Theme.of(context).primaryColor,
               color: Theme.of(context).unselectedWidgetColor,
               activeColor: Theme.of(context).focusColor,
-              tabBackgroundColor: Theme.of(context).toggleableActiveColor,
+              tabBackgroundColor: Theme.of(context).hoverColor,
               gap: 6,
               padding: const EdgeInsets.all(10),
               iconSize: 25,

@@ -42,10 +42,10 @@ class _FavouritePageState extends State<FavouritePage> {
                   child: Text("Something is wrong"),
                 );
               } else if (snapshot.data!.docs.isEmpty) {
-                return Center(
+                return const Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children: [
                       Icon(
                         Icons.favorite,
                         size: 40,

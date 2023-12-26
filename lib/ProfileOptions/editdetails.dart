@@ -134,14 +134,14 @@ class _EditDetailsState extends State<EditDetails> {
                     width: double.infinity,
                     height: 100,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).backgroundColor,
+                      color: Theme.of(context).primaryColor,
                       borderRadius: const BorderRadius.only(
                         bottomRight: Radius.circular(40),
                         bottomLeft: Radius.circular(40),
                       ),
                     ),
-                    child: Column(
-                      children: const [
+                    child: const Column(
+                      children: [
                         SizedBox(
                           height: 10,
                         ),

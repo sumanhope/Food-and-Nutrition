@@ -156,7 +156,7 @@ class _CaloriesTabState extends State<CaloriesTab> {
           margin:
               const EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 10),
           decoration: BoxDecoration(
-            color: Theme.of(context).backgroundColor,
+            color: Colors.teal,
             borderRadius: BorderRadius.circular(5),
           ),
           child: Column(
